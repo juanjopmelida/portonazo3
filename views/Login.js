@@ -15,7 +15,7 @@ import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
-import {REACT_APP_VOT_API_URL} from '../config';
+import {REACT_APP_VOT_API_URL} from '@env';
 
 export default function Login() {
   const {login} = useContext(AuthContext);
