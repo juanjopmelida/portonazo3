@@ -15,7 +15,6 @@ import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
-import {REACT_APP_VOT_API_URL} from '@env';
 
 export default function Login() {
   const {login} = useContext(AuthContext);
@@ -36,7 +35,6 @@ export default function Login() {
   return (
     <KeyboardAvoidingView style={globalStyles.container}>
       <Header />
-      <Text>{REACT_APP_VOT_API_URL}</Text>
       <View style={styles.loginContainer}>
         <Image
           source={require('../assets/LogoReale.png')}
