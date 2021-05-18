@@ -1,5 +1,11 @@
 import React, {useContext, useState, useRef} from 'react';
-import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Image,
+  Text,
+} from 'react-native';
 import {Input, Button, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
@@ -28,7 +34,7 @@ export default function Login() {
   };
 
   return (
-    <View style={globalStyles.container}>
+    <KeyboardAvoidingView style={globalStyles.container}>
       <Header />
       <Text>{REACT_APP_VOT_API_URL}</Text>
       <View style={styles.loginContainer}>
@@ -90,7 +96,7 @@ export default function Login() {
         </Card>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

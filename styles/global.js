@@ -19,6 +19,7 @@ const globalStyles = StyleSheet.create({
   textButton: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat',
   },
 });
 
