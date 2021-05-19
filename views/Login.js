@@ -14,7 +14,7 @@ import Toast from 'react-native-easy-toast';
 import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
-import Header from '../components/Header';
+import HeaderLogo from '../components/HeaderLogo';
 
 export default function Login() {
   const {login} = useContext(AuthContext);
@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView style={globalStyles.container}>
-      <Header />
+      <HeaderLogo />
       <View style={styles.loginContainer}>
         <Image
           source={require('../assets/LogoReale.png')}
@@ -42,23 +42,23 @@ export default function Login() {
           style={styles.logoReale}
         />
         <Card style={styles.loginCard}>
-          <View style={styles.iconContainer}>
+          <View style={styles.inputContainer}>
             <Input
               placeholder="Usuario"
               onChange={e => onChange(e, 'username')}
               autoCapitalize="none"
               leftIcon={
                 <Icon
-                  type="material-community"
                   size={22}
-                  name="account"
+                  name="account-outline"
                   iconStyle={styles.iconRight}
+                  color={formData.username === '' ? 'red' : 'grey'}
                 />
               }
               leftIconContainerStyle={styles.iconStyle}
             />
           </View>
-          <View style={styles.iconContainer}>
+          <View style={styles.inputContainer}>
             <Input
               placeholder="Contraseña"
               onChange={e => onChange(e, 'password')}
@@ -71,6 +71,7 @@ export default function Login() {
                   name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                   iconStyle={styles.iconRight}
                   onPress={() => setShowPassword(!showPassword)}
+                  color={formData.password === '' ? 'red' : 'grey'}
                 />
               }
               leftIconContainerStyle={styles.iconStyle}
@@ -100,16 +101,16 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   loginContainer: {
+    flexDirection: 'column',
     backgroundColor: '#f2f2f2',
     width: '90%',
     height: '80%',
   },
-  loginView: {},
   loginCard: {
     paddingBottom: 10,
   },
-  iconContainer: {
-    marginBottom: 15,
+  inputContainer: {
+    marginBottom: 5,
     width: '100%',
   },
   iconStyle: {

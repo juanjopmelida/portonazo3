@@ -52,6 +52,7 @@ export const useAuth = () => {
 
         const token = await response.json();
         await AsyncStorage.setItem('userToken', token);
+        await AsyncStorage.setItem('username', formData.username);
         dispatch(createAction('SET_TOKEN', token));
       },
       logout: async () => {

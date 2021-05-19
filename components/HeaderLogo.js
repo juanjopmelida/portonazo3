@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 
-export default function Header() {
+export default function HeaderLogo() {
   return (
     <View style={styles.header}>
       <Image
