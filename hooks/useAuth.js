@@ -50,9 +50,16 @@ export const useAuth = () => {
           throw new Error(message);
         }
 
-        const token = await response.json();
+        const responseJSON = await response.json();
+
+        if (responseJSON.resultMessage) {
+          throw new Error(responseJSON.resultMessage);
+        }
+
+        const token = responseJSON;
         await AsyncStorage.setItem('userToken', token);
         await AsyncStorage.setItem('username', formData.username);
+        
         dispatch(createAction('SET_TOKEN', token));
       },
       logout: async () => {

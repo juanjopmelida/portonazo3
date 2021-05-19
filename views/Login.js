@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import React, {useContext, useState, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,7 @@ import {
   Image,
   Text,
 } from 'react-native';
-import {Input, Button, Card} from 'react-native-elements';
+import {Input, Button, Card, CheckBox} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
@@ -15,12 +15,14 @@ import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import HeaderLogo from '../components/HeaderLogo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const {login} = useContext(AuthContext);
   const [formData, setFormData] = useState(defaultFormValue());
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rememberPassword, setRememberPassword] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -31,6 +33,16 @@ export default function Login() {
   const onChange = (e, type) => {
     setFormData({...formData, [type]: e.nativeEvent.text});
   };
+
+  useEffect(async () => {
+    try {
+      const pwd = await AsyncStorage.getItem('password');
+      setFormData({...formData, password: pwd});
+      console.log(formData);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <KeyboardAvoidingView style={globalStyles.container}>
@@ -91,6 +103,17 @@ export default function Login() {
               }
             }}
           />
+          <CheckBox
+            title="Recordar contraseña"
+            containerStyle={styles.checkBoxContainer}
+            checkedIcon="dot-circle-o"
+            uncheckedIcon="circle-o"
+            checked={rememberPassword}
+            onPress={async () => {
+              await AsyncStorage.setItem('password', formData.password);
+              setRememberPassword(!rememberPassword);
+            }}
+          />
           <Loading isVisible={loading} text="Iniciando sesión" />
         </Card>
       </View>
@@ -118,5 +141,9 @@ const styles = StyleSheet.create({
   },
   logoReale: {
     alignSelf: 'center',
+  },
+  checkBoxContainer: {
+    backgroundColor: '#fff',
+    borderColor: '#fff',
   },
 });
