@@ -22,7 +22,7 @@ export default function Login() {
   const [formData, setFormData] = useState(defaultFormValue());
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [rememberPassword, setRememberPassword] = useState(false);
+  const [rememberMe, setrememberMe] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -33,6 +33,22 @@ export default function Login() {
   const onChange = (e, type) => {
     setFormData({...formData, [type]: e.nativeEvent.text});
   };
+
+  const retreiveFormData = async () => {
+    try {
+      await AsyncStorage.getItem('user').then(user => {
+        const parsedUser = JSON.parse(user);
+        setFormData({
+          username: parsedUser.username,
+          password: parsedUser.password,
+        });
+      });
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    retreiveFormData();
+  }, []);
 
   return (
     <KeyboardAvoidingView style={globalStyles.container}>
@@ -47,6 +63,8 @@ export default function Login() {
           <View style={styles.inputContainer}>
             <Input
               placeholder="Usuario"
+              underlineColorAndroid="transparent"
+              value={formData.username || ''}
               onChange={e => onChange(e, 'username')}
               autoCapitalize="none"
               leftIcon={
@@ -54,7 +72,11 @@ export default function Login() {
                   size={22}
                   name="account-outline"
                   iconStyle={styles.iconRight}
-                  color={formData.username === '' ? 'red' : 'grey'}
+                  color={
+                    formData.username && formData.username === ''
+                      ? 'red'
+                      : 'grey'
+                  }
                 />
               }
               leftIconContainerStyle={styles.iconStyle}
@@ -63,6 +85,8 @@ export default function Login() {
           <View style={styles.inputContainer}>
             <Input
               placeholder="Contraseña"
+              underlineColorAndroid="transparent"
+              value={formData.password || ''}
               onChange={e => onChange(e, 'password')}
               password={true}
               secureTextEntry={showPassword ? false : true}
@@ -73,7 +97,11 @@ export default function Login() {
                   name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                   iconStyle={styles.iconRight}
                   onPress={() => setShowPassword(!showPassword)}
-                  color={formData.password === '' ? 'red' : 'grey'}
+                  color={
+                    formData.password && formData.password === ''
+                      ? 'red'
+                      : 'grey'
+                  }
                 />
               }
               leftIconContainerStyle={styles.iconStyle}
@@ -86,7 +114,7 @@ export default function Login() {
             onPress={async () => {
               try {
                 setLoading(true);
-                await login(formData);
+                await login(formData, rememberMe);
               } catch (e) {
                 toastRef.current.show(e.message);
                 setLoading(false);
@@ -94,13 +122,13 @@ export default function Login() {
             }}
           />
           <CheckBox
-            title="Recordar contraseña"
+            title="Recordar credenciales"
             containerStyle={{
               backgroundColor: colors.background,
               borderColor: colors.background,
             }}
-            checked={rememberPassword}
-            onPress={() => setRememberPassword(!rememberPassword)}
+            checked={rememberMe}
+            onPress={() => setrememberMe(!rememberMe)}
           />
           <Loading isVisible={loading} text="Iniciando sesión" />
         </Card>

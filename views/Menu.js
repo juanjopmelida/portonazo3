@@ -40,7 +40,7 @@ export default function Menu(props) {
     });
 
     AsyncStorage.getItem('username').then(username =>
-      setUsername(username.toUpperCase()),
+      setUsername(JSON.parse(username).toUpperCase()),
     );
   }, [navigation, logout, switchTheme]);
 
@@ -50,7 +50,7 @@ export default function Menu(props) {
       <View style={globalStyles.container}>
         <View style={styles.menuContainer}>
           <Text style={{color: colors.primary}}>
-            {`HELLO ${username} FROM MENU`}
+            {`HELLO, ${username}, FROM MENU`}
           </Text>
         </View>
       </View>

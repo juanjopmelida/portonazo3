@@ -35,10 +35,8 @@ export const useAuth = () => {
 
   const auth = useMemo(
     () => ({
-      login: async formData => {
+      login: async (formData, rememberMe) => {
         const uri = `${REACT_APP_VOT_API_URL}/security/authentication/login`;
-        console.log(uri);
-
         const response = await fetch(uri, {
           method: 'POST',
           body: JSON.stringify(formData),
@@ -57,9 +55,22 @@ export const useAuth = () => {
         }
 
         const token = responseJSON;
-        await AsyncStorage.setItem('userToken', token);
-        await AsyncStorage.setItem('username', formData.username);
-        
+        await AsyncStorage.setItem('userToken', JSON.stringify(token));
+        await AsyncStorage.setItem(
+          'username',
+          JSON.stringify(formData.username),
+        );
+
+        if (rememberMe) {
+          const user = {
+            username: formData.username,
+            password: formData.password,
+          };
+          await AsyncStorage.setItem('user', JSON.stringify(user));
+        } else {
+          await AsyncStorage.removeItem('user');
+        }
+
         dispatch(createAction('SET_TOKEN', token));
       },
       logout: async () => {
@@ -71,8 +82,9 @@ export const useAuth = () => {
   );
 
   React.useEffect(() => {
-    AsyncStorage.getItem('userToken').then(token => {
-      if (token) {
+    AsyncStorage.getItem('userToken').then(JSONToken => {
+      if (JSONToken) {
+        token = JSON.parse(JSONToken);
         dispatch(createAction('SET_TOKEN', token));
       }
       dispatch(createAction('SET_LOADING', false));
