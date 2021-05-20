@@ -34,16 +34,6 @@ export default function Login() {
     setFormData({...formData, [type]: e.nativeEvent.text});
   };
 
-  useEffect(async () => {
-    try {
-      const pwd = await AsyncStorage.getItem('password');
-      setFormData({...formData, password: pwd});
-      console.log(formData);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
   return (
     <KeyboardAvoidingView style={globalStyles.container}>
       <HeaderLogo />
@@ -105,14 +95,12 @@ export default function Login() {
           />
           <CheckBox
             title="Recordar contraseña"
-            containerStyle={styles.checkBoxContainer}
-            checkedIcon="dot-circle-o"
-            uncheckedIcon="circle-o"
-            checked={rememberPassword}
-            onPress={async () => {
-              await AsyncStorage.setItem('password', formData.password);
-              setRememberPassword(!rememberPassword);
+            containerStyle={{
+              backgroundColor: colors.background,
+              borderColor: colors.background,
             }}
+            checked={rememberPassword}
+            onPress={() => setRememberPassword(!rememberPassword)}
           />
           <Loading isVisible={loading} text="Iniciando sesión" />
         </Card>
@@ -141,9 +129,5 @@ const styles = StyleSheet.create({
   },
   logoReale: {
     alignSelf: 'center',
-  },
-  checkBoxContainer: {
-    backgroundColor: '#fff',
-    borderColor: '#fff',
   },
 });
