@@ -76,7 +76,7 @@ export const useAuth = () => {
       logout: async () => {
         await AsyncStorage.removeItem('userToken');
         dispatch(createAction('REMOVE_TOKEN'));
-      },
+      }
     }),
     [],
   );

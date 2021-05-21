@@ -10,6 +10,7 @@ import {Input, Button, Card, CheckBox} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
+import ReactNativeBiometrics from 'react-native-biometrics';
 
 import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
@@ -23,6 +24,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setrememberMe] = useState(false);
+  const [touch, setTouch] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -46,8 +48,20 @@ export default function Login() {
     } catch (e) {}
   };
 
+  const isTouchAvailabe = async () => {
+    ReactNativeBiometrics.isSensorAvailable().then(resultObject => {
+      const {available, biometryType} = resultObject;
+
+      if (available && biometryType === ReactNativeBiometrics.Biometrics)
+        setTouch(true);
+    });
+  };
+
+  const fingerprint = () => {};
+
   useEffect(() => {
     retreiveFormData();
+    isTouchAvailabe();
   }, []);
 
   return (
@@ -130,6 +144,9 @@ export default function Login() {
             checked={rememberMe}
             onPress={() => setrememberMe(!rememberMe)}
           />
+          {touch && (
+            <Button title="Acceder con huella dactilar" onPress={fingerprint} />
+          )}
           <Loading isVisible={loading} text="Iniciando sesión" />
         </Card>
       </View>
