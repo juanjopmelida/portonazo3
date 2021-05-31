@@ -10,7 +10,6 @@ import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import HeaderLogo from '../components/HeaderLogo';
-import ModalRetreiveFingerprintForm from '../components/ModalRetrieveFingerprintForm';
 import {
   isTouchAvailable,
   getStoredFingerprint2,
@@ -148,6 +147,7 @@ export default function Login() {
           />
           {fingerprintButtonVisible && (
             <Button
+              type="clear"
               title="Acceder con huella dactilar"
               onPress={() =>
                 verifyFingerprint().then(result => {

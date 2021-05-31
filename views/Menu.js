@@ -9,6 +9,8 @@ import globalStyles from '../styles/global';
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
 import HeaderLogo from '../components/HeaderLogo';
+import MenuButtonsContainer from '../components/MenuButtonsContainer';
+import MenuButton from '../components/MenuButton';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
 import {
@@ -93,13 +95,38 @@ export default function Menu(props) {
             style={{
               color: colors.primary,
             }}>{`HELLO ${username}`}</Text>
+          <MenuButtonsContainer>
+            <MenuButton
+              iconType="material"
+              iconName="timer"
+              title="Tiempo Real"
+              style={styles.button}
+              onPress={() => navigation.navigate('realTime')}
+            />
+            <MenuButton
+              iconType="material-community"
+              iconName="map-marker-path"
+              title="Rutas"
+              style={styles.button}
+              onPress={() => navigation.navigate('journeys')}
+            />
+            <MenuButton
+              iconType="material"
+              iconName="timer"
+              title="Contact"
+              style={styles.button}
+              onPress={() => navigation.navigate('realTimeSignalR')}
+            />
+          </MenuButtonsContainer>
           {fingerprintButtonVisible ? (
             <Button
+              type="clear"
               title="Habilitar huella dactilar"
               onPress={handleCreateFingerprint}
             />
           ) : (
             <Button
+              type="clear"
               title="Deshabilitar huella dactilar"
               onPress={handleRemoveFingerprint}
             />
@@ -115,5 +142,21 @@ const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  button: {
+    width: 115,
+    height: 100,
+    padding: 5,
+    margin: 5,
+    backgroundColor: '#585958',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+    shadowOffset: {
+      width: 0.2,
+      height: 0.2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
 });
