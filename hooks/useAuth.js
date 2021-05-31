@@ -55,34 +55,30 @@ export const useAuth = () => {
         }
 
         const token = responseJSON;
-        await AsyncStorage.setItem('userToken', JSON.stringify(token));
-        await AsyncStorage.setItem(
-          'username',
-          JSON.stringify(formData.username),
-        );
+        await AsyncStorage.setItem('USER_TOKEN', JSON.stringify(token));
 
         if (rememberMe) {
           const user = {
             username: formData.username,
             password: formData.password,
           };
-          await AsyncStorage.setItem('user', JSON.stringify(user));
+          await AsyncStorage.setItem('USER', JSON.stringify(user));
         } else {
-          await AsyncStorage.removeItem('user');
+          await AsyncStorage.removeItem('USER');
         }
 
         dispatch(createAction('SET_TOKEN', token));
       },
       logout: async () => {
-        await AsyncStorage.removeItem('userToken');
+        await AsyncStorage.removeItem('USER_TOKEN');
         dispatch(createAction('REMOVE_TOKEN'));
-      }
+      },
     }),
     [],
   );
 
   React.useEffect(() => {
-    AsyncStorage.getItem('userToken').then(JSONToken => {
+    AsyncStorage.getItem('USER_TOKEN').then(JSONToken => {
       if (JSONToken) {
         token = JSON.parse(JSONToken);
         dispatch(createAction('SET_TOKEN', token));

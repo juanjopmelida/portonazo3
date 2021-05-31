@@ -1,30 +1,30 @@
 import React, {useContext, useState, useRef, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Image,
-  Text,
-} from 'react-native';
-import {Input, Button, Card, CheckBox} from 'react-native-elements';
+import {View, StyleSheet, KeyboardAvoidingView, Image} from 'react-native';
+import {Input, Button, Card, CheckBox, Overlay} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
-import ReactNativeBiometrics from 'react-native-biometrics';
 
 import globalStyles from '../styles/global';
 import {AuthContext} from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import HeaderLogo from '../components/HeaderLogo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalRetreiveFingerprintForm from '../components/ModalRetrieveFingerprintForm';
+import {
+  isTouchAvailable,
+  getStoredFingerprint2,
+  verifyFingerprint,
+} from '../utils/authHelper';
 
 export default function Login() {
   const {login} = useContext(AuthContext);
   const [formData, setFormData] = useState(defaultFormValue());
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setrememberMe] = useState(false);
-  const [touch, setTouch] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [fingerprintButtonVisible, setFingerprintButtonVisible] =
+    useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -38,30 +38,32 @@ export default function Login() {
 
   const retreiveFormData = async () => {
     try {
-      await AsyncStorage.getItem('user').then(user => {
-        const parsedUser = JSON.parse(user);
+      const user = await AsyncStorage.getItem('USER');
+
+      if (user) {
+        const parseUser = JSON.parse(user);
+
         setFormData({
-          username: parsedUser.username,
-          password: parsedUser.password,
+          username: parseUser.username,
+          password: parseUser.password,
         });
-      });
-    } catch (e) {}
+        setRememberMe(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  const isTouchAvailabe = async () => {
-    ReactNativeBiometrics.isSensorAvailable().then(resultObject => {
-      const {available, biometryType} = resultObject;
-
-      if (available && biometryType === ReactNativeBiometrics.Biometrics)
-        setTouch(true);
-    });
-  };
-
-  const fingerprint = () => {};
 
   useEffect(() => {
     retreiveFormData();
-    isTouchAvailabe();
+    isTouchAvailable()
+      .then(touchAvailable => {
+        touchAvailable &&
+          getStoredFingerprint2().then(storedFP =>
+            setFingerprintButtonVisible(storedFP),
+          );
+      })
+      .catch(e => console.log(JSON.stringify(e)));
   }, []);
 
   return (
@@ -142,10 +144,20 @@ export default function Login() {
               borderColor: colors.background,
             }}
             checked={rememberMe}
-            onPress={() => setrememberMe(!rememberMe)}
+            onPress={() => setRememberMe(!rememberMe)}
           />
-          {touch && (
-            <Button title="Acceder con huella dactilar" onPress={fingerprint} />
+          {fingerprintButtonVisible && (
+            <Button
+              title="Acceder con huella dactilar"
+              onPress={() =>
+                verifyFingerprint().then(result => {
+                  //console.log('VERIFY: ', result);
+                  result
+                    ? login(formData, rememberMe)
+                    : toastRef.current.show('Las huellas no coinciden');
+                })
+              }
+            />
           )}
           <Loading isVisible={loading} text="Iniciando sesión" />
         </Card>

@@ -20,6 +20,7 @@
 		7DDE85C92654036C000D19DC /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66207B289C7D425FA28D3BB3 /* OpenSans-Bold.ttf */; };
 		7DDE85CA2654036C000D19DC /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 385CA444722C4D36812566D3 /* OpenSans-Italic.ttf */; };
 		7DDE85CB2654036C000D19DC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B845184C06DC4D41B77ED028 /* OpenSans-Light.ttf */; };
+		7DFB0D5E265CE3D700FAE793 /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D3CAEF3CECB4D3EA77A3D58 /* OpenSans.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B19CA1E2607CA0BEA68439E8 /* libPods-portonazo3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8B19973AE89118CE17F00EC /* libPods-portonazo3.a */; };
 		E087483F57D04149193C3682 /* libPods-portonazo3-portonazo3Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A74ED44AB805ADFFFC0E04 /* libPods-portonazo3-portonazo3Tests.a */; };
@@ -302,6 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DFB0D5E265CE3D700FAE793 /* OpenSans.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
