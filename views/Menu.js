@@ -28,6 +28,7 @@ export default function Menu(props) {
   const [username, setUsername] = useState('');
   const [fingerprintButtonVisible, setFingerprintButtonVisible] =
     useState(false);
+  const [enableFingerprint, setEnableFingerprint] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -60,10 +61,11 @@ export default function Menu(props) {
       .catch(error => console.log(error));
 
     isTouchAvailable().then(touchAvailable => {
+      setFingerprintButtonVisible(touchAvailable);
       touchAvailable &&
-        getStoredFingerprint2().then(storedFP =>
-          setFingerprintButtonVisible(!storedFP),
-        );
+        getStoredFingerprint2().then(storedFP => {
+          setEnableFingerprint(!storedFP);
+        });
     });
   }, [navigation, logout, switchTheme]);
 
@@ -71,17 +73,17 @@ export default function Menu(props) {
     createFingerprint().then(result => {
       if (result) {
         toastRef.current.show('Huella dactilar habilitada');
-        setFingerprintButtonVisible(false);
+        setEnableFingerprint(false);
       }
     });
   };
 
   const handleRemoveFingerprint = () => {
     removeFingerprint().then(result => {
-      console.log('BOORADA', result);
+      //console.log('BOORADA', result);
       if (result) {
         toastRef.current.show('Huella dactilar deshabilitada');
-        setFingerprintButtonVisible(true);
+        setEnableFingerprint(true);
       }
     });
   };
@@ -118,19 +120,20 @@ export default function Menu(props) {
               onPress={() => navigation.navigate('realTimeSignalR')}
             />
           </MenuButtonsContainer>
-          {fingerprintButtonVisible ? (
-            <Button
-              type="clear"
-              title="Habilitar huella dactilar"
-              onPress={handleCreateFingerprint}
-            />
-          ) : (
-            <Button
-              type="clear"
-              title="Deshabilitar huella dactilar"
-              onPress={handleRemoveFingerprint}
-            />
-          )}
+          {fingerprintButtonVisible &&
+            (enableFingerprint ? (
+              <Button
+                type="clear"
+                title="Habilitar huella dactilar"
+                onPress={handleCreateFingerprint}
+              />
+            ) : (
+              <Button
+                type="clear"
+                title="Deshabilitar huella dactilar"
+                onPress={handleRemoveFingerprint}
+              />
+            ))}
         </View>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
