@@ -2,7 +2,7 @@ import React, {useReducer, useMemo} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {REACT_APP_VOT_API_URL} from '@env';
-import {createAction} from '../utils/createAction';
+import {createAction} from '../helpers/createAction';
 
 export const useAuth = () => {
   const [state, dispatch] = useReducer(

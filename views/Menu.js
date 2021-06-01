@@ -5,44 +5,47 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
 
-import globalStyles from '../styles/global';
+// HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
 import HeaderLogo from '../components/HeaderLogo';
-import MenuButtonsContainer from '../components/MenuButtonsContainer';
-import MenuButton from '../components/MenuButton';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
+
+import globalStyles from '../styles/global';
+import MenuButtonsContainer from '../components/MenuButtonsContainer';
+import MenuButton from '../components/MenuButton';
+
 import {
   createFingerprint,
   isTouchAvailable,
   getStoredFingerprint,
   removeFingerprint,
-} from '../utils/authHelper';
+} from '../helpers/authHelper';
 
 export default function Menu(props) {
   const {navigation} = props;
   const {logout} = useContext(AuthContext);
   const switchTheme = useContext(ThemeContext);
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState({});
   const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
-  const getUserStorage = async () => {
-    try {
-      const user = await AsyncStorage.getItem('USER');
-      const parseUser = JSON.parse(resultObjetc);
-      setUser(user);
-      setUsername(parseUser.username.toUpperCase());
-    } catch (error) {
-      error => console.log(error);
+  const retrieveUserFromStorage = async () => {
+    const user = await AsyncStorage.getItem('USER');
+    if (user) {
+      const parseUser = JSON.parse(user);
+
+      setUser({
+        username: parseUser.username,
+        password: parseUser.password,
+      });
     }
   };
 
-  useEffect(() => {
+  const setNavigationOptions = () => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderIconsContainer>
@@ -61,9 +64,9 @@ export default function Menu(props) {
         </HeaderIconsContainer>
       ),
     });
+  };
 
-    getUserStorage();
-
+  const manageFingerprint = () => {
     isTouchAvailable().then(touchAvailable => {
       setFingerprintSupported(touchAvailable);
       touchAvailable &&
@@ -71,7 +74,7 @@ export default function Menu(props) {
           setEnableFingerprint(!storedFP);
         });
     });
-  }, [navigation, logout, switchTheme]);
+  };
 
   const handleCreateFingerprint = () => {
     createFingerprint().then(result => {
@@ -92,6 +95,12 @@ export default function Menu(props) {
     });
   };
 
+  useEffect(() => {
+    setNavigationOptions();
+    retrieveUserFromStorage();
+    manageFingerprint();
+  }, [navigation, logout, switchTheme]);
+
   return (
     <>
       <HeaderLogo />
@@ -100,28 +109,28 @@ export default function Menu(props) {
           <Text
             style={{
               color: colors.primary,
-            }}>{`HELLO ${username}`}</Text>
+            }}>{`HELLO ${user.username}`}</Text>
           <MenuButtonsContainer>
             <MenuButton
-              iconType="material"
-              iconName="timer"
+              iconType="material-community"
+              iconName="crosshairs-gps"
               title="Tiempo Real"
               style={styles.button}
-              onPress={() => navigation.navigate('realTime')}
+              onPress={() => navigation.navigate('realTime', user)}
             />
             <MenuButton
               iconType="material-community"
               iconName="map-marker-path"
               title="Rutas"
               style={styles.button}
-              onPress={() => navigation.navigate('journeys')}
+              onPress={() => navigation.navigate('journeys', user)}
             />
             <MenuButton
-              iconType="material"
-              iconName="timer"
+              iconType="material-community"
+              iconName="account-question-outline"
               title="Contact"
               style={styles.button}
-              onPress={() => navigation.navigate('contact')}
+              onPress={() => navigation.navigate('contact', user)}
             />
           </MenuButtonsContainer>
           {fingerprintSupported &&

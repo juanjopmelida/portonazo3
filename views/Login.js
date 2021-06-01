@@ -14,7 +14,7 @@ import {
   isTouchAvailable,
   getStoredFingerprint,
   verifyFingerprint,
-} from '../utils/authHelper';
+} from '../helpers/authHelper';
 
 export default function Login() {
   const {login} = useContext(AuthContext);

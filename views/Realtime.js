@@ -1,27 +1,32 @@
-import React, {useState, useEffect, useLayoutEffect, useRef} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {ScrollView, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
+import {useTheme} from '@react-navigation/native';
 
-import Map from '../components/Map';
+// HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
+import HeaderLogo from '../components/HeaderLogo';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
+
+import globalStyles from '../styles/global';
+import Map from '../components/Map';
 import Loading from '../components/Loading';
 
 export default function Realtime(props) {
-  const {navigation} = props;
+  const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);
   const toastRef = useRef();
-  const [username, setUsername] = useState('');
-  const [route, setRoute] = useState({});
+  const {colors} = useTheme();
+  const [username, setUsername] = useState(route.params.username);
   const [currentPosition, setCurrentPosition] = useState({});
   const [currentRegion, setCurrentRegion] = useState({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const setNavigationOptions = () => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderIconsContainer>
@@ -40,17 +45,16 @@ export default function Realtime(props) {
         </HeaderIconsContainer>
       ),
     });
+  };
 
-    AsyncStorage.getItem('USER')
-      .then(resultObjetc => {
-        const parseUser = JSON.parse(resultObjetc);
-        setUsername(parseUser.username.toUpperCase());
-      })
-      .catch(error => console.log(error));
-  }, []);
+  useEffect(() => {
+    setNavigationOptions();
+    //retrieveUserFromStorage();
+  }, [navigation, logout, switchTheme]);
 
   return (
     <ScrollView>
+      <HeaderLogo />
       <Text>{`HELLO ${username} FROM REAL TIME`}</Text>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
