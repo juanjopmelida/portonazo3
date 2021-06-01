@@ -16,7 +16,7 @@ import {ThemeContext} from '../contexts/ThemeContext';
 import {
   createFingerprint,
   isTouchAvailable,
-  getStoredFingerprint2,
+  getStoredFingerprint,
   removeFingerprint,
 } from '../utils/authHelper';
 
@@ -26,11 +26,21 @@ export default function Menu(props) {
   const switchTheme = useContext(ThemeContext);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
-  const [fingerprintButtonVisible, setFingerprintButtonVisible] =
-    useState(false);
+  const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
+
+  const getUserStorage = async () => {
+    try {
+      const user = await AsyncStorage.getItem('USER');
+      const parseUser = JSON.parse(resultObjetc);
+      setUser(user);
+      setUsername(parseUser.username.toUpperCase());
+    } catch (error) {
+      error => console.log(error);
+    }
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -52,18 +62,12 @@ export default function Menu(props) {
       ),
     });
 
-    AsyncStorage.getItem('USER')
-      .then(resultObjetc => {
-        const parseUser = JSON.parse(resultObjetc);
-        setUser(user);
-        setUsername(parseUser.username.toUpperCase());
-      })
-      .catch(error => console.log(error));
+    getUserStorage();
 
     isTouchAvailable().then(touchAvailable => {
-      setFingerprintButtonVisible(touchAvailable);
+      setFingerprintSupported(touchAvailable);
       touchAvailable &&
-        getStoredFingerprint2().then(storedFP => {
+        getStoredFingerprint().then(storedFP => {
           setEnableFingerprint(!storedFP);
         });
     });
@@ -117,10 +121,10 @@ export default function Menu(props) {
               iconName="timer"
               title="Contact"
               style={styles.button}
-              onPress={() => navigation.navigate('realTimeSignalR')}
+              onPress={() => navigation.navigate('contact')}
             />
           </MenuButtonsContainer>
-          {fingerprintButtonVisible &&
+          {fingerprintSupported &&
             (enableFingerprint ? (
               <Button
                 type="clear"

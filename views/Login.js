@@ -12,7 +12,7 @@ import Loading from '../components/Loading';
 import HeaderLogo from '../components/HeaderLogo';
 import {
   isTouchAvailable,
-  getStoredFingerprint2,
+  getStoredFingerprint,
   verifyFingerprint,
 } from '../utils/authHelper';
 
@@ -58,7 +58,7 @@ export default function Login() {
     isTouchAvailable()
       .then(touchAvailable => {
         touchAvailable &&
-          getStoredFingerprint2().then(storedFP =>
+          getStoredFingerprint().then(storedFP =>
             setFingerprintButtonVisible(storedFP),
           );
       })

@@ -15,22 +15,35 @@ export const isTouchAvailable = () => {
   });
 };
 
-export const getStoredFingerprint2 = async () => {
-  const fingerprint = await AsyncStorage.getItem('FINGERPRINT');
-  if (fingerprint) {
-    console.log('Has stored fingerprint');
-    return true;
-  } else {
-    console.log('Has not stored fingerprint');
+export const getStoredFingerprint = async () => {
+  try {
+    const fingerprint = await AsyncStorage.getItem('FINGERPRINT');
+    if (fingerprint) {
+      console.log('Has stored fingerprint');
+      return true;
+    } else {
+      console.log('Has not stored fingerprint');
+    }
+  } catch (error) {
+    console.log('Error getting FINGERPRINT: ', error);
+    return false;
   }
-  return false;
 };
 
 export const verifyFingerprint = async () => {
-  const storedFingerprint = await AsyncStorage.getItem('FINGERPRINT');
-  const user = await AsyncStorage.getItem('USER');
-  const parseUser = JSON.parse(user);
-  const payload = parseUser.username + parseUser.password;
+  let storedFingerprint = '',
+    user = {},
+    parseUser = {},
+    payload = '';
+  try {
+    storedFingerprint = await AsyncStorage.getItem('FINGERPRINT');
+    user = await AsyncStorage.getItem('USER');
+    parseUser = JSON.parse(user);
+    payload = parseUser.username + parseUser.password;
+  } catch (error) {
+    console.log('ERROR GETTING FINGERPRINT/USER FROM STORAGE: ', error);
+  }
+
   return ReactNativeBiometrics.createSignature({
     promptMessage: 'Registrar huella',
     payload: payload,
@@ -52,14 +65,26 @@ export const verifyFingerprint = async () => {
 };
 
 export const createFingerprint = async () => {
-  const user = await AsyncStorage.getItem('USER');
-  const parseUser = JSON.parse(user);
-  const payload = parseUser.username + parseUser.password;
-  console.log(payload);
+  let user = {},
+    parseUser = {},
+    payload = '';
+
+  try {
+    user = await AsyncStorage.getItem('USER');
+    parseUser = JSON.parse(user);
+    payload = parseUser.username + parseUser.password;
+    console.log(payload);
+  } catch (error) {
+    console.log('ERROR GETTING USER FROM STORAGE: ', error);
+  }
+
+  // CHAPUCILLA PARA QUE SALGA EL PROMPT DE HUELLA. ES UN ISSUE DE LA LIBRERÍA
   ReactNativeBiometrics.createKeys('Confirma huella').then(result => {
     const {publicKey} = result;
     console.log(publicKey);
   });
+  // HASTA AQUÍ LA CHAPUCILLA
+
   return ReactNativeBiometrics.createSignature({
     promptMessage: 'Registrar huella',
     payload: payload,
@@ -86,11 +111,11 @@ export const removeFingerprint = () => {
           const {keysDeleted} = result;
           //console.log('BORRADA KEY', keysDeleted);
         })
-        .catch(error => console.log('ERROR BORRANDO DE ASYNCSTORAGE', error));
+        .catch(error => console.log('ERROR DELETING BIOMETRIC KEY', error));
       return true;
     })
     .catch(error => {
-      console.log('NO SE HA PODIDO BORRAR ASYNCSTORAGE', error);
+      console.log('ERROR REMOVING FINGERPRINT FROM STORAGE: ', error);
       return false;
     });
 };

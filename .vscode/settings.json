@@ -1,3 +1,6 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "projectManager.git.baseFolders": [
+        "projectManager.git.baseFolders: [         \"\\\\Users\\juanjoseperez\\Documents\\proyectos\", \"\\Users\\juanjoseperez\\Documents\\formacion\"]"
+    ]
 }
