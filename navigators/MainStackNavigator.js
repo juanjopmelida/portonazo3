@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTheme} from '@react-navigation/native';
 
@@ -9,17 +10,33 @@ import Realtime from '../views/Realtime';
 
 const MainStack = createStackNavigator();
 
+const LogoTitle = () => {
+  return (
+    <Image
+      style={{width: 90, height: 50}}
+      source={require('../assets/logoViasatTelematics.png')}
+    />
+  );
+};
+
 export function MainStackNavigator() {
   const {colors} = useTheme();
 
   return (
-    <MainStack.Navigator initialRouteName="Menu" headerMode="float">
+    <MainStack.Navigator
+      initialRouteName="Menu"
+      headerMode="float"
+      screenOptions={{
+        headerStyle: {height: 110},
+        headerTitleStyle: {color: colors.primary},
+        headerTitleAlign: 'center',
+        headerTitle: props => <LogoTitle {...props} />,
+      }}>
       <MainStack.Screen
         name="menu"
         component={Menu}
         options={{
           title: 'Menú',
-          headerTitleStyle: {color: colors.primary},
         }}
       />
       <MainStack.Screen
@@ -27,7 +44,6 @@ export function MainStackNavigator() {
         component={Realtime}
         options={{
           title: 'Tiempo Real',
-          headerTitleStyle: {color: colors.primary},
         }}
       />
       <MainStack.Screen
@@ -35,7 +51,6 @@ export function MainStackNavigator() {
         component={Journeys}
         options={{
           title: 'Trayectos',
-          headerTitleStyle: {color: colors.primary},
         }}
       />
       <MainStack.Screen
@@ -43,7 +58,6 @@ export function MainStackNavigator() {
         component={Contact}
         options={{
           title: 'Contacto',
-          headerTitleStyle: {color: colors.primary},
         }}
       />
     </MainStack.Navigator>

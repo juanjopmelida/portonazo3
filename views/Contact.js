@@ -54,7 +54,7 @@ export default function Contact(props) {
   return (
     <ScrollView>
       <HeaderLogo />
-      <Text>{`HELLO ${username} FROM CONTACT`}</Text>
+      <Text>HELLO {username.toUpperCase()} FROM CONTACT</Text>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );

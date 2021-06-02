@@ -54,7 +54,7 @@ export default function Journeys(props) {
   return (
     <ScrollView>
       <HeaderLogo />
-      <Text>{`HELLO ${username} FROM REAL TIME`}</Text>
+      <Text>HELLO {username.toUpperCase()} FROM REAL TIME</Text>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );

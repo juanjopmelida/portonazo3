@@ -5,7 +5,7 @@ export default function HeaderLogo() {
   return (
     <View style={styles.header}>
       <Image
-        source={require('../assets/logoViasatTelematics.png')}
+        source={require('../assets/LogoReale.png')}
         resizeMode="contain"
         style={styles.logo}
       />
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 90,
-    height: 40,
+    width: 160,
   },
 });
