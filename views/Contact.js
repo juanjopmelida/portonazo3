@@ -12,6 +12,8 @@ import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {openComposer} from 'react-native-email-link';
+import DeviceInfo from 'react-native-device-info';
+import {version} from '../package.json';
 
 import {
   REACT_APP_VIASAT_CONTACT_PHONE,
@@ -63,22 +65,20 @@ export default function Contact(props) {
 
   const phoneCall = () => {
     let phoneNumber = '';
-    Platform.OS
+    Platform.OS === 'android'
       ? (phoneNumber = `tel:${REACT_APP_VIASAT_CONTACT_PHONE}`)
       : (phoneNumber = `telprompt:${REACT_APP_VIASAT_CONTACT_PHONE}`);
     Linking.openURL(phoneNumber);
   };
 
-  const sendEmail = () => {
-    let platform = '';
-    Platform.OS
-      ? (platform = 'Plataforma: IOS')
-      : (platform = 'Plataforma: Android');
+  const sendEmail = async () => {
+    const model = await DeviceInfo.getModel();
+    const sysVersion = await DeviceInfo.getSystemVersion();
 
     return openComposer({
       to: REACT_APP_VIASAT_CONTACT_EMAIL,
       subject: 'Contacto APP Viasat Telematics - Reale',
-      body: platform + emailBody,
+      body: `Mensaje: ${emailBody} \n \n Plataforma: ${Platform.OS} \n \n Modelo: ${model} \n \n Versión del sistema: ${sysVersion} \n \n Versión de la APP: ${version}`,
     });
   };
 
@@ -130,13 +130,15 @@ export default function Contact(props) {
           </Text>
         </Text>
         <Input
-          containerStyle={{marginTop: 25}}
+          containerStyle={{marginTop: 25, width: '90%'}}
+          style={{height: 150}}
           placeholder="Escribe tu mensaje..."
           label="Mensaje para Viasat Telematics"
           leftIcon={
             <Icon
               size={22}
               name="email-outline"
+              color={colors.text}
               iconStyle={globalStyles.iconInput}
             />
           }
