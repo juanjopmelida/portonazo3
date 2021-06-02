@@ -86,7 +86,7 @@ export default function Login() {
                 <Icon
                   size={22}
                   name="account-outline"
-                  iconStyle={styles.iconRight}
+                  iconStyle={globalStyles.iconInput}
                   color={
                     formData.username && formData.username === ''
                       ? 'red'
@@ -110,7 +110,7 @@ export default function Login() {
                   type="material-community"
                   size={22}
                   name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                  iconStyle={styles.iconRight}
+                  iconStyle={globalStyles.iconInput}
                   onPress={() => setShowPassword(!showPassword)}
                   color={
                     formData.password && formData.password === ''
@@ -186,9 +186,6 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 10,
     alignSelf: 'center',
-  },
-  icon: {
-    marginRight: 10,
   },
   logo: {
     alignSelf: 'center',

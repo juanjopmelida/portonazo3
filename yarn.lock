@@ -5617,6 +5617,11 @@ react-native-elements@^3.4.1:
     react-native-ratings "^7.3.0"
     react-native-size-matters "^0.3.1"
 
+react-native-email-link@^1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.11.3.tgz#22b04688a6efd750b0247da0b5162233ed65fa33"
+  integrity sha512-y60NO5asmF6bnuI4eFBjo7kwiPngnZG4DXixhrfa0pJaRRJdarPXG05qK8NVS3szG0fw7cRv4m9ZEfHykqycaQ==
+
 react-native-gesture-handler@^1.10.3:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz"

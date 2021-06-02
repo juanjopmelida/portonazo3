@@ -75,6 +75,9 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     height: 1,
   },
+  iconInput: {
+    marginRight: 10,
+  },
 });
 
 export default globalStyles;
