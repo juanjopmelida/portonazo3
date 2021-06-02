@@ -70,9 +70,9 @@ export default function Login() {
       <HeaderLogo />
       <View style={styles.loginContainer}>
         <Image
-          source={require('../assets/LogoReale.png')}
+          source={require('../assets/logoViasatTelematicsW250.png')}
           resizeMode="contain"
-          style={styles.logoReale}
+          style={styles.logo}
         />
         <Card style={styles.loginCard}>
           <View style={styles.inputContainer}>
@@ -94,7 +94,7 @@ export default function Login() {
                   }
                 />
               }
-              leftIconContainerStyle={styles.iconStyle}
+              leftIconContainerStyle={styles.icon}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -119,13 +119,14 @@ export default function Login() {
                   }
                 />
               }
-              leftIconContainerStyle={styles.iconStyle}
+              leftIconContainerStyle={styles.icon}
             />
           </View>
           <Button
             title="Iniciar sesión"
-            containerStyle={styles.btnContainerLogin}
+            buttonStyle={globalStyles.button}
             titleStyle={globalStyles.textButton}
+            containerStyle={styles.buttonContainer}
             onPress={async () => {
               try {
                 setLoading(true);
@@ -181,10 +182,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: '100%',
   },
-  iconStyle: {
+  buttonContainer: {
+    width: '90%',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  icon: {
     marginRight: 10,
   },
-  logoReale: {
+  logo: {
     alignSelf: 'center',
+    marginBottom: 20,
+    marginTop: 20,
   },
 });
