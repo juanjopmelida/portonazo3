@@ -1,26 +1,25 @@
 import {StyleSheet, Platform} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 
 const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? 40 : 10,
+    paddingTop: Platform.OS === 'ios' ? 30 : 10,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  textTile: {
-    borderBottomColor: 'grey',
-    borderBottomWidth: 1,
+  textTitle: {
     fontFamily: 'Montserrat',
     fontSize: 20,
     fontWeight: 'bold',
+    height: 40,
     marginTop: 10,
-    marginBottom: 20,
-    paddingBottom: 10,
+    marginBottom: 10,
     textTransform: 'uppercase',
     textAlign: 'center',
     width: '100%',
+    textAlignVertical: 'center',
+    lineHeight: 40,
   },
   text: {
     fontFamily: 'OpenSans',
@@ -65,6 +64,16 @@ const globalStyles = StyleSheet.create({
   },
   textColorBlueViasat: {
     color: '#41A0D7',
+  },
+  dividerLineContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
   },
 });
 

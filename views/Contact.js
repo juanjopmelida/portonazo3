@@ -7,8 +7,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
-import {Button} from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Button, Divider} from 'react-native-elements';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,8 +21,6 @@ import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
 
 import globalStyles from '../styles/global';
-import Map from '../components/Map';
-import Loading from '../components/Loading';
 
 export default function Contact(props) {
   const {navigation, route} = props;
@@ -32,8 +29,6 @@ export default function Contact(props) {
   const toastRef = useRef();
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
-  const [currentPosition, setCurrentPosition] = useState({});
-  const [currentRegion, setCurrentRegion] = useState({});
   const [loading, setLoading] = useState(true);
 
   const setNavigationOptions = () => {
@@ -74,12 +69,23 @@ export default function Contact(props) {
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        <Text style={[globalStyles.textTile, globalStyles.textColorBlueViasat]}>
+        <Text
+          style={[globalStyles.textTitle, globalStyles.textColorBlueViasat]}>
           CONTACTA CON NOSOTROS
         </Text>
-        <Text style={[globalStyles.text]}>
+        <View style={globalStyles.dividerLineContainer}>
+          <View
+            style={[
+              globalStyles.dividerLine,
+              {backgroundColor: colors.backgroundGrey},
+            ]}
+          />
+        </View>
+        <Text style={[globalStyles.text, {color: colors.text}]}>
           Teléfono de contacto:{' '}
-          <Text style={styles.boldText}>{REACT_APP_VIASAT_CONTACT_PHONE}</Text>
+          <Text style={[styles.boldText, colors.text]}>
+            {REACT_APP_VIASAT_CONTACT_PHONE}
+          </Text>
         </Text>
         <Button
           icon={<Icon name="phone" size={22} color="white" />}
@@ -89,6 +95,14 @@ export default function Contact(props) {
           buttonStyle={globalStyles.button}
           onPress={phoneCall}
         />
+        <View style={globalStyles.dividerLineContainer}>
+          <View
+            style={[
+              globalStyles.dividerLine,
+              {backgroundColor: colors.backgroundGrey},
+            ]}
+          />
+        </View>
         <Toast ref={toastRef} position="center" opacity={0.9} />
       </View>
     </ScrollView>
