@@ -4,7 +4,16 @@ import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function FormInput(props) {
-  const {iconName, iconColor, onPressIcon, name, placeholder, label, value, ...rest} = props;
+  const {
+    iconName,
+    iconColor,
+    onPressIcon,
+    name,
+    placeholder,
+    label,
+    value,
+    ...rest
+  } = props;
 
   return (
     <View style={styles.container}>

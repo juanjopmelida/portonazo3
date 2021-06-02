@@ -11,12 +11,7 @@ import Realtime from '../views/Realtime';
 const MainStack = createStackNavigator();
 
 const LogoTitle = () => {
-  return (
-    <Image
-      style={{width: 90, height: 50}}
-      source={require('../assets/logoViasatTelematics.png')}
-    />
-  );
+  return <Image source={require('../assets/logoViasatTelematicsW90.png')} />;
 };
 
 export function MainStackNavigator() {
