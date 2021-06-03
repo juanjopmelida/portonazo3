@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, Text} from 'react-native';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
@@ -53,9 +53,14 @@ export default function Journeys(props) {
 
   return (
     <ScrollView>
-      <HeaderLogo />
-      <Text>HELLO {username.toUpperCase()} FROM REAL TIME</Text>
+      <View style={globalStyles.container}>
+        <HeaderLogo />
+        <Text>HELLO {username.toUpperCase()} FROM JOURNEYS</Text>
+      </View>
+
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({});

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import MapView, {
   Marker,
   MAP_TYPES,
@@ -13,23 +13,24 @@ export default function Map(props) {
   return (
     <MapView
       region={currentRegion}
+      mapType={Platform.OS == 'android' ? 'none' : 'standard'}
       zoomControlEnabled
       zoomEnabled
       zoomTapEnabled
       rotateEnabled
       showsCompass
       provider={PROVIDER_DEFAULT}
-      mapType={MAP_TYPES.SATELLITE}
+      mapType={MAP_TYPES.STANDARD}
       style={styles.map}
       showsUserLocation>
       <UrlTile
         urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png"
         maximumZ={19}
       />
-      <Marker
+      {/* <Marker
         coordinate={currentPosition}
         image={require('../assets/track_end.png')}
-      />
+      /> */}
     </MapView>
   );
 }
