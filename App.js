@@ -3,6 +3,7 @@ import React, {useState, useCallback} from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {QueryClient, QueryClientProvider} from "react-query"
 
 import {SplashScreen} from './views/SplashScreen';
 import {AuthStackNavigator} from './navigators/AuthStackNavigator';
@@ -13,7 +14,9 @@ import {AuthContext} from './contexts/AuthContext';
 import {darkTheme} from './themes/dark';
 import {lightTheme} from './themes/light';
 import {useAuth} from './hooks/useAuth';
+
 const RootStack = createStackNavigator();
+const queryClient = new QueryClient()
 
 const App = () => {
   const {auth, state} = useAuth();
@@ -29,9 +32,11 @@ const App = () => {
     return state.token ? (
       <RootStack.Screen name={'MainStack'}>
         {() => (
-          <UserContext.Provider value={state.token}>
-            <MainStackNavigator />
-          </UserContext.Provider>
+          <QueryClientProvider client={queryClient}>
+            <UserContext.Provider value={state.token}>
+              <MainStackNavigator />
+            </UserContext.Provider>
+          </QueryClientProvider>
         )}
       </RootStack.Screen>
     ) : (

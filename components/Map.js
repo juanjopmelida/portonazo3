@@ -12,7 +12,12 @@ export default function Map(props) {
 
   return (
     <MapView
-      region={currentRegion}
+      region={{
+        latitude: -33.42778539,
+        longitude: -70.62713,
+        latitudeDelta: 0.009,
+        longitudeDelta: 0.009,
+      }}
       mapType={Platform.OS == 'android' ? 'none' : 'standard'}
       zoomControlEnabled
       zoomEnabled
@@ -25,12 +30,15 @@ export default function Map(props) {
       showsUserLocation>
       <UrlTile
         urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png"
-        maximumZ={19}
+        maximumZ={10}
       />
-      {/* <Marker
-        coordinate={currentPosition}
+      <Marker
+        coordinate={{    
+          latitude: -33.42778539,
+          longitude: -70.62713,
+        }}
         image={require('../assets/track_end.png')}
-      /> */}
+      />
     </MapView>
   );
 }
