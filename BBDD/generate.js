@@ -68,7 +68,10 @@ module.exports = () => {
           max: 100
         }),
         FleetId: 1,
-        AggregationId: null,
+        AggregationId: faker.datatype.number({
+          min: 1,
+          max: 50
+        }),
         VehicleId: faker.datatype.number({
           min: 1,
           max: 100
@@ -91,7 +94,7 @@ module.exports = () => {
         })
       }
     }) ,
-    Aggregation: _.times(10, function(n) {
+    Aggregation: _.times(50, function(n) {
       return {
         id: n,
         Name: faker.lorem.word(),

@@ -1,8 +1,10 @@
 import React, {useReducer, useMemo} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 import {REACT_APP_VOT_API_URL} from '@env';
 import {createAction} from '../helpers/createAction';
+import {getPermissionsByUser} from "../api/permission"
 
 export const useAuth = () => {
   const [state, dispatch] = useReducer(
@@ -37,24 +39,18 @@ export const useAuth = () => {
     () => ({
       login: async (formData, rememberMe) => {
         const uri = `${REACT_APP_VOT_API_URL}/security/authentication/login`;
-        const response = await fetch(uri, {
-          method: 'POST',
-          body: JSON.stringify(formData),
-          headers: {'Content-type': 'application/json; charset=UTF-8'},
-        });
+        const response = await axios.post(uri, formData);
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           const message = `Ha focurrido un error: ${response.status}`;
           throw new Error(message);
         }
 
-        const responseJSON = await response.json();
-
-        if (responseJSON.resultMessage) {
-          throw new Error(responseJSON.resultMessage);
+        if (response.data.resultMessage) {
+          throw new Error(response.data.resultMessage);
         }
 
-        const token = responseJSON;
+        const token = response.data;
         await AsyncStorage.setItem('USER_TOKEN', JSON.stringify(token));
 
         if (rememberMe) {
@@ -84,6 +80,8 @@ export const useAuth = () => {
         dispatch(createAction('SET_TOKEN', token));
       }
       dispatch(createAction('SET_LOADING', false));
+    }).catch(error => {
+      console.log(error)
     });
   }, []);
 
