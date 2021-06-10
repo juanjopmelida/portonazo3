@@ -16,12 +16,15 @@ import globalStyles from '../styles/global';
 import MenuButtonsContainer from '../components/MenuButtonsContainer';
 import MenuButton from '../components/MenuButton';
 
+import {getMockedVehicles} from "../api"
+
 import {
   createFingerprint,
   isTouchAvailable,
   getStoredFingerprint,
   removeFingerprint,
 } from '../helpers/authHelper';
+import { vehicle } from 'faker/lib/locales/en';
 
 export default function Menu(props) {
   const {navigation} = props;
@@ -30,6 +33,7 @@ export default function Menu(props) {
   const [user, setUser] = useState({});
   const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
+  const [vehicles, setVehicles] = useState([])
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -95,10 +99,15 @@ export default function Menu(props) {
     });
   };
 
+  const getVehiclesByUser = () => {
+    getMockedVehicles().then(res => setVehicles(res))
+  }
+
   useEffect(() => {
     setNavigationOptions();
     retrieveUserFromStorage();
     manageFingerprint();
+    getVehiclesByUser();
   }, [navigation, logout, switchTheme]);
 
   return (
@@ -110,6 +119,10 @@ export default function Menu(props) {
             style={{
               color: colors.primary,
             }}>{`HELLO ${user.username}`}</Text>
+            {vehicles.map(vehicle => {
+             return <Text key={vehicle.id}>{vehicle.Registration}</Text>
+            })}
+         
           <MenuButtonsContainer>
             <MenuButton
               iconType="material-community"

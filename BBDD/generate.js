@@ -4,7 +4,7 @@ module.exports = () => {
   return {
     User: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         Name: faker.name.firstName(),
         Surname: faker.name.lastName(),
         Address:
@@ -18,7 +18,7 @@ module.exports = () => {
     }),
     Vehicle: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         Manufacturer: faker.vehicle.manufacturer(),
         Model: faker.vehicle.model(),
         Type: faker.vehicle.type(),
@@ -27,7 +27,7 @@ module.exports = () => {
     }),
     CustomTag: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         UserId: faker.datatype.number({
           min: 1,
           max: 100,
@@ -38,7 +38,7 @@ module.exports = () => {
     }),
     CustomTagVehicle: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         CustomTagId: faker.datatype.number({
           min: 1,
           max: 100,
@@ -51,13 +51,13 @@ module.exports = () => {
     }),
     Company: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         Name: faker.company.companyName(),
       };
     }),
     Permission: _.times(100, function (n) {
       return {
-        id: n,
+        id: n + 1,
         UserId: faker.datatype.number({
           min: 1,
           max: 100,
@@ -84,7 +84,7 @@ module.exports = () => {
     }),
     Fleet: _.times(20, function (n) {
       return {
-        id: n,
+        id: n + 1,
         Name: faker.lorem.word(),
         StartDate: "2021-05-26",
         EndDate: null,
@@ -96,7 +96,7 @@ module.exports = () => {
     }) ,
     Aggregation: _.times(50, function(n) {
       return {
-        id: n,
+        id: n + 1,
         Name: faker.lorem.word(),
         StartDate: faker.date.between('2019-01-01', '2020-06-01'),
         EndDate: null,
