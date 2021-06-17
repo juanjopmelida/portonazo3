@@ -12,9 +12,10 @@ const getAllVehicles = vehiclesIds => {
         vehiclesIds.map(async id => {
             const vehicle = getVehicleById(id)
             .then(res => {
-                //console.log(res.data)
+                console.log(res.data)
                 return res.data
             }).catch(err => {
+                console.error(err)
                 throw new Error(err)
             }); 
             return vehicle;
@@ -22,7 +23,8 @@ const getAllVehicles = vehiclesIds => {
 }
 
 const getVehicleById = async id => {
-    const uri = localhostServer + "Vehicle/" + id
+    const uri = `${localhostServer}Vehicle/${id}`
+    
     console.log(uri)
     return axios.get(uri)
 }
@@ -40,6 +42,7 @@ export const getCustomTagByUser = idUser => {
     axios.get(uri).then(res=>{
         console.log(res)
     }).catch(err=>{
+        console.error(err)
         throw new Error(err)
     })
 }

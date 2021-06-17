@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import {REACT_APP_VOT_API_URL} from '@env';
 import {createAction} from '../helpers/createAction';
-import {getPermissionsByUser} from "../api/permission"
 
 export const useAuth = () => {
   const [state, dispatch] = useReducer(

@@ -24,7 +24,6 @@ import {
   getStoredFingerprint,
   removeFingerprint,
 } from '../helpers/authHelper';
-import { vehicle } from 'faker/lib/locales/en';
 
 export default function Menu(props) {
   const {navigation} = props;
@@ -118,7 +117,7 @@ export default function Menu(props) {
           <Text
             style={{
               color: colors.primary,
-            }}>{`HELLO ${user.username}`}</Text>
+            }}>{`HOLA ${user.username}`}</Text>
             {vehicles.map(vehicle => {
              return <Text key={vehicle.id}>{vehicle.Registration}</Text>
             })}
@@ -141,7 +140,7 @@ export default function Menu(props) {
             <MenuButton
               iconType="material-community"
               iconName="account-question-outline"
-              title="Contact"
+              title="Contacto"
               style={styles.button}
               onPress={() => navigation.navigate('contact', user)}
             />

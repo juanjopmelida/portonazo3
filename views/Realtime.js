@@ -2,14 +2,13 @@ import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, Text} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import {HubConnectionBuilder} from '@microsoft/signalr';
-
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
 import HeaderLogo from '../components/HeaderLogo';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
+import {openSignalRConnection} from "../signalr"
 
 import {getLastPositions} from '../api';
 import Map from '../components/Map';
@@ -125,29 +124,7 @@ export default function Realtime(props) {
       });
   };
 
-  const openSignalRConnection = () => {
-    const connect = new HubConnectionBuilder()
-    .withUrl('https://spredocker01.hdq.grupodetector.com:4436/realtime')
-    .withAutomaticReconnect()
-    .build();
-
-    connect.on('ReceiveNotification', notification => {
-      Toast.show(notification, 1000);
-      console.log(notification)
-    });
-
-    connect.on("TimeSent", dateTime => {
-      Toast.show(dateTime, 1000);
-      console.log(dateTime)
-    })
-
-    connect.on("SenNotification", notification => {
-      Toast.show(notification, 1000);
-      console.log(notification)
-    })
-  }
-
-  useEffect(() => {
+useEffect(() => {
     setNavigationOptions();
     setTimeout(() => setLoading(false), 1500);
     openSignalRConnection();
