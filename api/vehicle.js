@@ -33,16 +33,6 @@ export const getMockedVehicles = async () => {
     const vehiclesIds = Array.from({length : randomNumber(10)}, () => randomNumber(100))
     const NonDuplicatedVehiclesIds = Array.from(new Set(vehiclesIds))
     const vehicles = await getAllVehicles(NonDuplicatedVehiclesIds);
+    AsyncStorage.setItem("VEHICLES", JSON.stringify(vehicles));
     return vehicles
-}
-
-export const getCustomTagByUser = idUser => {
-    const uri = localhostServer + "customTag?UserId=" + idUser
-    console.log(uri)
-    axios.get(uri).then(res=>{
-        console.log(res)
-    }).catch(err=>{
-        console.error(err)
-        throw new Error(err)
-    })
 }

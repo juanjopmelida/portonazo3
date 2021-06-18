@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, Text} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
+import {  Marker } from 'react-native-maps';
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
@@ -15,6 +16,8 @@ import Map from '../components/Map';
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { vehicle } from 'faker/lib/locales/en';
 
 export default function Realtime(props) {
   const {navigation, route} = props;
@@ -23,29 +26,12 @@ export default function Realtime(props) {
   const toastRef = useRef();
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
+  const [vehicles, setVehicles] = useState([]);
   const [journey, setJourney] = useState({});
-  const [currentPosition, setCurrentPosition] = useState(initialPosition);
-  const [currentRegion, setCurrentRegion] = useState(initialRegion);
+  const [currentPosition, setCurrentPosition] = useState({});
+  const [currentRegion, setCurrentRegion] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const initialRegion = {
-    latitude: -33.42778539,
-    longitude: -70.62713,
-    latitudeDelta: 0.009,
-    longitudeDelta: 0.009,
-  };
-
-  const initialPosition = {
-    latitude: -33.42778539,
-    longitude: -70.62713,
-  };
-
-  const params = {
-    plate: 'MF_VL_0002096',
-    companyId: 'MF',
-    deviceId: 5227540,
-    deviceTypeId: 162,
-  };
 
   const setNavigationOptions = () => {
     navigation.setOptions({
@@ -124,10 +110,21 @@ export default function Realtime(props) {
       });
   };
 
+  const retreiveVehicles = async () => {
+    try {
+      const vehs = await AsyncStorage.getItem("VEHICLES");
+      setVehicles(JSON.parse(vehs))
+    } catch (error) {
+      console.error(error)      
+    }
+  }
+
 useEffect(() => {
     setNavigationOptions();
     setTimeout(() => setLoading(false), 1500);
-    openSignalRConnection();
+    retreiveVehicles();
+    //generateMarkers()
+    //openSignalRConnection();
     //setMap();
   }, [navigation, logout, switchTheme]);
 
@@ -138,8 +135,7 @@ useEffect(() => {
       <View>
         <Map
           style={{flex: 1}}
-          currentPosition={currentPosition}
-          currentRegion={currentRegion}
+          vehicles={vehicles}
         />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />

@@ -23,6 +23,8 @@ module.exports = () => {
         Model: faker.vehicle.model(),
         Type: faker.vehicle.type(),
         Registration: faker.vehicle.vin(),
+        Latitude: (Math.random() * (40.570295 - 40.25631144) + 40.25631144).toFixed(8),
+        Longitude: (Math.random() * (-3.49481509 - -3.85509005) + -3.85509005).toFixed(8)
       };
     }),
     CustomTag: _.times(100, function (n) {

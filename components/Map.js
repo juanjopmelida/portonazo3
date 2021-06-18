@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Dimensions, Platform} from 'react-native';
 import MapView, {
   Marker,
@@ -7,8 +7,11 @@ import MapView, {
   UrlTile,
 } from 'react-native-maps';
 
+
 export default function Map(props) {
-  const {currentPosition, currentRegion} = props;
+  const [vehicles, setvehicles] = useState(props.vehicles)
+
+  console.log(props.vehicles[0].Latitude)
 
   return (
     <MapView
@@ -32,13 +35,23 @@ export default function Map(props) {
         urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png"
         maximumZ={10}
       />
-      <Marker
-        coordinate={{    
-          latitude: -33.42778539,
-          longitude: -70.62713,
-        }}
-        image={require('../assets/track_end.png')}
-      />
+      {/* <Marker
+            coordinate={{
+              latitude: props.vehicles[0].Latitude,
+              longitude: props.vehicles[0].Longitude
+            }}
+          /> */}
+      {/* {
+        vehicles.map((marker, index) => (
+          <Marker
+          key={index}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude
+            }}
+          />
+        ))
+      } */}
     </MapView>
   );
 }

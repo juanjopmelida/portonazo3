@@ -119,7 +119,7 @@ export default function Menu(props) {
               color: colors.primary,
             }}>{`HOLA ${user.username}`}</Text>
             {vehicles.map(vehicle => {
-             return <Text key={vehicle.id}>{vehicle.Registration}</Text>
+             return <Text key={vehicle.id}>{`Lat: ${vehicle.Latitude}, Lon: ${vehicle.Longitude}`}</Text>
             })}
          
           <MenuButtonsContainer>
