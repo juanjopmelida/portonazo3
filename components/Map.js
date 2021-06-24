@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Dimensions, Platform} from 'react-native';
 import MapView, {
   Marker,
@@ -6,6 +6,8 @@ import MapView, {
   PROVIDER_DEFAULT,
   UrlTile,
 } from 'react-native-maps';
+
+import markerImg from '../assets/track_end.png';
 
 export default function Map(props) {
   const dimensions = Dimensions.get('window');
@@ -41,7 +43,8 @@ export default function Map(props) {
             latitude: marker.Latitude,
             longitude: marker.Longitude,
           }}
-        />
+          image={markerImg}
+        /> 
       ))}
     </MapView>
   );
