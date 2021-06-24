@@ -2,14 +2,14 @@ import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, Text} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import {  Marker } from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
 import HeaderLogo from '../components/HeaderLogo';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
-import {openSignalRConnection} from "../signalr"
+import {openSignalRConnection} from '../signalr';
 
 import {getLastPositions} from '../api';
 import Map from '../components/Map';
@@ -17,7 +17,7 @@ import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { vehicle } from 'faker/lib/locales/en';
+import {vehicle} from 'faker/lib/locales/en';
 
 export default function Realtime(props) {
   const {navigation, route} = props;
@@ -31,7 +31,6 @@ export default function Realtime(props) {
   const [currentPosition, setCurrentPosition] = useState({});
   const [currentRegion, setCurrentRegion] = useState({});
   const [loading, setLoading] = useState(true);
-
 
   const setNavigationOptions = () => {
     navigation.setOptions({
@@ -66,10 +65,13 @@ export default function Realtime(props) {
             e => e.eventTypeId === 67,
           );
           let lastValidPosition;
-          if (lastKeepAlive === -1)
+          if (lastKeepAlive === -1) {
             lastValidPosition = lastPositions.length - 1;
-          else if (lastKeepAlive === 0) lastValidPosition = 1;
-          else lastValidPosition = lastKeepAlive;
+          } else if (lastKeepAlive === 0) {
+            lastValidPosition = 1;
+          } else {
+            lastValidPosition = lastKeepAlive;
+          }
 
           const processedPositions = lastPositions.slice(0, lastValidPosition);
           const filteredPositions = processedPositions.filter(
@@ -112,20 +114,23 @@ export default function Realtime(props) {
 
   const retreiveVehicles = async () => {
     try {
-      const vehs = await AsyncStorage.getItem("VEHICLES");
-      setVehicles(JSON.parse(vehs))
+      const vehs = await AsyncStorage.getItem('VEHICLES');
+      setVehicles(JSON.parse(vehs));
     } catch (error) {
-      console.error(error)      
+      console.error(error);
     }
-  }
+  };
 
-useEffect(() => {
+  useEffect(() => {
     setNavigationOptions();
     setTimeout(() => setLoading(false), 1500);
-    retreiveVehicles();
+    AsyncStorage.getItem('VEHICLES').then(data => {
+      setVehicles(JSON.parse(data));
+    });
     //generateMarkers()
     //openSignalRConnection();
     //setMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
   return (
@@ -133,10 +138,10 @@ useEffect(() => {
       <Loading isVisible={loading} text="Localizando..." />
       <HeaderLogo />
       <View>
-        <Map
-          style={{flex: 1}}
-          vehicles={vehicles}
-        />
+        {/* {vehicles.map(vehicle => {
+             return <Text key={vehicle.id}>{`Lat: ${vehicle.Latitude}, Lon: ${vehicle.Longitude}`}</Text>
+            })} */}
+        <Map style={{flex: 1}} vehicles={vehicles} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>

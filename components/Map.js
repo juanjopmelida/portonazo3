@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Dimensions, Platform} from 'react-native';
 import MapView, {
   Marker,
@@ -7,51 +7,42 @@ import MapView, {
   UrlTile,
 } from 'react-native-maps';
 
-
 export default function Map(props) {
-  const [vehicles, setvehicles] = useState(props.vehicles)
-
-  console.log(props.vehicles[0].Latitude)
+  const dimensions = Dimensions.get('window');
+  const ASPECT_RATIO = dimensions.width / dimensions.height;
 
   return (
     <MapView
       region={{
-        latitude: -33.42778539,
-        longitude: -70.62713,
-        latitudeDelta: 0.009,
-        longitudeDelta: 0.009,
+        latitude: 40.39332867,
+        longitude: -3.54171669,
+        latitudeDelta: 1,
+        longitudeDelta: 1,
       }}
-      mapType={Platform.OS == 'android' ? 'none' : 'standard'}
+      mapType={Platform.OS === 'android' ? MAP_TYPES.NONE : MAP_TYPES.STANDARD}
       zoomControlEnabled
       zoomEnabled
       zoomTapEnabled
+      scrollEnabled
       rotateEnabled
+      showsScale
       showsCompass
       provider={PROVIDER_DEFAULT}
-      mapType={MAP_TYPES.STANDARD}
       style={styles.map}
       showsUserLocation>
       <UrlTile
         urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png"
         maximumZ={10}
       />
-      {/* <Marker
-            coordinate={{
-              latitude: props.vehicles[0].Latitude,
-              longitude: props.vehicles[0].Longitude
-            }}
-          /> */}
-      {/* {
-        vehicles.map((marker, index) => (
-          <Marker
+      {props.vehicles.map((marker, index) => (
+        <Marker
           key={index}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude
-            }}
-          />
-        ))
-      } */}
+          coordinate={{
+            latitude: marker.Latitude,
+            longitude: marker.Longitude,
+          }}
+        />
+      ))}
     </MapView>
   );
 }

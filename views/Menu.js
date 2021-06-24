@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
@@ -16,7 +16,7 @@ import globalStyles from '../styles/global';
 import MenuButtonsContainer from '../components/MenuButtonsContainer';
 import MenuButton from '../components/MenuButton';
 
-import {getMockedVehicles} from "../api"
+import {getMockedVehicles} from '../api';
 
 import {
   createFingerprint,
@@ -32,14 +32,14 @@ export default function Menu(props) {
   const [user, setUser] = useState({});
   const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
-  const [vehicles, setVehicles] = useState([])
+  const [vehicles, setVehicles] = useState([]);
   const toastRef = useRef();
   const {colors} = useTheme();
 
   const retrieveUserFromStorage = async () => {
-    const user = await AsyncStorage.getItem('USER');
-    if (user) {
-      const parseUser = JSON.parse(user);
+    const _user = await AsyncStorage.getItem('USER');
+    if (_user) {
+      const parseUser = JSON.parse(_user);
 
       setUser({
         username: parseUser.username,
@@ -99,14 +99,15 @@ export default function Menu(props) {
   };
 
   const getVehiclesByUser = () => {
-    getMockedVehicles().then(res => setVehicles(res))
-  }
+    getMockedVehicles().then(res => setVehicles(res));
+  };
 
   useEffect(() => {
     setNavigationOptions();
     retrieveUserFromStorage();
     manageFingerprint();
     getVehiclesByUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
   return (
@@ -118,10 +119,7 @@ export default function Menu(props) {
             style={{
               color: colors.primary,
             }}>{`HOLA ${user.username}`}</Text>
-            {vehicles.map(vehicle => {
-             return <Text key={vehicle.id}>{`Lat: ${vehicle.Latitude}, Lon: ${vehicle.Longitude}`}</Text>
-            })}
-         
+
           <MenuButtonsContainer>
             <MenuButton
               iconType="material-community"

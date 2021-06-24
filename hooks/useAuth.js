@@ -66,6 +66,7 @@ export const useAuth = () => {
       },
       logout: async () => {
         await AsyncStorage.removeItem('USER_TOKEN');
+        await AsyncStorage.removeItem('VEHICLES');
         dispatch(createAction('REMOVE_TOKEN'));
       },
     }),
@@ -73,15 +74,17 @@ export const useAuth = () => {
   );
 
   React.useEffect(() => {
-    AsyncStorage.getItem('USER_TOKEN').then(JSONToken => {
-      if (JSONToken) {
-        token = JSON.parse(JSONToken);
-        dispatch(createAction('SET_TOKEN', token));
-      }
-      dispatch(createAction('SET_LOADING', false));
-    }).catch(error => {
-      console.log(error)
-    });
+    AsyncStorage.getItem('USER_TOKEN')
+      .then(JSONToken => {
+        if (JSONToken) {
+          const token = JSON.parse(JSONToken);
+          dispatch(createAction('SET_TOKEN', token));
+        }
+        dispatch(createAction('SET_LOADING', false));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   return {auth, state};
