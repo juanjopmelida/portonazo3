@@ -90,7 +90,6 @@ export default function Menu(props) {
 
   const handleRemoveFingerprint = () => {
     removeFingerprint().then(result => {
-      //console.log('BOORADA', result);
       if (result) {
         toastRef.current.show('Huella dactilar deshabilitada');
         setEnableFingerprint(true);

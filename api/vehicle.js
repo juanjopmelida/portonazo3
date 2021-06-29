@@ -10,12 +10,12 @@ const localhostServer =
 const randomNumber = range => Math.floor(Math.random() * range) + 1;
 
 const getAllVehicles = vehiclesIds => {
-  console.log(vehiclesIds);
+  //console.log(vehiclesIds);
   return Promise.all(
     vehiclesIds.map(async id => {
       const vehicle = getVehicleById(id)
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           return res.data;
         })
         .catch(err => {
@@ -30,7 +30,7 @@ const getAllVehicles = vehiclesIds => {
 const getVehicleById = async id => {
   const uri = `${localhostServer}Vehicle/${id}`;
 
-  console.log(uri);
+  //console.log(uri);
   return axios.get(uri);
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Platform} from 'react-native';
 import MapView, {
   Marker,
@@ -11,27 +11,39 @@ import markerImg from '../assets/track_end.png';
 
 export default function Map(props) {
   const dimensions = Dimensions.get('window');
-  const ASPECT_RATIO = dimensions.width / dimensions.height;
+  const mapRef = useRef();
+  const [myLatLongs, setMyLatLongs] = useState([]);
+  const DEFAULT_PADDING = {top: 40, right: 40, bottom: 40, left: 40};
+
+  useEffect(() => {
+    retrieveLatLon();
+  }, [props.vehicles]);
+
+  function retrieveLatLon() {
+    const _latLon = props.vehicles?.map(function (veh) {
+      return {
+        latitude: parseFloat(veh.Latitude),
+        longitude: parseFloat(veh.Longitude),
+      };
+    });
+    setMyLatLongs(_latLon);
+  }
+
+  const fitAllMarkers = () => {
+    mapRef.current.fitToCoordinates(myLatLongs, {
+      edgePadding: DEFAULT_PADDING,
+      animated: true,
+    });
+  };
 
   return (
     <MapView
-      region={{
-        latitude: 40.39332867,
-        longitude: -3.54171669,
-        latitudeDelta: 1,
-        longitudeDelta: 1,
-      }}
+      ref={mapRef}
       mapType={Platform.OS === 'android' ? MAP_TYPES.NONE : MAP_TYPES.STANDARD}
-      zoomControlEnabled
-      zoomEnabled
-      zoomTapEnabled
-      scrollEnabled
-      rotateEnabled
-      showsScale
       showsCompass
       provider={PROVIDER_DEFAULT}
       style={styles.map}
-      showsUserLocation>
+      onMapReady={fitAllMarkers}>
       <UrlTile
         urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png"
         maximumZ={10}
@@ -44,7 +56,7 @@ export default function Map(props) {
             longitude: marker.Longitude,
           }}
           image={markerImg}
-        /> 
+        />
       ))}
     </MapView>
   );

@@ -49,8 +49,22 @@ export default function Login() {
         setRememberMe(true);
       }
     } catch (e) {
-      console.log(e);
+      console.error('retreiveFormData: ', e);
     }
+  };
+
+  const handleButton = () => {
+    verifyFingerprint().then(result => {
+      if (result) {
+        try {
+          login(formData, rememberMe);
+        } catch (error) {
+          toastRef.current.show(error);
+        }
+      } else {
+        toastRef.current.show('Las huellas no coinciden');
+      }
+    });
   };
 
   useEffect(() => {
@@ -62,7 +76,7 @@ export default function Login() {
             setFingerprintButtonVisible(storedFP),
           );
       })
-      .catch(e => console.log(JSON.stringify(e)));
+      .catch(e => console.error('isTouchAvailable', JSON.stringify(e)));
   }, []);
 
   return (
@@ -150,14 +164,7 @@ export default function Login() {
             <Button
               type="clear"
               title="Acceder con huella dactilar"
-              onPress={() =>
-                verifyFingerprint().then(result => {
-                  //console.log('VERIFY: ', result);
-                  result
-                    ? login(formData, rememberMe)
-                    : toastRef.current.show('Las huellas no coinciden');
-                })
-              }
+              onPress={handleButton}
             />
           )}
           <Loading isVisible={loading} text="Iniciando sesión" />

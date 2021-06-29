@@ -25,7 +25,7 @@ export const getStoredFingerprint = async () => {
       console.log('Has not stored fingerprint');
     }
   } catch (error) {
-    console.log('Error getting FINGERPRINT: ', error);
+    console.error('Error getting FINGERPRINT: ', error);
     return false;
   }
 };
@@ -41,7 +41,7 @@ export const verifyFingerprint = async () => {
     parseUser = JSON.parse(user);
     payload = parseUser.username + parseUser.password;
   } catch (error) {
-    console.log('ERROR GETTING FINGERPRINT/USER FROM STORAGE: ', error);
+    console.error('ERROR GETTING FINGERPRINT/USER FROM STORAGE: ', error);
   }
 
   return ReactNativeBiometrics.createSignature({
@@ -61,7 +61,7 @@ export const verifyFingerprint = async () => {
       }
       return false;
     })
-    .catch(error => console.log(error));
+    .catch(error => console.error('createSignature', error));
 };
 
 export const createFingerprint = async () => {
@@ -75,7 +75,7 @@ export const createFingerprint = async () => {
     payload = parseUser.username + parseUser.password;
     console.log(payload);
   } catch (error) {
-    console.log('ERROR GETTING USER FROM STORAGE: ', error);
+    console.error('ERROR GETTING USER FROM STORAGE: ', error);
   }
 
   // CHAPUCILLA PARA QUE SALGA EL PROMPT DE HUELLA. ES UN ISSUE DE LA LIBRERÍA
@@ -94,7 +94,7 @@ export const createFingerprint = async () => {
 
       if (success) {
         AsyncStorage.setItem('FINGERPRINT', signature);
-        console.log(signature);
+        //console.log(signature);
         return true;
       }
     })
@@ -111,11 +111,11 @@ export const removeFingerprint = () => {
           const {keysDeleted} = result;
           //console.log('BORRADA KEY', keysDeleted);
         })
-        .catch(error => console.log('ERROR DELETING BIOMETRIC KEY', error));
+        .catch(error => console.error('ERROR DELETING BIOMETRIC KEY', error));
       return true;
     })
     .catch(error => {
-      console.log('ERROR REMOVING FINGERPRINT FROM STORAGE: ', error);
+      console.error('ERROR REMOVING FINGERPRINT FROM STORAGE: ', error);
       return false;
     });
 };

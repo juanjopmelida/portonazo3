@@ -38,6 +38,7 @@ export const useAuth = () => {
     () => ({
       login: async (formData, rememberMe) => {
         const uri = `${REACT_APP_VOT_API_URL}/security/authentication/login`;
+        console.log(uri);
         const response = await axios.post(uri, formData);
 
         if (response.status !== 200) {
@@ -83,7 +84,7 @@ export const useAuth = () => {
         dispatch(createAction('SET_LOADING', false));
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   }, []);
 

@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "podinstall": "cd ios && pod install && cd .."
+    "podinstall": "cd ios && pod install && cd ..",
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'"
   },
   "dependencies": {
     "@microsoft/signalr": "^5.0.7",
@@ -36,7 +37,8 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.2.0",
     "react-native-vector-icons": "^8.1.0",
-    "react-query": "^3.16.1"
+    "react-query": "^3.16.1",
+    "redux-devtools-extension": "^2.13.9"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",
