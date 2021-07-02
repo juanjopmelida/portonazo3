@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, Text} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import {Marker} from 'react-native-maps';
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
@@ -17,7 +16,6 @@ import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {vehicle} from 'faker/lib/locales/en';
 
 export default function Realtime(props) {
   const {navigation, route} = props;
@@ -127,23 +125,26 @@ export default function Realtime(props) {
     AsyncStorage.getItem('VEHICLES').then(data => {
       setVehicles(JSON.parse(data));
     });
-    //generateMarkers()
-    //openSignalRConnection();
-    //setMap();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
   return (
     <ScrollView>
       <Loading isVisible={loading} text="Localizando..." />
       <HeaderLogo />
-      <View>
-        {/* {vehicles.map(vehicle => {
-             return <Text key={vehicle.id}>{`Lat: ${vehicle.Latitude}, Lon: ${vehicle.Longitude}`}</Text>
-            })} */}
-        <Map style={{flex: 1}} vehicles={vehicles} />
+      <View style={styles.container}>
+        <Map vehicles={vehicles} style={styles.map} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
