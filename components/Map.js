@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Pressable,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import MapView, {
   Marker,
@@ -24,6 +25,7 @@ import markerImgStopped from '../assets/markers/Stopped.png';
 export default function Map(props) {
   const mapRef = useRef();
   const [markersCoords, setMarkersCoords] = useState([]);
+  const [selectMarker, setSelectMarker] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 40, left: 40};
   const markerImg = [
@@ -54,6 +56,11 @@ export default function Map(props) {
     });
   };
 
+  const showMarkerData = marker => {
+    setSelectMarker(marker);
+    setModalVisible(true);
+  };
+
   return (
     <>
       <MapView
@@ -76,28 +83,32 @@ export default function Map(props) {
             image={markerImg[marker.Status]}
             title={marker.Registration}
             rotation={0.9}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => showMarkerData(marker)}
           />
         ))}
       </MapView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+      <Pressable onPress={() => setModalVisible(false)}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.headerView}>
+                <Text style={styles.modalText}>
+                  {`${selectMarker.Manufacturer} ${selectMarker.Model}`}
+                </Text>
+                <Pressable onPress={() => setModalVisible(false)}>
+                  <Text style={styles.modalText}>X</Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </Pressable>
     </>
   );
 }
@@ -109,16 +120,14 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 22,
+    marginBottom: 0,
   },
   modalView: {
-    margin: 20,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 3,
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -127,6 +136,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#f2f2f2',
   },
   buttonClose: {
     backgroundColor: '#2196F3',
@@ -137,7 +151,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
+    padding: 15,
     textAlign: 'center',
   },
 });
