@@ -11,16 +11,17 @@ import {
 } from 'react-native';
 import MapView, {
   Marker,
+  Callout,
   MAP_TYPES,
   PROVIDER_DEFAULT,
   UrlTile,
 } from 'react-native-maps';
 
-import markerImgAlarm from '../assets/markers/Alarm.png';
-import markerImgIdling from '../assets/markers/Idling.png';
-import markerImgNoGPS from '../assets/markers/NoGPS.png';
-import markerImgStarted from '../assets/markers/Started.png';
-import markerImgStopped from '../assets/markers/Stopped.png';
+import markerImgAlarm from '../assets/markers/Alarm48.png';
+import markerImgIdling from '../assets/markers/Idling48.png';
+import markerImgNoGPS from '../assets/markers/NoGPS48.png';
+import markerImgStarted from '../assets/markers/Started48.png';
+import markerImgStopped from '../assets/markers/Stopped48.png';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -81,10 +82,16 @@ export default function Map(props) {
               longitude: marker.Longitude,
             }}
             image={markerImg[marker.Status]}
-            title={marker.Registration}
-            rotation={0.9}
+            style={{
+              transform: [
+                {
+                  rotate: `${marker.Direction}deg`
+                }
+              ]
+            }}
             onPress={() => showMarkerData(marker)}
-          />
+          >
+          </Marker>
         ))}
       </MapView>
       <Pressable onPress={() => setModalVisible(false)}>

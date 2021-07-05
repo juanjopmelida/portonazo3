@@ -28,7 +28,7 @@ const getAllVehicles = vehiclesIds => {
 };
 
 const getVehicleById = async id => {
-  const uri = `${localhostServer}Vehicle/${id}`;
+  const uri = `${localhostServer}/Vehicle/${id}`;
 
   //console.log(uri);
   return axios.get(uri);
