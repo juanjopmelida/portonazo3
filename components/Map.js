@@ -3,19 +3,23 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
-  Modal,
   Text,
   View,
   Pressable,
-  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import MapView, {
   Marker,
-  Callout,
   MAP_TYPES,
   PROVIDER_DEFAULT,
   UrlTile,
 } from 'react-native-maps';
+import Modal from 'react-native-modal';
+import {useTheme} from '@react-navigation/native';
+
+import {AuthContext} from '../contexts/AuthContext';
+import {ThemeContext} from '../contexts/ThemeContext';
 
 import markerImgAlarm from '../assets/markers/Alarm48.png';
 import markerImgIdling from '../assets/markers/Idling48.png';
@@ -36,6 +40,7 @@ export default function Map(props) {
     markerImgStarted,
     markerImgStopped,
   ];
+  const {colors} = useTheme();
 
   useEffect(() => {
     const retrieveMarkersCoords = () => {
@@ -94,14 +99,35 @@ export default function Map(props) {
           </Marker>
         ))}
       </MapView>
-      <Pressable onPress={() => setModalVisible(false)}>
+      <ScrollView 
+        horizontal
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        height={50}
+        style={styles.chipsScrollView}
+        contentInset={{ // iOS only
+          top:0,
+          left:0,
+          bottom:0,
+          right:20
+        }}
+        contentContainerStyle={{
+          paddingRight: Platform.OS === 'android' ? 20 : 0
+        }}
+      >
+        {props.vehicles.map((marker, index) => (
+          <TouchableOpacity key={index} style={styles.chipsItem} onPress={() => showMarkerData(marker)}>
+            <Text>{marker.Registration}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <Pressable>
         <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
+          isVisible={modalVisible}
+          onBackdropPress={()=>setModalVisible(false)}
+          onSwipeComplete={() => setModalVisible(false)}
+          swipeDirection='left'
+          supportedOrientations={['portrait', 'landscape']}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.headerView}>
@@ -111,6 +137,11 @@ export default function Map(props) {
                 <Pressable onPress={() => setModalVisible(false)}>
                   <Text style={styles.modalText}>X</Text>
                 </Pressable>
+              </View>
+              <View>
+                <View style={{borderBottomColor: colors.backgroundGrey}}>
+                  <Text style={styles.modalText}>Matrícula:</Text>
+                </View>
               </View>
             </View>
           </View>
@@ -148,17 +179,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#f2f2f2',
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.9,
+  },
+  bodyView: {
+
+  },
+  rowView: {
   },
   buttonClose: {
     backgroundColor: '#2196F3',
   },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   modalText: {
     padding: 15,
     textAlign: 'center',
+  },
+  chipsScrollView: {
+    position:'absolute', 
+    top:Platform.OS === 'ios' ? 30 : 20, 
+    paddingHorizontal:10
+  },
+  chipsItem: {
+    flexDirection:"row",
+    backgroundColor:'#fff', 
+    borderRadius:20,
+    padding:8,
+    paddingHorizontal:20, 
+    marginHorizontal:10,
+    height:35,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
   },
 });
