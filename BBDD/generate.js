@@ -32,7 +32,7 @@ module.exports = () => {
           -3.85509005
         ).toFixed(8),
         Status: Math.floor(Math.random() * 4 + 1),
-        Direction: Math.floor(Math.random() * 360 +1),
+        Direction: Math.floor(Math.random() * 360 + 1),
       };
     }),
     CustomTag: _.times(100, function (n) {
