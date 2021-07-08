@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -15,11 +16,9 @@ import MapView, {
   PROVIDER_DEFAULT,
   UrlTile,
 } from 'react-native-maps';
+import {Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import {useTheme} from '@react-navigation/native';
-
-import {AuthContext} from '../contexts/AuthContext';
-import {ThemeContext} from '../contexts/ThemeContext';
 
 import markerImgAlarm from '../assets/markers/Alarm48.png';
 import markerImgIdling from '../assets/markers/Idling48.png';
@@ -27,9 +26,11 @@ import markerImgNoGPS from '../assets/markers/NoGPS48.png';
 import markerImgStarted from '../assets/markers/Started48.png';
 import markerImgStopped from '../assets/markers/Stopped48.png';
 
+import ListItemTitle from './ListItemTitle';
+
 export default function Map(props) {
   const mapRef = useRef();
-  const {markers} = props;
+  const {markers, realTimes, realTimeDetails} = props;
   const [allMarkersCoords, setAllMarkersCoords] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,7 +47,7 @@ export default function Map(props) {
 
   useEffect(() => {
     const retrieveAllMarkersCoords = () => {
-      const _latLon = markers.map(function (veh) {
+      const _latLon = realTimes.map(function (veh) {
         return {
           latitude: parseFloat(veh.Latitude),
           longitude: parseFloat(veh.Longitude),
@@ -55,9 +56,9 @@ export default function Map(props) {
       setAllMarkersCoords(_latLon);
     };
     retrieveAllMarkersCoords();
-  }, [markers]);
+  }, [markers, realTimes, realTimeDetails]);
 
-  const fitToMarkersCoords = () => {
+  const fitToAllMarkersCoords = () => {
     mapRef.current.fitToCoordinates(allMarkersCoords, {
       edgePadding: DEFAULT_PADDING,
       animated: true,
@@ -77,8 +78,9 @@ export default function Map(props) {
     });
   };
 
-  const showMarkerData = marker => {
-    fitToOneMarkerCoords(marker);
+  const showModalMarkerData = marker => {
+    const _realtime = realTimes.filter(rt => rt.id === marker.id);
+    fitToOneMarkerCoords(_realtime[0]);
     setSelectedMarker(marker);
     setModalVisible(true);
   };
@@ -93,24 +95,24 @@ export default function Map(props) {
         showsCompass
         provider={PROVIDER_DEFAULT}
         style={styles.map}
-        onMapReady={fitToMarkersCoords}>
+        onMapReady={fitToAllMarkersCoords}>
         <UrlTile urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png" />
-        {props.markers.map((marker, index) => (
+        {props.realTimes.map((rt, index) => (
           <Marker
             key={index}
             coordinate={{
-              latitude: marker.Latitude,
-              longitude: marker.Longitude,
+              latitude: rt.Latitude,
+              longitude: rt.Longitude,
             }}
-            image={markerImg[marker.Status]}
+            image={markerImg[rt.Status]}
             style={{
               transform: [
                 {
-                  rotate: `${marker.Direction}deg`,
+                  rotate: `${rt.Heading}deg`,
                 },
               ],
             }}
-            onPress={() => showMarkerData(marker)}
+            onPress={() => showModalMarkerData(rt)}
           />
         ))}
       </MapView>
@@ -134,32 +136,111 @@ export default function Map(props) {
           <TouchableOpacity
             key={index}
             style={styles.chipsItem}
-            onPress={() => showMarkerData(marker)}>
-            <Text>{marker.Registration}</Text>
+            onPress={() => showModalMarkerData(marker)}>
+            <Text>{marker.Plate}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
       <Pressable>
         <Modal
           isVisible={modalVisible}
+          backdropOpacity={0.3}
           onBackdropPress={() => setModalVisible(false)}
           onSwipeComplete={() => setModalVisible(false)}
-          swipeDirection="left"
+          swipeDirection={['up', 'left', 'right', 'down']}
           supportedOrientations={['portrait', 'landscape']}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.headerView}>
                 <Text style={styles.modalText}>
-                  {`${selectedMarker.Manufacturer} ${selectedMarker.Model}`}
+                  {`${selectedMarker.Brand} ${selectedMarker.Model}`}
                 </Text>
                 <Pressable onPress={() => setModalVisible(false)}>
                   <Text style={styles.modalText}>X</Text>
                 </Pressable>
               </View>
-              <View>
-                <View style={{borderBottomColor: colors.backgroundGrey}}>
-                  <Text style={styles.modalText}>Matrícula:</Text>
+              <View style={styles.bodyView}>
+                <View style={[styles.titleColumnView]}>
+                  <ListItemTitle
+                    title="Dirección"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
+                  <ListItemTitle
+                    title="F. posición"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
+                  <ListItemTitle
+                    title="Km total"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
+                  <ListItemTitle
+                    title="Km diario"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
+                  <ListItemTitle
+                    title="F. parada"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
+                  <ListItemTitle
+                    title="T. inactivo"
+                    viewStyle={[
+                      styles.titleLabelView,
+                      {backgroundColor: colors.background},
+                    ]}
+                    textStyle={[
+                      styles.titleLabeltext,
+                      {
+                        color: colors.primary,
+                      },
+                    ]}
+                  />
                 </View>
+                <View style={styles.infoColumnView} />
               </View>
             </View>
           </View>
@@ -201,8 +282,30 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.9,
   },
-  bodyView: {},
-  rowView: {},
+  bodyView: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  titleColumnView: {
+    flex: 1,
+    backgroundColor: 'wheat',
+    width: '30%',
+  },
+  titleLabelView: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingLeft: 15,
+    height: '16.7%',
+    width: '100%',
+    borderBottomWidth: 1,
+  },
+  titleLabeltext: {
+    fontSize: 15,
+  },
+  infoColumnView: {
+    backgroundColor: 'pink',
+    width: '70%',
+  },
   buttonClose: {
     backgroundColor: '#2196F3',
   },

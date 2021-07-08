@@ -1,6 +1,7 @@
-export * from "./aggregation"
-export * from "./permission"
-export * from "./vehicle"
+export * from './aggregation';
+export * from './permission';
+export * from './vehicle';
+export * from './realtime';
 // import {REACT_APP_VL_API_URL, REACT_APP_NUMBER_OF_POSITIONS} from '@env';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 

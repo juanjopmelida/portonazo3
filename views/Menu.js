@@ -16,7 +16,11 @@ import globalStyles from '../styles/global';
 import MenuButtonsContainer from '../components/MenuButtonsContainer';
 import MenuButton from '../components/MenuButton';
 
-import {getMockedVehicles} from '../api';
+import {
+  getMockedVehicles,
+  getAllRealTimeByIds,
+  getAllRealTimeDetailsByIds,
+} from '../api';
 
 import {
   createFingerprint,
@@ -32,7 +36,6 @@ export default function Menu(props) {
   const [user, setUser] = useState({});
   const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
-  const [vehicles, setVehicles] = useState([]);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -97,15 +100,21 @@ export default function Menu(props) {
     });
   };
 
-  const getVehiclesByUser = () => {
-    getMockedVehicles().then(res => setVehicles(res));
+  const getAllDataByUser = () => {
+    getMockedVehicles().then(res => {
+      const _vehicles = res.map(veh => {
+        return veh.id;
+      });
+      getAllRealTimeByIds(_vehicles);
+      getAllRealTimeDetailsByIds(_vehicles);
+    });
   };
 
   useEffect(() => {
     setNavigationOptions();
     retrieveUserFromStorage();
     manageFingerprint();
-    getVehiclesByUser();
+    getAllDataByUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 

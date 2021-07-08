@@ -19,10 +19,15 @@ module.exports = () => {
     Vehicle: _.times(100, function (n) {
       return {
         id: n + 1,
-        Manufacturer: faker.vehicle.manufacturer(),
+        Brand: faker.vehicle.manufacturer(),
         Model: faker.vehicle.model(),
-        Type: faker.vehicle.type(),
-        Registration: faker.vehicle.vin(),
+        Version: faker.vehicle.type(),
+        Plate: faker.vehicle.vin(),
+      };
+    }),
+    RealTime: _.times(100, function (n) {
+      return {
+        id: n + 1,
         Latitude: (
           Math.random() * (40.570295 - 40.25631144) +
           40.25631144
@@ -32,7 +37,19 @@ module.exports = () => {
           -3.85509005
         ).toFixed(8),
         Status: Math.floor(Math.random() * 4 + 1),
-        Direction: Math.floor(Math.random() * 360 + 1),
+        Heading: Math.floor(Math.random() * 360 + 1),
+      };
+    }),
+    RealTimeDetails: _.times(100, function (n) {
+      return {
+        id: n + 1,
+        PositionDate: faker.date.between('2021-01-01', '2020-07-08'),
+        TotalKm: Math.floor(Math.random() * 1000000 + 1),
+        DailyKm: Math.floor(Math.random() * 1000 + 1),
+        StopDate: faker.date.between('2021-01-01', '2020-07-08'),
+        InactivePeriod: `${Math.floor(
+          Math.random() * 24 + 1,
+        )} horas ${Math.floor(Math.random() * 60 + 1)} mins'`,
       };
     }),
     CustomTag: _.times(100, function (n) {

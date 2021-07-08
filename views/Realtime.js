@@ -24,7 +24,8 @@ export default function Realtime(props) {
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
   const [vehicles, setVehicles] = useState([]);
-  const [journey, setJourney] = useState({});
+  const [realTimes, setRealTimes] = useState([]);
+  const [realTimeDetails, setRealTimeDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const setNavigationOptions = () => {
@@ -53,6 +54,12 @@ export default function Realtime(props) {
     AsyncStorage.getItem('VEHICLES').then(data => {
       setVehicles(JSON.parse(data));
     });
+    AsyncStorage.getItem('REAL_TIMES').then(data => {
+      setRealTimes(JSON.parse(data));
+    });
+    AsyncStorage.getItem('REAL_TIME_DETAILS').then(data => {
+      setRealTimeDetails(JSON.parse(data));
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
@@ -61,7 +68,12 @@ export default function Realtime(props) {
       <Loading isVisible={loading} text="Localizando..." />
       <HeaderLogo />
       <View style={styles.container}>
-        <Map markers={vehicles} style={styles.map} />
+        <Map
+          markers={vehicles}
+          realTimes={realTimes}
+          realTimeDetails={realTimeDetails}
+          style={styles.map}
+        />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
