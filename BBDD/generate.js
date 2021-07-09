@@ -7,6 +7,11 @@ module.exports = () => {
         id: n + 1,
         Name: faker.name.firstName(),
         Surname: faker.name.lastName(),
+      };
+    }),
+    Address: _.times(100, function (n) {
+      return {
+        id: n + 1,
         Address:
           faker.address.streetName() +
           ', ' +
@@ -49,7 +54,7 @@ module.exports = () => {
         StopDate: faker.date.between('2021-01-01', '2020-07-08'),
         InactivePeriod: `${Math.floor(
           Math.random() * 24 + 1,
-        )} horas ${Math.floor(Math.random() * 60 + 1)} mins'`,
+        )} horas ${Math.floor(Math.random() * 60 + 1)} mins`,
       };
     }),
     CustomTag: _.times(100, function (n) {

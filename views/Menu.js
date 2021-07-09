@@ -20,6 +20,7 @@ import {
   getMockedVehicles,
   getAllRealTimeByIds,
   getAllRealTimeDetailsByIds,
+  getAllAddressByIds,
 } from '../api';
 
 import {
@@ -107,6 +108,7 @@ export default function Menu(props) {
       });
       getAllRealTimeByIds(_vehicles);
       getAllRealTimeDetailsByIds(_vehicles);
+      getAllAddressByIds(_vehicles);
     });
   };
 

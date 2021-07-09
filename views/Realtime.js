@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Button} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
 // HEADER OPTIONS
@@ -26,6 +26,7 @@ export default function Realtime(props) {
   const [vehicles, setVehicles] = useState([]);
   const [realTimes, setRealTimes] = useState([]);
   const [realTimeDetails, setRealTimeDetails] = useState([]);
+  const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const setNavigationOptions = () => {
@@ -60,6 +61,9 @@ export default function Realtime(props) {
     AsyncStorage.getItem('REAL_TIME_DETAILS').then(data => {
       setRealTimeDetails(JSON.parse(data));
     });
+    AsyncStorage.getItem('ADDRESSES').then(data => {
+      setAddresses(JSON.parse(data));
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
@@ -72,7 +76,9 @@ export default function Realtime(props) {
           markers={vehicles}
           realTimes={realTimes}
           realTimeDetails={realTimeDetails}
+          addresses={addresses}
           style={styles.map}
+          navigation={navigation}
         />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />

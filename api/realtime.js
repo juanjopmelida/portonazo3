@@ -11,7 +11,7 @@ const localhostServer =
 const getAllRealTimes = vehiclesIds => {
   return Promise.all(
     vehiclesIds.map(async id => {
-      const vehicle = getRealTimeById(id)
+      const realTime = getRealTimeById(id)
         .then(res => {
           //console.log(res.data);
           return res.data;
@@ -20,7 +20,7 @@ const getAllRealTimes = vehiclesIds => {
           console.error(err);
           throw new Error(err);
         });
-      return vehicle;
+      return realTime;
     }),
   );
 };
@@ -28,7 +28,7 @@ const getAllRealTimes = vehiclesIds => {
 const getAllRealTimeDetails = vehiclesIds => {
   return Promise.all(
     vehiclesIds.map(async id => {
-      const vehicle = getRealTimeDetailsById(id)
+      const realTimeDetails = getRealTimeDetailsById(id)
         .then(res => {
           //console.log(res.data);
           return res.data;
@@ -37,22 +37,39 @@ const getAllRealTimeDetails = vehiclesIds => {
           console.error(err);
           throw new Error(err);
         });
-      return vehicle;
+      return realTimeDetails;
+    }),
+  );
+};
+
+const getAllAddress = vehiclesIds => {
+  return Promise.all(
+    vehiclesIds.map(async id => {
+      const address = getAddressById(id)
+        .then(res => {
+          return res.data;
+        })
+        .catch(err => {
+          console.error(err);
+          throw new Error(err);
+        });
+      return address;
     }),
   );
 };
 
 const getRealTimeById = async id => {
   const uri = `${localhostServer}/RealTime/${id}`;
-
-  //console.log(uri);
   return axios.get(uri);
 };
 
 const getRealTimeDetailsById = async id => {
   const uri = `${localhostServer}/RealTimeDetails/${id}`;
+  return axios.get(uri);
+};
 
-  //console.log(uri);
+export const getAddressById = async id => {
+  const uri = `${localhostServer}/Address/${id}`;
   return axios.get(uri);
 };
 
@@ -66,4 +83,10 @@ export const getAllRealTimeDetailsByIds = async vehiclesIds => {
   const realTimeDetails = await getAllRealTimeDetails(vehiclesIds);
   AsyncStorage.setItem('REAL_TIME_DETAILS', JSON.stringify(realTimeDetails));
   return realTimeDetails;
+};
+
+export const getAllAddressByIds = async vehiclesIds => {
+  const addresses = await getAllAddress(vehiclesIds);
+  AsyncStorage.setItem('ADDRESSES', JSON.stringify(addresses));
+  return addresses;
 };
