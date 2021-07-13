@@ -50,10 +50,6 @@ export default function Map(props) {
   const {colors} = useTheme();
   const modalizeRef = useRef();
 
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
-
   const retrieveUserFromStorage = async () => {
     const _user = await AsyncStorage.getItem('USER');
     if (_user) {
@@ -100,16 +96,17 @@ export default function Map(props) {
     });
   };
 
-  const retrieveDataByMarker = (data, marker) => {
-    const retrievedData = data.filter(item => item.id === marker.id).shift();
+  const retrieveDataByMarker = (data, id) => {
+    const retrievedData = data.filter(item => item.id === id).shift();
     return retrievedData;
   };
 
-  const showModalMarkerData = marker => {
+  const showModalMarkerData = id => {
+    const marker = retrieveDataByMarker(markers, id);
+    const realTime = retrieveDataByMarker(realTimes, id);
+    const realTimeDetail = retrieveDataByMarker(realTimeDetails, id);
+    const address = retrieveDataByMarker(addresses, id);
     setSelectedMarker(marker);
-    const realTime = retrieveDataByMarker(realTimes, marker);
-    const realTimeDetail = retrieveDataByMarker(realTimeDetails, marker);
-    const address = retrieveDataByMarker(addresses, marker);
     setSelectedRealTime(realTime);
     setSelectedRealTimeDetails(realTimeDetail);
     setSelectedAddress(address);
@@ -153,7 +150,7 @@ export default function Map(props) {
                 },
               ],
             }}
-            onPress={() => showModalMarkerData(rt)}
+            onPress={() => showModalMarkerData(rt.id)}
           />
         ))}
       </MapView>
@@ -177,7 +174,7 @@ export default function Map(props) {
           <TouchableOpacity
             key={index}
             style={styles.chipsItem}
-            onPress={() => showModalMarkerData(marker)}>
+            onPress={() => showModalMarkerData(marker.id)}>
             <Text>{marker.Plate}</Text>
           </TouchableOpacity>
         ))}
