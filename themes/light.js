@@ -9,6 +9,7 @@ export const lightTheme = {
     primary: '#42A1D7',
     text: '#999999',
     menuButtonContent: 'white',
+    modalButtonContent: '#2f2f2f',
     iconInput: 'grey',
   },
 };

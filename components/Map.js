@@ -383,10 +383,10 @@ export default function Map(props) {
                 type="material-community"
                 name="crosshairs-gps"
                 size={25}
-                color={colors.menuButtonContent}
+                color={colors.modalButtonContent}
               />
-              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
-                Tiempo Real
+              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+                Bloqueo Motor
               </Text>
             </Pressable>
             <Pressable
@@ -396,10 +396,10 @@ export default function Map(props) {
                 type="material-community"
                 name="crosshairs-gps"
                 size={25}
-                color={colors.menuButtonContent}
+                color={colors.modalButtonContent}
               />
-              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
-                Tiempo Real
+              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+                Rutas
               </Text>
             </Pressable>
             <Pressable
@@ -409,10 +409,10 @@ export default function Map(props) {
                 type="material-community"
                 name="crosshairs-gps"
                 size={25}
-                color={colors.menuButtonContent}
+                color={colors.modalButtonContent}
               />
-              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
-                Tiempo Real
+              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+                Ir a...
               </Text>
             </Pressable>
           </View>
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
   button: {
     width: '33%',
     height: '100%',
-    backgroundColor: '#585958',
+    backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',
   },
