@@ -17,7 +17,6 @@ import MapView, {
   UrlTile,
 } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Modal from 'react-native-modal';
 import {useTheme} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 import {Modalize} from 'react-native-modalize';
@@ -39,7 +38,6 @@ export default function Map(props) {
   const [selectedRealTime, setSelectedRealTime] = useState({});
   const [selectedRealTimeDetails, setSelectedRealTimeDetails] = useState({});
   const [selectedAddress, setSelectedAddress] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const markerImg = [
@@ -120,7 +118,6 @@ export default function Map(props) {
   };
 
   const hideModalMarkerData = () => {
-    setModalVisible(false);
     fitToAllMarkersCoords();
   };
 
@@ -189,6 +186,7 @@ export default function Map(props) {
         ref={modalizeRef}
         scrollViewProps={{showsVerticalScrollIndicator: false}}
         snapPoint={500}
+        onClose={hideModalMarkerData}
         HeaderComponent={
           <View style={styles.headerView}>
             <Text style={styles.modalText}>
@@ -372,7 +370,6 @@ export default function Map(props) {
               ]}
             />
           </View>
-
           <View
             style={{
               width: '100%',
@@ -433,25 +430,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: 0,
-  },
-  modalView: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height / 3,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   headerView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -481,9 +459,6 @@ const styles = StyleSheet.create({
   },
   listItemInfoText: {
     fontSize: 13,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
   },
   modalText: {
     padding: 15,
