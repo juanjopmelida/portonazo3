@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
 import {useTheme} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
+import {Modalize} from 'react-native-modalize';
 
 import markerImgAlarm from '../assets/markers/Alarm48.png';
 import markerImgIdling from '../assets/markers/Idling48.png';
@@ -49,6 +50,11 @@ export default function Map(props) {
     markerImgStopped,
   ];
   const {colors} = useTheme();
+  const modalizeRef = useRef();
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
 
   const retrieveUserFromStorage = async () => {
     const _user = await AsyncStorage.getItem('USER');
@@ -110,7 +116,7 @@ export default function Map(props) {
     setSelectedRealTimeDetails(realTimeDetail);
     setSelectedAddress(address);
     fitToOneMarkerCoords(realTime);
-    setModalVisible(true);
+    modalizeRef.current?.open();
   };
 
   const hideModalMarkerData = () => {
@@ -179,257 +185,245 @@ export default function Map(props) {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <Pressable>
-        <Modal
-          isVisible={modalVisible}
-          backdropOpacity={0.3}
-          onBackdropPress={() => hideModalMarkerData()}
-          onSwipeComplete={() => hideModalMarkerData()}
-          swipeDirection={['up', 'left', 'right', 'down']}
-          supportedOrientations={['portrait', 'landscape']}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={styles.headerView}>
-                <Text style={styles.modalText}>
-                  {`${selectedMarker.Brand} ${selectedMarker.Model}`}
-                </Text>
-                <Pressable onPress={() => hideModalMarkerData()}>
-                  <Text style={styles.modalText}>X</Text>
-                </Pressable>
-              </View>
-              <View style={styles.bodyView}>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="Dirección"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedAddress.Address}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="F. posición"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedRealTimeDetails.PositionDate}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="Km total"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedRealTimeDetails.TotalKm}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="Km diario"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedRealTimeDetails.DailyKm}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="F. parada"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedRealTimeDetails.StopDate}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-                <View style={styles.bodyRowView}>
-                  <ListItemTitle
-                    title="T. inactivo"
-                    viewStyle={[
-                      styles.listItemView,
-                      styles.listItemTitleView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemTitleText,
-                      {
-                        color: colors.primary,
-                      },
-                    ]}
-                  />
-                  <ListItemTitle
-                    title={selectedRealTimeDetails.InactivePeriod}
-                    viewStyle={[
-                      styles.listItemView,
-                      {backgroundColor: colors.background},
-                    ]}
-                    textStyle={[
-                      styles.listItemInfoText,
-                      {
-                        color: colors.text,
-                      },
-                    ]}
-                  />
-                </View>
-
-                <View
-                  style={{
-                    width: '100%',
-                    height: 45,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 0,
-                  }}>
-                  <Pressable
-                    style={styles.button}
-                    onPress={() => navigate('journeys', user)}>
-                    <Icon
-                      type="material-community"
-                      name="crosshairs-gps"
-                      size={25}
-                      color={colors.menuButtonContent}
-                    />
-                    <Text
-                      style={[styles.text, {color: colors.menuButtonContent}]}>
-                      Tiempo Real
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.button}
-                    onPress={() => navigate('journeys', user)}>
-                    <Icon
-                      type="material-community"
-                      name="crosshairs-gps"
-                      size={25}
-                      color={colors.menuButtonContent}
-                    />
-                    <Text
-                      style={[styles.text, {color: colors.menuButtonContent}]}>
-                      Tiempo Real
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.button}
-                    onPress={() => navigate('journeys', user)}>
-                    <Icon
-                      type="material-community"
-                      name="crosshairs-gps"
-                      size={25}
-                      color={colors.menuButtonContent}
-                    />
-                    <Text
-                      style={[styles.text, {color: colors.menuButtonContent}]}>
-                      Tiempo Real
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
+      <Modalize
+        ref={modalizeRef}
+        scrollViewProps={{showsVerticalScrollIndicator: false}}
+        snapPoint={500}
+        HeaderComponent={
+          <View style={styles.headerView}>
+            <Text style={styles.modalText}>
+              {`${selectedMarker.Brand} ${selectedMarker.Model}`}
+            </Text>
           </View>
-        </Modal>
-      </Pressable>
+        }
+        withHandle={false}>
+        <View style={styles.bodyView}>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="Dirección"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedAddress.Address}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="F. posición"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedRealTimeDetails.PositionDate}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="Km total"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedRealTimeDetails.TotalKm}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="Km diario"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedRealTimeDetails.DailyKm}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="F. parada"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedRealTimeDetails.StopDate}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.bodyRowView}>
+            <ListItemTitle
+              title="T. inactivo"
+              viewStyle={[
+                styles.listItemView,
+                styles.listItemTitleView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemTitleText,
+                {
+                  color: colors.primary,
+                },
+              ]}
+            />
+            <ListItemTitle
+              title={selectedRealTimeDetails.InactivePeriod}
+              viewStyle={[
+                styles.listItemView,
+                {backgroundColor: colors.background},
+              ]}
+              textStyle={[
+                styles.listItemInfoText,
+                {
+                  color: colors.text,
+                },
+              ]}
+            />
+          </View>
+
+          <View
+            style={{
+              width: '100%',
+              height: 45,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+            }}>
+            <Pressable
+              style={styles.button}
+              onPress={() => navigate('journeys', user)}>
+              <Icon
+                type="material-community"
+                name="crosshairs-gps"
+                size={25}
+                color={colors.menuButtonContent}
+              />
+              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
+                Tiempo Real
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => navigate('journeys', user)}>
+              <Icon
+                type="material-community"
+                name="crosshairs-gps"
+                size={25}
+                color={colors.menuButtonContent}
+              />
+              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
+                Tiempo Real
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => navigate('journeys', user)}>
+              <Icon
+                type="material-community"
+                name="crosshairs-gps"
+                size={25}
+                color={colors.menuButtonContent}
+              />
+              <Text style={[styles.text, {color: colors.menuButtonContent}]}>
+                Tiempo Real
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modalize>
     </>
   );
 }
