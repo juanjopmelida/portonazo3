@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-export default function ListItemTitle(props) {
+export default function ListItem(props) {
   const {title, viewStyle, textStyle} = props;
   return (
     <View style={viewStyle}>

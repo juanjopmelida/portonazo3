@@ -31,7 +31,7 @@ import LockedEngineImage from '../assets/buttons/LockedEngine.png';
 import JourneysImage from '../assets/buttons/Journeys.png';
 import GoToImage from '../assets/buttons/GoTo.png';
 
-import ListItemTitle from './ListItemTitle';
+import RealtimeInfoTable from './RealtimeInfoTable';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -197,219 +197,48 @@ export default function Map(props) {
             </Text>
           </View>
         }
-        withHandle={false}>
-        <View style={styles.bodyView}>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="Dirección"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedAddress.Address}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="F. posición"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedRealTimeDetails.PositionDate}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="Km total"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedRealTimeDetails.TotalKm}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="Km diario"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedRealTimeDetails.DailyKm}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="F. parada"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedRealTimeDetails.StopDate}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View style={styles.bodyRowView}>
-            <ListItemTitle
-              title="T. inactivo"
-              viewStyle={[
-                styles.listItemView,
-                styles.listItemTitleView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemTitleText,
-                {
-                  color: colors.primary,
-                },
-              ]}
-            />
-            <ListItemTitle
-              title={selectedRealTimeDetails.InactivePeriod}
-              viewStyle={[
-                styles.listItemView,
-                {backgroundColor: colors.background},
-              ]}
-              textStyle={[
-                styles.listItemInfoText,
-                {
-                  color: colors.text,
-                },
-              ]}
-            />
-          </View>
-          <View
-            style={{
-              width: '100%',
-              height: 45,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 0,
-            }}>
-            <Pressable
-              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
-              onPress={() => navigate('journeys', user)}>
-              <Image style={styles.imageButton} source={LockedEngineImage} />
-              <Text
-                style={[styles.textButton, {color: colors.modalButtonContent}]}>
-                Bloqueo Motor
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
-              onPress={() => navigate('journeys', user)}>
-              <Image style={styles.imageButton} source={JourneysImage} />
-              <Text
-                style={[styles.textButton, {color: colors.modalButtonContent}]}>
-                Rutas
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
-              onPress={() => navigate('journeys', user)}>
-              <Image style={styles.imageButton} source={GoToImage} />
-              <Text
-                style={[styles.textButton, {color: colors.modalButtonContent}]}>
-                Ir a...
-              </Text>
-            </Pressable>
-          </View>
+        withHandle={false}
+        overlayStyle={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+        <RealtimeInfoTable
+          selectedAddress={selectedAddress}
+          selectedRealTimeDetails={selectedRealTimeDetails}
+        />
+        <View
+          style={{
+            width: '100%',
+            height: 45,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+          }}>
+          <Pressable
+            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            onPress={() => navigate('journeys', user)}>
+            <Image style={styles.imageButton} source={LockedEngineImage} />
+            <Text
+              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+              Bloqueo Motor
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            onPress={() => navigate('journeys', user)}>
+            <Image style={styles.imageButton} source={JourneysImage} />
+            <Text
+              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+              Rutas
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            onPress={() => navigate('journeys', user)}>
+            <Image style={styles.imageButton} source={GoToImage} />
+            <Text
+              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+              Ir a...
+            </Text>
+          </Pressable>
         </View>
       </Modalize>
     </>
@@ -434,7 +263,7 @@ const styles = StyleSheet.create({
     height: 30,
     shadowColor: '#ccc',
     shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 0.9,
+    shadowOpacity: 0.5,
   },
   listItemTitleView: {
     width: '30%',

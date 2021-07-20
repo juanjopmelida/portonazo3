@@ -1,5 +1,3 @@
-const {toNumber} = require('lodash');
-
 module.exports = () => {
   const faker = require('faker/locale/es');
   const _ = require('lodash');
