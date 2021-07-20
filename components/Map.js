@@ -46,6 +46,7 @@ export default function Map(props) {
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const NUMBER_OF_BUTTONS = 3;
   const SCREEN_WIDTH = Dimensions.get('window').width;
+  const SCREEN_HEIGHT = Dimensions.get('window').height;
   const markerImg = [
     markerImgAlarm,
     markerImgIdling,
@@ -189,10 +190,15 @@ export default function Map(props) {
         ref={modalizeRef}
         scrollViewProps={{showsVerticalScrollIndicator: false}}
         snapPoint={500}
+        modalHeight={SCREEN_HEIGHT / 1.8}
         onClose={hideModalMarkerData}
         HeaderComponent={
-          <View style={styles.headerView}>
-            <Text style={styles.modalText}>
+          <View
+            style={[
+              styles.headerView,
+              {backgroundColor: colors.backgroundGrey},
+            ]}>
+            <Text style={[styles.modalText, {color: colors.text}]}>
               {`${selectedMarker.Brand} ${selectedMarker.Model}`}
             </Text>
           </View>
@@ -213,29 +219,44 @@ export default function Map(props) {
             padding: 0,
           }}>
           <Pressable
-            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            style={[
+              styles.button,
+              {
+                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
+                backgroundColor: colors.modalButtonContent,
+              },
+            ]}
             onPress={() => navigate('journeys', user)}>
             <Image style={styles.imageButton} source={LockedEngineImage} />
-            <Text
-              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Bloqueo Motor
             </Text>
           </Pressable>
           <Pressable
-            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            style={[
+              styles.button,
+              {
+                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
+                backgroundColor: colors.modalButtonContent,
+              },
+            ]}
             onPress={() => navigate('journeys', user)}>
             <Image style={styles.imageButton} source={JourneysImage} />
-            <Text
-              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Rutas
             </Text>
           </Pressable>
           <Pressable
-            style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
+            style={[
+              styles.button,
+              {
+                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
+                backgroundColor: colors.modalButtonContent,
+              },
+            ]}
             onPress={() => navigate('journeys', user)}>
             <Image style={styles.imageButton} source={GoToImage} />
-            <Text
-              style={[styles.textButton, {color: colors.modalButtonContent}]}>
+            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Ir a...
             </Text>
           </Pressable>
@@ -305,7 +326,7 @@ const styles = StyleSheet.create({
   },
   button: {
     bottom: 0,
-    height: '100%',
+    height: '110%',
     backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',

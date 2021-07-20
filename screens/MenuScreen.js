@@ -148,7 +148,7 @@ export default function MenuScreen(props) {
             <MenuButton
               iconType="material-community"
               iconName="account-question-outline"
-              title="ContactScreeno"
+              title="Contacto"
               style={styles.button}
               onPress={() => navigation.navigate('contact', user)}
             />

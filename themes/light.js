@@ -5,11 +5,12 @@ export const lightTheme = {
   colors: {
     ...DefaultTheme.colors,
     background: 'white',
-    backgroundGrey: '#2f2f2f',
+    backgroundGrey: '#f2f2f2',
     primary: '#42A1D7',
     text: '#999999',
     menuButtonContent: 'white',
-    modalButtonContent: '#2f2f2f',
+    modalButtonContent: '#c2c2c2',
+    modalButtonText: '#222222',
     iconInput: 'grey',
   },
 };

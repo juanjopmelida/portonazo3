@@ -43,6 +43,7 @@ module.exports = () => {
         ),
         Status: Math.floor(Math.random() * 4 + 1),
         Heading: Math.floor(Math.random() * 360 + 1),
+        Locked: faker.datatype.boolean(),
       };
     }),
     RealTimeDetails: _.times(100, function (n) {
