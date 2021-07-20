@@ -19,7 +19,6 @@ import MapView, {
 } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
-import {Icon} from 'react-native-elements';
 import {Modalize} from 'react-native-modalize';
 
 import markerImgAlarm from '../assets/markers/Alarm48.png';
@@ -28,7 +27,9 @@ import markerImgNoGPS from '../assets/markers/NoGPS48.png';
 import markerImgStarted from '../assets/markers/Started48.png';
 import markerImgStopped from '../assets/markers/Stopped48.png';
 
-import lockedEngineImage from '../assets/buttons/LockedEngine.png';
+import LockedEngineImage from '../assets/buttons/LockedEngine.png';
+import JourneysImage from '../assets/buttons/Journeys.png';
+import GoToImage from '../assets/buttons/GoTo.png';
 
 import ListItemTitle from './ListItemTitle';
 
@@ -91,8 +92,8 @@ export default function Map(props) {
   const fitToOneMarkerCoords = marker => {
     const markerCoords = [
       {
-        latitude: parseFloat(marker.Latitude),
-        longitude: parseFloat(marker.Longitude),
+        latitude: marker.Latitude,
+        longitude: marker.Longitude,
       },
     ];
     mapRef.current.fitToCoordinates(markerCoords, {
@@ -384,37 +385,27 @@ export default function Map(props) {
             <Pressable
               style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
-              <Image
-                style={{width: 20, height: 20, resizeMode: 'stretch'}}
-                source={lockedEngineImage}
-              />
-              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+              <Image style={styles.imageButton} source={LockedEngineImage} />
+              <Text
+                style={[styles.textButton, {color: colors.modalButtonContent}]}>
                 Bloqueo Motor
               </Text>
             </Pressable>
             <Pressable
               style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
-              <Icon
-                type="material-community"
-                name="crosshairs-gps"
-                size={25}
-                color={colors.modalButtonContent}
-              />
-              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+              <Image style={styles.imageButton} source={JourneysImage} />
+              <Text
+                style={[styles.textButton, {color: colors.modalButtonContent}]}>
                 Rutas
               </Text>
             </Pressable>
             <Pressable
               style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
-              <Icon
-                type="material-community"
-                name="crosshairs-gps"
-                size={25}
-                color={colors.modalButtonContent}
-              />
-              <Text style={[styles.text, {color: colors.modalButtonContent}]}>
+              <Image style={styles.imageButton} source={GoToImage} />
+              <Text
+                style={[styles.textButton, {color: colors.modalButtonContent}]}>
                 Ir a...
               </Text>
             </Pressable>
@@ -490,4 +481,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textButton: {fontSize: 10},
+  imageButton: {width: 20, height: 20, resizeMode: 'stretch'},
 });

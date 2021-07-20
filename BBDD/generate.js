@@ -1,3 +1,5 @@
+const {toNumber} = require('lodash');
+
 module.exports = () => {
   const faker = require('faker/locale/es');
   const _ = require('lodash');
@@ -33,14 +35,14 @@ module.exports = () => {
     RealTime: _.times(100, function (n) {
       return {
         id: n + 1,
-        Latitude: (
-          Math.random() * (40.570295 - 40.25631144) +
-          40.25631144
-        ).toFixed(8),
-        Longitude: (
-          Math.random() * (-3.49481509 - -3.85509005) +
-          -3.85509005
-        ).toFixed(8),
+        Latitude: parseFloat(
+          (Math.random() * (40.570295 - 40.25631144) + 40.25631144).toFixed(8),
+        ),
+        Longitude: parseFloat(
+          (Math.random() * (-3.49481509 - -3.85509005) + -3.85509005).toFixed(
+            8,
+          ),
+        ),
         Status: Math.floor(Math.random() * 4 + 1),
         Heading: Math.floor(Math.random() * 360 + 1),
       };
