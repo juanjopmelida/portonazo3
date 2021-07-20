@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  Image,
   Text,
   View,
   Pressable,
@@ -27,6 +28,8 @@ import markerImgNoGPS from '../assets/markers/NoGPS48.png';
 import markerImgStarted from '../assets/markers/Started48.png';
 import markerImgStopped from '../assets/markers/Stopped48.png';
 
+import lockedEngineImage from '../assets/buttons/LockedEngine.png';
+
 import ListItemTitle from './ListItemTitle';
 
 export default function Map(props) {
@@ -40,6 +43,8 @@ export default function Map(props) {
   const [selectedAddress, setSelectedAddress] = useState({});
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
+  const NUMBER_OF_BUTTONS = 3;
+  const SCREEN_WIDTH = Dimensions.get('window').width;
   const markerImg = [
     markerImgAlarm,
     markerImgIdling,
@@ -377,20 +382,18 @@ export default function Map(props) {
               padding: 0,
             }}>
             <Pressable
-              style={styles.button}
+              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
-              <Icon
-                type="material-community"
-                name="crosshairs-gps"
-                size={25}
-                color={colors.modalButtonContent}
+              <Image
+                style={{width: 20, height: 20, resizeMode: 'stretch'}}
+                source={lockedEngineImage}
               />
               <Text style={[styles.text, {color: colors.modalButtonContent}]}>
                 Bloqueo Motor
               </Text>
             </Pressable>
             <Pressable
-              style={styles.button}
+              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
               <Icon
                 type="material-community"
@@ -403,7 +406,7 @@ export default function Map(props) {
               </Text>
             </Pressable>
             <Pressable
-              style={styles.button}
+              style={[styles.button, {width: SCREEN_WIDTH / NUMBER_OF_BUTTONS}]}
               onPress={() => navigate('journeys', user)}>
               <Icon
                 type="material-community"
@@ -481,7 +484,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   button: {
-    width: '33%',
+    bottom: 0,
     height: '100%',
     backgroundColor: '#f2f2f2',
     alignItems: 'center',
