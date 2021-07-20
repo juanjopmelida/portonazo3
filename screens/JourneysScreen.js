@@ -15,7 +15,7 @@ import globalStyles from '../styles/global';
 import Map from '../components/Map';
 import Loading from '../components/Loading';
 
-export default function Journeys(props) {
+export default function JourneysScreen(props) {
   const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);

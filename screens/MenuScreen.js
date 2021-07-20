@@ -30,7 +30,7 @@ import {
   removeFingerprint,
 } from '../helpers/authHelper';
 
-export default function Menu(props) {
+export default function MenuScreen(props) {
   const {navigation} = props;
   const {logout} = useContext(AuthContext);
   const switchTheme = useContext(ThemeContext);
@@ -148,7 +148,7 @@ export default function Menu(props) {
             <MenuButton
               iconType="material-community"
               iconName="account-question-outline"
-              title="Contacto"
+              title="ContactScreeno"
               style={styles.button}
               onPress={() => navigation.navigate('contact', user)}
             />

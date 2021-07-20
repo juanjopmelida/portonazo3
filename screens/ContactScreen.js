@@ -28,7 +28,7 @@ import {ThemeContext} from '../contexts/ThemeContext';
 
 import globalStyles from '../styles/global';
 
-export default function Contact(props) {
+export default function ContactScreen(props) {
   const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);

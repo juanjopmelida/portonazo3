@@ -1,6 +1,6 @@
 import React, {useContext, useState, useRef, useEffect} from 'react';
 import {View, StyleSheet, KeyboardAvoidingView, Image} from 'react-native';
-import {Input, Button, Card, CheckBox, Overlay} from 'react-native-elements';
+import {Input, Button, Card, CheckBox} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
@@ -16,7 +16,7 @@ import {
   verifyFingerprint,
 } from '../helpers/authHelper';
 
-export default function Login() {
+export default function LoginScreen() {
   const {login} = useContext(AuthContext);
   const [formData, setFormData] = useState(defaultFormValue());
   const [showPassword, setShowPassword] = useState(false);

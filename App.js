@@ -1,11 +1,11 @@
 import 'react-native-gesture-handler';
 import React, {useState, useCallback} from 'react';
 import {StatusBar} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
-import {SplashScreen} from './views/SplashScreen';
+import {SplashScreen} from './screens/SplashScreen';
 import {AuthStackNavigator} from './navigators/AuthStackNavigator';
 import {MainStackNavigator} from './navigators/MainStackNavigator';
 import {UserContext} from './contexts/UserContext';

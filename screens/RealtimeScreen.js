@@ -16,7 +16,7 @@ import Loading from '../components/Loading';
 import {View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Realtime(props) {
+export default function RealtimeScreen(props) {
   const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);

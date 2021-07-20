@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Login from '../views/Login';
+import LoginScreen from '../screens/LoginScreen';
 const AuthStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 
@@ -13,7 +13,7 @@ export function AuthStackNavigator() {
           <LoginStack.Navigator
             mode={'card'}
             screenOptions={{headerShown: false}}>
-            <LoginStack.Screen name={'Login'} component={Login} />
+            <LoginStack.Screen name={'Login'} component={LoginScreen} />
           </LoginStack.Navigator>
         )}
       </AuthStack.Screen>

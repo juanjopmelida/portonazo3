@@ -3,10 +3,10 @@ import {Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTheme} from '@react-navigation/native';
 
-import Menu from '../views/Menu';
-import Journeys from '../views/Journeys';
-import Contact from '../views/Contact';
-import Realtime from '../views/Realtime';
+import MenuScreen from '../screens/MenuScreen';
+import JourneysScreen from '../screens/JourneysScreen';
+import ContactScreen from '../screens/ContactScreen';
+import RealtimeScreen from '../screens/RealtimeScreen';
 
 const MainStack = createStackNavigator();
 
@@ -29,28 +29,28 @@ export function MainStackNavigator() {
       }}>
       <MainStack.Screen
         name="menu"
-        component={Menu}
+        component={MenuScreen}
         options={{
           title: 'Menú',
         }}
       />
       <MainStack.Screen
         name="realTime"
-        component={Realtime}
+        component={RealtimeScreen}
         options={{
           title: 'Tiempo Real',
         }}
       />
       <MainStack.Screen
         name="journeys"
-        component={Journeys}
+        component={JourneysScreen}
         options={{
           title: 'Trayectos',
         }}
       />
       <MainStack.Screen
         name="contact"
-        component={Contact}
+        component={ContactScreen}
         options={{
           title: 'Contacto',
         }}
