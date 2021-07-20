@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import MapView, {
   Marker,
@@ -32,6 +33,7 @@ import JourneysImage from '../assets/buttons/Journeys.png';
 import GoToImage from '../assets/buttons/GoTo.png';
 
 import RealtimeInfoTable from './RealtimeInfoTable';
+import Loading from '../components/Loading';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -42,6 +44,8 @@ export default function Map(props) {
   const [selectedRealTime, setSelectedRealTime] = useState({});
   const [selectedRealTimeDetails, setSelectedRealTimeDetails] = useState({});
   const [selectedAddress, setSelectedAddress] = useState({});
+  const [locked, setLocked] = useState(false);
+  const [loading, setLoading] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const NUMBER_OF_BUTTONS = 3;
@@ -114,6 +118,7 @@ export default function Map(props) {
     const realTimeDetail = retrieveDataByMarker(realTimeDetails, id);
     const address = retrieveDataByMarker(addresses, id);
     setSelectedMarker(marker);
+    setLocked(realTime.Locked);
     setSelectedRealTime(realTime);
     setSelectedRealTimeDetails(realTimeDetail);
     setSelectedAddress(address);
@@ -130,13 +135,39 @@ export default function Map(props) {
     navigation.navigate(screen, user);
   };
 
+  const setLockedRetarded = async () => {
+    setTimeout(() => {
+      setLocked(!locked);
+    });
+  };
+
+  const setLockStatus = async () => {
+    Alert.alert('Bloqueo Motor', '¿Desea activar el Bloqueo Motor?', [
+      {
+        text: 'NO',
+        style: 'cancel',
+      },
+      {
+        text: 'SI',
+        onPress: () => {
+          setLoading(true);
+          setTimeout(() => {
+            setLockedRetarded().then(res => {
+              const status = res ? 'Desbloqueado' : 'Bloqueado';
+              Alert.alert('Bloqueo Motor', 'El motor ha quedado ' + status);
+            });
+          }, 1000);
+          setLoading(false);
+        },
+      },
+    ]);
+  };
+
   return (
     <>
       <MapView
         ref={mapRef}
-        mapType={
-          Platform.OS === 'android' ? MAP_TYPES.NONE : MAP_TYPES.STANDARD
-        }
+        mapType={MAP_TYPES.STANDARD}
         showsCompass
         provider={PROVIDER_DEFAULT}
         style={styles.map}
@@ -205,6 +236,7 @@ export default function Map(props) {
         }
         withHandle={false}
         overlayStyle={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+        <Loading isVisible={loading} text="Localizando..." />
         <RealtimeInfoTable
           selectedAddress={selectedAddress}
           selectedRealTimeDetails={selectedRealTimeDetails}
@@ -226,7 +258,7 @@ export default function Map(props) {
                 backgroundColor: colors.modalButtonContent,
               },
             ]}
-            onPress={() => navigate('journeys', user)}>
+            onPress={setLockStatus}>
             <Image style={styles.imageButton} source={LockedEngineImage} />
             <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Bloqueo Motor
