@@ -12,5 +12,7 @@ export const darkTheme = {
     modalButtonContent: '#42A1D7',
     modalButtonText: '#f2f2f2',
     iconInput: '#2f2f2f',
+    backgroundFAB: '#2f2f2f',
+    textFAB: '#f2f2f2',
   },
 };

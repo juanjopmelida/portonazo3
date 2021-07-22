@@ -33,6 +33,7 @@ import JourneysImage from '../assets/buttons/Journeys.png';
 import GoToImage from '../assets/buttons/GoTo.png';
 
 import RealtimeInfoTable from './RealtimeInfoTable';
+import FloatingButton from './FloatingButton';
 import Loading from '../components/Loading';
 
 export default function Map(props) {
@@ -60,6 +61,7 @@ export default function Map(props) {
   ];
   const {colors} = useTheme();
   const modalizeRef = useRef();
+  const modalMapTypesRef = useRef();
 
   const retrieveUserFromStorage = async () => {
     const _user = await AsyncStorage.getItem('USER');
@@ -163,6 +165,10 @@ export default function Map(props) {
     ]);
   };
 
+  const showModalMapTypes = () => {
+    modalMapTypesRef.current?.open();
+  };
+
   return (
     <>
       <MapView
@@ -192,6 +198,22 @@ export default function Map(props) {
           />
         ))}
       </MapView>
+      <FloatingButton style={styles.fab} onPress={showModalMapTypes} />
+      <Modalize
+        ref={modalMapTypesRef}
+        scrollViewProps={{showsVerticalScrollIndicator: false}}
+        snapPoint={500}
+        modalHeight={200}
+        modalWidth={300}
+        onClose={hideModalMarkerData}>
+        <View style={[{backgroundColor: colors.backgroundFAB}]}>
+          <Text style={{color: colors.textFAB}}>Tipo de mapa:</Text>
+          <Pressable>
+            <Image />
+            <Text style={{color: colors.textFAB}}>Estándar</Text>
+          </Pressable>
+        </View>
+      </Modalize>
       <ScrollView
         horizontal
         scrollEventThrottle={1}
@@ -365,4 +387,8 @@ const styles = StyleSheet.create({
   },
   textButton: {fontSize: 10},
   imageButton: {width: 20, height: 20, resizeMode: 'stretch'},
+  fab: {
+    top: Dimensions.get('window').height - 760,
+    left: Dimensions.get('window').width - 60,
+  },
 });
