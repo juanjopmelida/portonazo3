@@ -11,6 +11,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  TextInput,
+  FlatList,
 } from 'react-native';
 import MapView, {
   Marker,
@@ -45,12 +47,14 @@ export default function Map(props) {
   const [user, setUser] = useState({});
   const [allMarkersCoords, setAllMarkersCoords] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
-  const [selectedRealTime, setSelectedRealTime] = useState({});
   const [selectedRealTimeDetails, setSelectedRealTimeDetails] = useState({});
   const [selectedAddress, setSelectedAddress] = useState({});
+  const [searchRealTimes, setSearchRealTimes] = useState('');
+  const [filteredRealTimes, setFilteredRealTimes] = useState(realTimes);
   const [locked, setLocked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalMapTypesVisible, setIsModalMapTypesVisible] = useState(false);
+  const [isSearchListVisible, setIsSearchListVisible] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const NUMBER_OF_BUTTONS = 3;
@@ -90,6 +94,7 @@ export default function Map(props) {
     };
     retrieveAllMarkersCoords();
     retrieveUserFromStorage();
+    setFilteredRealTimes(realTimes);
   }, [markers, realTimes, realTimeDetails, addresses]);
 
   const fitToAllMarkersCoords = () => {
@@ -124,7 +129,6 @@ export default function Map(props) {
     const address = retrieveDataByMarker(addresses, id);
     setSelectedMarker(marker);
     setLocked(realTime.Locked);
-    setSelectedRealTime(realTime);
     setSelectedRealTimeDetails(realTimeDetail);
     setSelectedAddress(address);
     fitToOneMarkerCoords(realTime);
@@ -182,7 +186,44 @@ export default function Map(props) {
         style={styles.map}
         onMapReady={fitToAllMarkersCoords}>
         <UrlTile urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png" />
-        {props.realTimes.map((rt, index) => (
+        <TextInput
+          placeholder="Busca aquí..."
+          onFocus={() => setIsSearchListVisible(true)}
+          onBlur={() => setIsSearchListVisible(false)}
+          style={{
+            top: 90,
+            width: '70%',
+            height: 30,
+            padding: 5,
+            marginLeft: 20,
+            alignSelf: 'flex-start',
+            backgroundColor: '#fff',
+            borderWidth: 0.3,
+            borderRadius: 5,
+            borderColor: '#f2f2f2',
+          }}
+        />
+        <TextInput
+          isVisible={isSearchListVisible}
+          style={{
+            top: 120,
+            backgroundColor: '#fff',
+            borderWidth: 0.3,
+            borderRadius: 5,
+            borderColor: '#f2f2f2',
+          }}
+        />
+        {/* <FlatList
+          isVisible={isSearchListVisible}
+          data={realTimes}
+          renderItem={({item}) => (
+            <View>
+              <Text>{item.Plate}</Text>
+            </View>
+          )}
+          keyExtractor={realTime => realTime.Plate}
+        /> */}
+        {filteredRealTimes.map((rt, index) => (
           <Marker
             key={index}
             coordinate={{
@@ -208,7 +249,8 @@ export default function Map(props) {
       />
       <Modal
         isVisible={isModalMapTypesVisible}
-        onBackdropPress={toggleModalMapTypes}>
+        onBackdropPress={toggleModalMapTypes}
+        backdropOpacity={0.2}>
         <ModalMapStyles mapType={mapType} setMapType={setMapType} />
       </Modal>
       <ScrollView
