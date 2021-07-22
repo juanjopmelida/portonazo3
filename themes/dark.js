@@ -14,5 +14,9 @@ export const darkTheme = {
     iconInput: '#2f2f2f',
     backgroundFAB: '#2f2f2f',
     textFAB: '#f2f2f2',
+    mapStylesModalTitleFontColor: '#fff',
+    mapStylesModalTitleBackgroundColor: '#A6A6A6',
+    mapStylesModalViewFontColor: '#454545',
+    mapStylesModalViewBorderColor: '#454545',
   },
 };

@@ -36,7 +36,7 @@ import GoToImage from '../assets/buttons/GoTo.png';
 import RealtimeInfoTable from './RealtimeInfoTable';
 import FloatingButton from './FloatingButton';
 import Loading from '../components/Loading';
-import {upperCase} from 'lodash';
+import ModalMapStyles from '../components/ModalMapStyles';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -209,74 +209,7 @@ export default function Map(props) {
       <Modal
         isVisible={isModalMapTypesVisible}
         onBackdropPress={toggleModalMapTypes}>
-        <View
-          style={[
-            {backgroundColor: colors.backgroundFAB},
-            styles.modalMapTypesView,
-            ,
-          ]}>
-          <View style={styles.modalMapTypesTitleView}>
-            <Text
-              style={[{color: colors.textFAB}, styles.modalMapTypesTitleText]}>
-              Tipo de mapa
-            </Text>
-          </View>
-          <View style={styles.modalMapTypesContentView}>
-            <Pressable
-              onPress={() => setMapType(MAP_TYPES.STANDARD)}
-              style={[
-                {
-                  backgroundColor:
-                    mapType === MAP_TYPES.STANDARD ? '#DCDCDC' : '#FFF',
-                },
-                styles.modalMapTypesPressableView,
-              ]}>
-              <Text
-                style={[
-                  {
-                    color: colors.textFAB,
-                  },
-                  styles.modalMapTypesPressableText,
-                ]}>
-                Estándar
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => setMapType(MAP_TYPES.HYBRID)}
-              style={[
-                {
-                  backgroundColor:
-                    mapType === MAP_TYPES.HYBRID ? '#DCDCDC' : '#FFF',
-                },
-                styles.modalMapTypesPressableView,
-              ]}>
-              <Text
-                style={[
-                  {color: colors.textFAB},
-                  styles.modalMapTypesPressableText,
-                ]}>
-                Híbrido
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => setMapType(MAP_TYPES.SATELLITE)}
-              style={[
-                {
-                  backgroundColor:
-                    mapType === MAP_TYPES.SATELLITE ? '#DCDCDC' : '#FFF',
-                },
-                styles.modalMapTypesPressableView,
-              ]}>
-              <Text
-                style={[
-                  {color: colors.textFAB},
-                  styles.modalMapTypesPressableText,
-                ]}>
-                Satélite
-              </Text>
-            </Pressable>
-          </View>
-        </View>
+        <ModalMapStyles mapType={mapType} setMapType={setMapType} />
       </Modal>
       <ScrollView
         horizontal
@@ -454,37 +387,5 @@ const styles = StyleSheet.create({
   fab: {
     top: Dimensions.get('window').height - 760,
     left: Dimensions.get('window').width - 60,
-  },
-  modalMapTypesView: {
-    width: 250,
-    height: 200,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    borderRadius: 5,
-  },
-  modalMapTypesTitleView: {
-    width: '100%',
-    height: '20%',
-    paddingLeft: 15,
-    justifyContent: 'center',
-  },
-  modalMapTypesTitleText: {
-    fontFamily: 'Montserrat',
-  },
-  modalMapTypesContentView: {
-    width: '100%',
-    height: '100%',
-    borderTopWidth: 0.8,
-  },
-  modalMapTypesPressableView: {
-    height: '26.6%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 0.8,
-  },
-  modalMapTypesPressableText: {
-    fontFamily: 'Montserrat',
   },
 });
