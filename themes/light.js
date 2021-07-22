@@ -12,7 +12,7 @@ export const lightTheme = {
     modalButtonContent: '#c2c2c2',
     modalButtonText: '#222222',
     iconInput: 'grey',
-    backgroundFAB: '#fff',
-    textFAB: '#2f2f2f',
+    backgroundFAB: '#f9f9f9',
+    textFAB: '#929292',
   },
 };

@@ -21,6 +21,7 @@ import MapView, {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '@react-navigation/native';
 import {Modalize} from 'react-native-modalize';
+import Modal from 'react-native-modal';
 
 import markerImgAlarm from '../assets/markers/Alarm48.png';
 import markerImgIdling from '../assets/markers/Idling48.png';
@@ -35,10 +36,12 @@ import GoToImage from '../assets/buttons/GoTo.png';
 import RealtimeInfoTable from './RealtimeInfoTable';
 import FloatingButton from './FloatingButton';
 import Loading from '../components/Loading';
+import {upperCase} from 'lodash';
 
 export default function Map(props) {
   const mapRef = useRef();
   const {navigation, markers, realTimes, realTimeDetails, addresses} = props;
+  const [mapType, setMapType] = useState(MAP_TYPES.STANDARD);
   const [user, setUser] = useState({});
   const [allMarkersCoords, setAllMarkersCoords] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
@@ -47,6 +50,7 @@ export default function Map(props) {
   const [selectedAddress, setSelectedAddress] = useState({});
   const [locked, setLocked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isModalMapTypesVisible, setIsModalMapTypesVisible] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const NUMBER_OF_BUTTONS = 3;
@@ -61,7 +65,6 @@ export default function Map(props) {
   ];
   const {colors} = useTheme();
   const modalizeRef = useRef();
-  const modalMapTypesRef = useRef();
 
   const retrieveUserFromStorage = async () => {
     const _user = await AsyncStorage.getItem('USER');
@@ -165,15 +168,15 @@ export default function Map(props) {
     ]);
   };
 
-  const showModalMapTypes = () => {
-    modalMapTypesRef.current?.open();
+  const toggleModalMapTypes = () => {
+    setIsModalMapTypesVisible(!isModalMapTypesVisible);
   };
 
   return (
     <>
       <MapView
         ref={mapRef}
-        mapType={MAP_TYPES.STANDARD}
+        mapType={mapType}
         showsCompass
         provider={PROVIDER_DEFAULT}
         style={styles.map}
@@ -198,22 +201,83 @@ export default function Map(props) {
           />
         ))}
       </MapView>
-      <FloatingButton style={styles.fab} onPress={showModalMapTypes} />
-      <Modalize
-        ref={modalMapTypesRef}
-        scrollViewProps={{showsVerticalScrollIndicator: false}}
-        snapPoint={500}
-        modalHeight={200}
-        modalWidth={300}
-        onClose={hideModalMarkerData}>
-        <View style={[{backgroundColor: colors.backgroundFAB}]}>
-          <Text style={{color: colors.textFAB}}>Tipo de mapa:</Text>
-          <Pressable>
-            <Image />
-            <Text style={{color: colors.textFAB}}>Estándar</Text>
-          </Pressable>
+      <FloatingButton
+        name={'layers-outline'}
+        style={styles.fab}
+        onPress={toggleModalMapTypes}
+      />
+      <Modal
+        isVisible={isModalMapTypesVisible}
+        onBackdropPress={toggleModalMapTypes}>
+        <View
+          style={[
+            {backgroundColor: colors.backgroundFAB},
+            styles.modalMapTypesView,
+            ,
+          ]}>
+          <View style={styles.modalMapTypesTitleView}>
+            <Text
+              style={[{color: colors.textFAB}, styles.modalMapTypesTitleText]}>
+              Tipo de mapa
+            </Text>
+          </View>
+          <View style={styles.modalMapTypesContentView}>
+            <Pressable
+              onPress={() => setMapType(MAP_TYPES.STANDARD)}
+              style={[
+                {
+                  backgroundColor:
+                    mapType === MAP_TYPES.STANDARD ? '#DCDCDC' : '#FFF',
+                },
+                styles.modalMapTypesPressableView,
+              ]}>
+              <Text
+                style={[
+                  {
+                    color: colors.textFAB,
+                  },
+                  styles.modalMapTypesPressableText,
+                ]}>
+                Estándar
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setMapType(MAP_TYPES.HYBRID)}
+              style={[
+                {
+                  backgroundColor:
+                    mapType === MAP_TYPES.HYBRID ? '#DCDCDC' : '#FFF',
+                },
+                styles.modalMapTypesPressableView,
+              ]}>
+              <Text
+                style={[
+                  {color: colors.textFAB},
+                  styles.modalMapTypesPressableText,
+                ]}>
+                Híbrido
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setMapType(MAP_TYPES.SATELLITE)}
+              style={[
+                {
+                  backgroundColor:
+                    mapType === MAP_TYPES.SATELLITE ? '#DCDCDC' : '#FFF',
+                },
+                styles.modalMapTypesPressableView,
+              ]}>
+              <Text
+                style={[
+                  {color: colors.textFAB},
+                  styles.modalMapTypesPressableText,
+                ]}>
+                Satélite
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </Modalize>
+      </Modal>
       <ScrollView
         horizontal
         scrollEventThrottle={1}
@@ -390,5 +454,37 @@ const styles = StyleSheet.create({
   fab: {
     top: Dimensions.get('window').height - 760,
     left: Dimensions.get('window').width - 60,
+  },
+  modalMapTypesView: {
+    width: 250,
+    height: 200,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderRadius: 5,
+  },
+  modalMapTypesTitleView: {
+    width: '100%',
+    height: '20%',
+    paddingLeft: 15,
+    justifyContent: 'center',
+  },
+  modalMapTypesTitleText: {
+    fontFamily: 'Montserrat',
+  },
+  modalMapTypesContentView: {
+    width: '100%',
+    height: '100%',
+    borderTopWidth: 0.8,
+  },
+  modalMapTypesPressableView: {
+    height: '26.6%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 0.8,
+  },
+  modalMapTypesPressableText: {
+    fontFamily: 'Montserrat',
   },
 });
