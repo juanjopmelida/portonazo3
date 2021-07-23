@@ -7,6 +7,7 @@ import MenuScreen from '../screens/MenuScreen';
 import JourneysScreen from '../screens/JourneysScreen';
 import ContactScreen from '../screens/ContactScreen';
 import RealtimeScreen from '../screens/RealtimeScreen';
+import FiltersScreen from '../screens/FiltersScreen';
 
 const MainStack = createStackNavigator();
 
@@ -53,6 +54,13 @@ export function MainStackNavigator() {
         component={ContactScreen}
         options={{
           title: 'Contacto',
+        }}
+      />
+      <MainStack.Screen
+        name="filters"
+        component={FiltersScreen}
+        options={{
+          title: 'Filtros',
         }}
       />
     </MainStack.Navigator>

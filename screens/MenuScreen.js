@@ -18,6 +18,7 @@ import MenuButton from '../components/MenuButton';
 
 import {
   getMockedVehicles,
+  getMockedVehiclesByFleet,
   getAllRealTimeByIds,
   getAllRealTimeDetailsByIds,
   getAllAddressByIds,
@@ -102,14 +103,17 @@ export default function MenuScreen(props) {
   };
 
   const getAllDataByUser = () => {
-    getMockedVehicles().then(res => {
-      const _vehicles = res.map(veh => {
-        return veh.id;
-      });
-      getAllRealTimeByIds(_vehicles);
-      getAllRealTimeDetailsByIds(_vehicles);
-      getAllAddressByIds(_vehicles);
-    });
+    getMockedVehiclesByFleet()
+      .then(res => {
+        console.log('getMockedVehiclesByFleet: ', res);
+        const _vehicles = res.map(veh => {
+          return veh.id;
+        });
+        getAllRealTimeByIds(_vehicles);
+        getAllRealTimeDetailsByIds(_vehicles);
+        getAllAddressByIds(_vehicles);
+      })
+      .catch(err => console.error(err));
   };
 
   useEffect(() => {

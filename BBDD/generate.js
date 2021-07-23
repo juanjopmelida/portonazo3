@@ -28,6 +28,10 @@ module.exports = () => {
         Model: faker.vehicle.model(),
         Version: faker.vehicle.type(),
         Plate: faker.vehicle.vin(),
+        FleetId: faker.datatype.number({
+          min: 1,
+          max: 20,
+        }),
       };
     }),
     RealTime: _.times(100, function (n) {
@@ -118,7 +122,7 @@ module.exports = () => {
     Fleet: _.times(20, function (n) {
       return {
         id: n + 1,
-        Name: faker.lorem.word(),
+        Name: faker.lorem.word() + 'FLEET',
         StartDate: '2021-05-26',
         EndDate: null,
         CompanyId: faker.datatype.number({

@@ -54,7 +54,6 @@ export default function Map(props) {
   const [locked, setLocked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalMapTypesVisible, setIsModalMapTypesVisible] = useState(false);
-  const [isSearchListVisible, setIsSearchListVisible] = useState(false);
   const DEFAULT_PADDING = {top: 40, right: 40, bottom: 80, left: 60};
   const DETAIL_PADDING = {top: 0, right: 40, bottom: 220, left: 40};
   const NUMBER_OF_BUTTONS = 3;
@@ -186,43 +185,6 @@ export default function Map(props) {
         style={styles.map}
         onMapReady={fitToAllMarkersCoords}>
         <UrlTile urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png" />
-        <TextInput
-          placeholder="Busca aquí..."
-          onFocus={() => setIsSearchListVisible(true)}
-          onBlur={() => setIsSearchListVisible(false)}
-          style={{
-            top: 90,
-            width: '70%',
-            height: 30,
-            padding: 5,
-            marginLeft: 20,
-            alignSelf: 'flex-start',
-            backgroundColor: '#fff',
-            borderWidth: 0.3,
-            borderRadius: 5,
-            borderColor: '#f2f2f2',
-          }}
-        />
-        <TextInput
-          isVisible={isSearchListVisible}
-          style={{
-            top: 120,
-            backgroundColor: '#fff',
-            borderWidth: 0.3,
-            borderRadius: 5,
-            borderColor: '#f2f2f2',
-          }}
-        />
-        {/* <FlatList
-          isVisible={isSearchListVisible}
-          data={realTimes}
-          renderItem={({item}) => (
-            <View>
-              <Text>{item.Plate}</Text>
-            </View>
-          )}
-          keyExtractor={realTime => realTime.Plate}
-        /> */}
         {filteredRealTimes.map((rt, index) => (
           <Marker
             key={index}
@@ -244,8 +206,13 @@ export default function Map(props) {
       </MapView>
       <FloatingButton
         name={'layers-outline'}
-        style={styles.fab}
+        style={styles.fabMapStyles}
         onPress={toggleModalMapTypes}
+      />
+      <FloatingButton
+        name={'filter-outline'}
+        style={styles.fabFilter}
+        onPress={() => navigation.navigate('filters', user)}
       />
       <Modal
         isVisible={isModalMapTypesVisible}
@@ -426,8 +393,12 @@ const styles = StyleSheet.create({
   },
   textButton: {fontSize: 10},
   imageButton: {width: 20, height: 20, resizeMode: 'stretch'},
-  fab: {
+  fabMapStyles: {
     top: Dimensions.get('window').height - 760,
+    left: Dimensions.get('window').width - 60,
+  },
+  fabFilter: {
+    top: Dimensions.get('window').height - 700,
     left: Dimensions.get('window').width - 60,
   },
 });

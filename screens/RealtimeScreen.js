@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, StyleSheet, Button} from 'react-native';
+import {ScrollView, StyleSheet, Button, View} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
 import HeaderIconsContainer from '../components/HeaderIconsContainer';
@@ -13,8 +14,6 @@ import {openSignalRConnection} from '../signalr';
 import Map from '../components/Map';
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
-import {View} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RealtimeScreen(props) {
   const {navigation, route} = props;

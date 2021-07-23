@@ -2,6 +2,7 @@ import {Platform} from 'react-native';
 import {REACT_APP_MOCK_SERVER_ANDROID, REACT_APP_MOCK_SERVER_IOS} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {ConsoleLogger} from '@microsoft/signalr/dist/esm/Utils';
 
 const localhostServer =
   Platform.OS === 'ios'
@@ -29,9 +30,14 @@ const getAllVehicles = vehiclesIds => {
 
 const getVehicleById = async id => {
   const uri = `${localhostServer}/Vehicle/${id}`;
-
-  //console.log(uri);
   return axios.get(uri);
+};
+
+const getVehiclesByFleet = async idFleet => {
+  const uri = `${localhostServer}/vehicle?FleetId=${idFleet}`;
+  axios.get(uri).then(res => {
+    return JSON.stringify(res.data);
+  });
 };
 
 export const getMockedVehicles = async () => {
@@ -40,6 +46,15 @@ export const getMockedVehicles = async () => {
   );
   const NonDuplicatedVehiclesIds = Array.from(new Set(vehiclesIds));
   const vehicles = await getAllVehicles(NonDuplicatedVehiclesIds);
+  console.log('MOCKED VEHICLES:' + vehicles);
   AsyncStorage.setItem('VEHICLES', JSON.stringify(vehicles));
   return vehicles;
+};
+
+export const getMockedVehiclesByFleet = async () => {
+  const fleetId = randomNumber(20);
+  const uri = `${localhostServer}/vehicle?FleetId=${fleetId}`;
+  axios.get(uri).then(res => {
+    return res.data;
+  });
 };
