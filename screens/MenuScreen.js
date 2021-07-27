@@ -103,17 +103,26 @@ export default function MenuScreen(props) {
   };
 
   const getAllDataByUser = () => {
-    getMockedVehiclesByFleet()
-      .then(res => {
-        console.log('getMockedVehiclesByFleet: ', res);
-        const _vehicles = res.map(veh => {
-          return veh.id;
-        });
-        getAllRealTimeByIds(_vehicles);
-        getAllRealTimeDetailsByIds(_vehicles);
-        getAllAddressByIds(_vehicles);
-      })
-      .catch(err => console.error(err));
+    // getMockedVehicles()
+    //   .then(res => {
+    //     console.log('getMockedVehicles: ', res);
+    //     const _vehicles = res.map(veh => {
+    //       return veh.id;
+    //     });
+    //     getAllRealTimeByIds(_vehicles);
+    //     getAllRealTimeDetailsByIds(_vehicles);
+    //     getAllAddressByIds(_vehicles);
+    //   })
+    //   .catch(err => console.error(err));
+    getMockedVehiclesByFleet().then(res => {
+      console.log('getMockedVehiclesByFleet: ', res);
+      const _vehicles = res.map(veh => {
+        return veh.id;
+      });
+      getAllRealTimeByIds(_vehicles);
+      getAllRealTimeDetailsByIds(_vehicles);
+      getAllAddressByIds(_vehicles);
+    });
   };
 
   useEffect(() => {

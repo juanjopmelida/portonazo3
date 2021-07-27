@@ -54,7 +54,7 @@ export const getMockedVehicles = async () => {
 export const getMockedVehiclesByFleet = async () => {
   const fleetId = randomNumber(20);
   const uri = `${localhostServer}/vehicle?FleetId=${fleetId}`;
-  axios.get(uri).then(res => {
-    return res.data;
-  });
+  const vehicles = await axios.get(uri);
+  AsyncStorage.setItem('VEHICLES', JSON.stringify(vehicles.data));
+  return vehicles.data;
 };
