@@ -17,11 +17,11 @@ import MenuButtonsContainer from '../components/MenuButtonsContainer';
 import MenuButton from '../components/MenuButton';
 
 import {
-  getMockedVehicles,
   getMockedVehiclesByFleet,
   getAllRealTimeByIds,
   getAllRealTimeDetailsByIds,
   getAllAddressByIds,
+  getFleetById,
 } from '../api';
 
 import {
@@ -119,6 +119,7 @@ export default function MenuScreen(props) {
       const _vehicles = res.map(veh => {
         return veh.id;
       });
+      getFleetById(res[0].FleetId);
       getAllRealTimeByIds(_vehicles);
       getAllRealTimeDetailsByIds(_vehicles);
       getAllAddressByIds(_vehicles);

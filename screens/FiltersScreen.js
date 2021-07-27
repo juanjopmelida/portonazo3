@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useRef, useState} from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
 import {Button, Input} from 'react-native-elements';
@@ -22,6 +23,7 @@ export default function FiltersScreen(props) {
   const toastRef = useRef();
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
+  const [fleet, setFleet] = useState({});
   const [vehicles, setVehicles] = useState([]);
   const [realTimes, setRealTimes] = useState([]);
   const [realTimeDetails, setRealTimeDetails] = useState([]);
@@ -64,11 +66,22 @@ export default function FiltersScreen(props) {
     AsyncStorage.getItem('ADDRESSES').then(data => {
       setAddresses(JSON.parse(data));
     });
+    AsyncStorage.getItem('FLEET').then(data => {
+      setFleet(JSON.parse(data));
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
   const handleFilter = e => {
     setFilter(e.nativeEvent.text);
+  };
+
+  const handleSelectAll = () => {
+    console.log('pressed ALL');
+  };
+
+  const handleSelectNone = () => {
+    console.log('pressed NONE');
   };
 
   return (
@@ -116,18 +129,55 @@ export default function FiltersScreen(props) {
             type="solid"
             containerStyle={[styles.containerButton]}
             titleStyle={[styles.titleButton]}
-            buttonStyle={[styles.button]}
+            buttonStyle={[styles.button, {backgroundColor: colors.primary}]}
+            onPress={handleSelectAll}
           />
           <Button
             title="NINGUNO"
-            type="outline"
+            type="solid"
             containerStyle={
               ([styles.containerButton],
               {backgroundColor: colors.backgroundGrey})
             }
             titleStyle={[styles.titleButton, styles.noneButton]}
-            buttonStyle={[styles.button]}
+            buttonStyle={[
+              styles.button,
+              {backgroundColor: colors.backgroundGrey},
+            ]}
+            onPress={handleSelectNone}
           />
+        </View>
+        <View style={[{backgroundColor: '#cacaca'}, styles.fleetNameView]}>
+          <View>
+            <Text style={[{color: '#565656'}, styles.fleetNameText]}>
+              {fleet.Name}
+            </Text>
+          </View>
+
+          <View style={styles.fleetNameButtonView}>
+            <Button
+              title="TODOS"
+              type="solid"
+              containerStyle={[styles.containerButton]}
+              titleStyle={[styles.titleButton]}
+              buttonStyle={[styles.button, {backgroundColor: colors.primary}]}
+              onPress={handleSelectAll}
+            />
+            <Button
+              title="NINGUNO"
+              type="solid"
+              containerStyle={
+                ([styles.containerButton],
+                {backgroundColor: colors.backgroundGrey})
+              }
+              titleStyle={[styles.titleButton, styles.noneButton]}
+              buttonStyle={[
+                styles.button,
+                {backgroundColor: colors.backgroundGrey},
+              ]}
+              onPress={handleSelectNone}
+            />
+          </View>
         </View>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
@@ -145,7 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
     borderBottomWidth: 1,
     borderTopWidth: 1,
   },
@@ -182,4 +232,21 @@ const styles = StyleSheet.create({
   },
   titleButton: {fontSize: 12},
   noneButton: {color: '#797979'},
+  fleetNameView: {
+    flexDirection: 'row',
+    height: 40,
+    width: '100%',
+    marginTop: 15,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    paddingHorizontal: 25,
+  },
+  fleetNameText: {
+    fontSize: 16,
+    textTransform: 'uppercase',
+  },
+  fleetNameButtonView: {
+    flexDirection: 'row',
+  },
 });
