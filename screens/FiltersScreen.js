@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderWidth: 1,
     paddingHorizontal: 25,
   },
   fleetNameText: {
