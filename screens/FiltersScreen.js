@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useRef, useState} from 'react';
-import {ScrollView, StyleSheet, View, Text} from 'react-native';
+import {ScrollView, StyleSheet, View, Text, FlatList} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
@@ -15,6 +15,9 @@ import {ThemeContext} from '../contexts/ThemeContext';
 
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
+import ListItem from '../components/ListItem';
+import {CheckBox} from 'react-native-elements/dist/checkbox/CheckBox';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function FiltersScreen(props) {
   const {navigation, route} = props;
@@ -82,6 +85,12 @@ export default function FiltersScreen(props) {
 
   const handleSelectNone = () => {
     console.log('pressed NONE');
+  };
+
+  const onCheck = (item, i) => {
+    const items = vehicles;
+    items[i].checked = items[i].checked ? !items[i].checked : true;
+    setVehicles(items);
   };
 
   return (
@@ -179,6 +188,21 @@ export default function FiltersScreen(props) {
             />
           </View>
         </View>
+        <SafeAreaView style={styles.itemListView}>
+          <FlatList
+            keyExtractor={item => item.id}
+            data={vehicles}
+            renderItem={({item, index}) => (
+              <ListItem>
+                <Text>{item.Plate}</Text>
+                <CheckBox
+                  checked={item.checked}
+                  onPress={() => onCheck(item, index)}
+                />
+              </ListItem>
+            )}
+          />
+        </SafeAreaView>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>

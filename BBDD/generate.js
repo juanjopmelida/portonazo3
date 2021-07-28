@@ -122,7 +122,7 @@ module.exports = () => {
     Fleet: _.times(20, function (n) {
       return {
         id: n + 1,
-        Name: faker.lorem.word() + 'FLEET',
+        Name: faker.lorem.word() + '-FLEET',
         StartDate: '2021-05-26',
         EndDate: null,
         CompanyId: faker.datatype.number({
@@ -143,5 +143,10 @@ module.exports = () => {
         }),
       };
     }),
+    Routes: {
+      [{
+        
+      }]
+    }
   };
 };
