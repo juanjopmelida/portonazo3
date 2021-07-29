@@ -14,6 +14,7 @@ import {ThemeContext} from '../contexts/ThemeContext';
 import globalStyles from '../styles/global';
 import Map from '../components/Map';
 import Loading from '../components/Loading';
+import getMockedJourneys from '../api';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
@@ -22,9 +23,8 @@ export default function JourneysScreen(props) {
   const toastRef = useRef();
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
-  const [currentPosition, setCurrentPosition] = useState({});
-  const [currentRegion, setCurrentRegion] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [journeys, setJourneys] = useState([]);
+  const [coords, setCoords] = useState();
 
   const setNavigationOptions = () => {
     navigation.setOptions({
@@ -47,8 +47,15 @@ export default function JourneysScreen(props) {
     });
   };
 
+  const getJourneys = () => {
+    getMockedJourneys().then(res => {
+      console.log('res');
+    });
+  };
+
   useEffect(() => {
     setNavigationOptions();
+    getJourneys();
   }, [navigation, logout, switchTheme]);
 
   return (
