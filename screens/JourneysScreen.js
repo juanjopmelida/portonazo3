@@ -3,7 +3,7 @@ import {ScrollView, View, Text, StyleSheet, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import MapView, {Polyline, UrlTile} from 'react-native-maps';
+import MapView, {Polyline} from 'react-native-maps';
 
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
@@ -16,18 +16,18 @@ import globalStyles from '../styles/global';
 import Map from '../components/Map';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
+import {ConsoleLogger} from '@microsoft/signalr/dist/esm/Utils';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);
   const toastRef = useRef();
+  const mapRef = useRef();
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
-  const [points, setPoints] = useState([]);
-  const [coords, setCoords] = useState();
-
+  const [coords, setCoords] = useState([]);
   const setNavigationOptions = () => {
     navigation.setOptions({
       headerRight: () => (
@@ -49,36 +49,53 @@ export default function JourneysScreen(props) {
     });
   };
 
-  const getJourneys = () => {
-    getMockedJourneys().then(routes => {
-      setJourneys(routes);
-      console.log(routes[0].JourneyPathStr);
-      setPoints(Polyline.decode(routes[0].JourneyPathStr));
-      // setCoords(
-      //   points.map((point, index) => {
+  const getJourneys = async () => {
+    getMockedJourneys().then(mockedJourneys => {
+      let journeyPath = [];
+      const points = mockedJourneys.map(item => {
+        journeyPath = item.JourneyPathStr.split(',');
+        setJourneys([
+          ...journeys,
+          {
+            id: journeys.length,
+            coords: journeyPath.map(point => {
+              const formattedPoint = point.split(' ');
+              return {
+                latitude: parseFloat(formattedPoint[0]),
+                longitude: parseFloat(formattedPoint[1]),
+              };
+            }),
+          },
+        ]);
+        console.log('JP: ', journeys);
+      });
+      // const _points = mockedJourneys.map(item => {
+      //   const journeyPath = item.JourneyPathStr.split(',');
+      //   const arrCoords = journeyPath.map(_route => {
+      //     return _route.split(' ');
+      //   });
+      //   setCoords([...coords, arrCoords]);
+      //   const journeyCoords = arrCoords.map(coord => {
       //     return {
-      //       latitude: point[0],
-      //       longitude: point[1],
+      //       latitude: parseFloat(coord[0]),
+      //       longitude: parseFloat(coord[1]),
       //     };
-      //   }),
-      // );
+      //   });
+      //   setJourneys([
+      //     ...journeys,
+      //     {
+      //       id: journeys.length,
+      //       coords: journeyCoords,
+      //     },
+      //   ]);
+      // });
     });
   };
 
   useEffect(() => {
-    setCoords(
-      points.map((point, index) => {
-        return {
-          latitude: point[0],
-          longitude: point[1],
-        };
-      }),
-    );
-  }, [points]);
-
-  useEffect(() => {
     setNavigationOptions();
     getJourneys();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
@@ -87,6 +104,7 @@ export default function JourneysScreen(props) {
       <View style={globalStyles.container}>
         <HeaderLogo />
         <MapView
+          ref={mapRef}
           style={styles.map}
           initialRegion={{
             latitude: 40.4769,
@@ -94,10 +112,17 @@ export default function JourneysScreen(props) {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          <Polyline coordinates={coords} strokeWidth={2} strokeColor="red" />
+          {journeys.map(polyline => (
+            <Polyline
+              key={polyline.id}
+              coordinates={polyline.coords}
+              strokeColor="#000"
+              fillColor="rgba(255,0,0,0.5)"
+              strokeWidth={1}
+            />
+          ))}
         </MapView>
       </View>
-
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
   );
