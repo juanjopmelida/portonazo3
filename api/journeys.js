@@ -11,7 +11,7 @@ const localhostServer =
 export const getMockedJourneys = async () => {
   const uri = `${localhostServer}/Journeys`;
   const res = await axios.get(uri);
-  console.log('Journeys: ', res.data);
+  //console.log('Journeys: ', res.data);
   //AsyncStorage.setItem('FLEET', JSON.stringify(fleet.data));
   return res.data;
 };
