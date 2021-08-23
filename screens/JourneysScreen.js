@@ -27,7 +27,6 @@ export default function JourneysScreen(props) {
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
-  const [coords, setCoords] = useState([]);
   const setNavigationOptions = () => {
     navigation.setOptions({
       headerRight: () => (
@@ -50,51 +49,43 @@ export default function JourneysScreen(props) {
   };
 
   const getJourneys = async () => {
-    getMockedJourneys().then(mockedJourneys => {
-      let journeyPath = [];
-      const points = mockedJourneys.map(item => {
-        journeyPath = item.JourneyPathStr.split(',');
-        setJourneys([
-          ...journeys,
+    const mockedJourneys = await getMockedJourneys();
+    let journeyPath = [];
+    let journeyCoords = [];
+    let retrievedJourneys = [];
+    mockedJourneys.map(item => {
+      journeyPath = item.JourneyPathStr.split(',');
+      //console.log(journeyPath);
+      journeyPath.map(point => {
+        const coords = point.split(' ');
+        const lat = coords[1];
+        const lon = coords[0];
+        journeyCoords = [
+          ...journeyCoords,
           {
-            id: journeys.length,
-            coords: journeyPath.map(point => {
-              const formattedPoint = point.split(' ');
-              return {
-                latitude: parseFloat(formattedPoint[0]),
-                longitude: parseFloat(formattedPoint[1]),
-              };
-            }),
+            latitude: parseFloat(lat),
+            longitude: parseFloat(lon),
           },
-        ]);
-        console.log('JP: ', journeys);
+        ];
       });
-      // const _points = mockedJourneys.map(item => {
-      //   const journeyPath = item.JourneyPathStr.split(',');
-      //   const arrCoords = journeyPath.map(_route => {
-      //     return _route.split(' ');
-      //   });
-      //   setCoords([...coords, arrCoords]);
-      //   const journeyCoords = arrCoords.map(coord => {
-      //     return {
-      //       latitude: parseFloat(coord[0]),
-      //       longitude: parseFloat(coord[1]),
-      //     };
-      //   });
-      //   setJourneys([
-      //     ...journeys,
-      //     {
-      //       id: journeys.length,
-      //       coords: journeyCoords,
-      //     },
-      //   ]);
-      // });
+      //console.log('journey: ', journeyCoords);
+      retrievedJourneys = [
+        ...retrievedJourneys,
+        {
+          id: retrievedJourneys.length + 1,
+          coords: journeyCoords,
+        },
+      ];
     });
+    return retrievedJourneys;
   };
 
   useEffect(() => {
     setNavigationOptions();
-    getJourneys();
+    getJourneys().then(data => {
+      //data.map(item => console.log(item.coords));
+      setJourneys(data);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
@@ -112,15 +103,24 @@ export default function JourneysScreen(props) {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {journeys.map(polyline => (
-            <Polyline
-              key={polyline.id}
-              coordinates={polyline.coords}
-              strokeColor="#000"
-              fillColor="rgba(255,0,0,0.5)"
-              strokeWidth={1}
-            />
-          ))}
+          {journeys.length > 0
+            ? journeys.map(journey => {
+                <Polyline
+                  key={journey.id}
+                  coordinates={journey.coords}
+                  strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+                  strokeColors={[
+                    '#7F0000',
+                    '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+                    '#B24112',
+                    '#E5845C',
+                    '#238C23',
+                    '#7F0000',
+                  ]}
+                  strokeWidth={6}
+                />;
+              })
+            : console.log('No hay rutas')}
         </MapView>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
