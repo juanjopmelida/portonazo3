@@ -27,6 +27,9 @@ export default function JourneysScreen(props) {
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
+
+  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
   const setNavigationOptions = () => {
     navigation.setOptions({
       headerRight: () => (
@@ -53,6 +56,7 @@ export default function JourneysScreen(props) {
     let journeyPath = [];
     let journeyCoords = [];
     let retrievedJourneys = [];
+
     mockedJourneys.map(item => {
       journeyPath = item.JourneyPathStr.split(',');
       //console.log(journeyPath);
@@ -77,15 +81,21 @@ export default function JourneysScreen(props) {
         },
       ];
     });
+    //console.log(retrievedJourneys);
+    console.log('recuperadas', retrievedJourneys.length, 'rutas');
     return retrievedJourneys;
   };
 
   useEffect(() => {
     setNavigationOptions();
-    getJourneys().then(data => {
-      //data.map(item => console.log(item.coords));
-      setJourneys(data);
-    });
+    getJourneys()
+      .then(data => {
+        //console.log(data);
+        setJourneys(data);
+      })
+      .catch(error => {
+        console.log('Error al recuperar rutas:', error);
+      });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
@@ -98,29 +108,21 @@ export default function JourneysScreen(props) {
           ref={mapRef}
           style={styles.map}
           initialRegion={{
-            latitude: 40.4769,
-            longitude: -3.38415,
+            latitude:
+              journeys.length > 0 ? journeys[0].coords[0].latitude : 40.4716,
+            longitude:
+              journeys.length > 0 ? journeys[0].coords[0].longitude : -3.3762,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {journeys.length > 0
-            ? journeys.map(journey => {
-                <Polyline
-                  key={journey.id}
-                  coordinates={journey.coords}
-                  strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-                  strokeColors={[
-                    '#7F0000',
-                    '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-                    '#B24112',
-                    '#E5845C',
-                    '#238C23',
-                    '#7F0000',
-                  ]}
-                  strokeWidth={6}
-                />;
-              })
-            : console.log('No hay rutas')}
+          {journeys.map(polyline => (
+            <Polyline
+              key={polyline.id}
+              coordinates={polyline.coords}
+              strokeColor={`#${randomColor}`}
+              strokeWidth={6}
+            />
+          ))}
         </MapView>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
