@@ -70,7 +70,7 @@ export default function RealtimeScreen(props) {
     <ScrollView>
       <Loading isVisible={loading} text="Localizando..." />
       <HeaderLogo />
-      <View style={globalStyles.container}>
+      <View style={[globalStyles.container, {paddingTop: 0}]}>
         <Map
           markers={vehicles}
           realTimes={realTimes}

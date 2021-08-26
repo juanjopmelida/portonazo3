@@ -3,7 +3,7 @@ import {StyleSheet, Platform} from 'react-native';
 const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? 0 : 10,
+    paddingTop: Platform.OS === 'ios' ? 30 : 10,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',

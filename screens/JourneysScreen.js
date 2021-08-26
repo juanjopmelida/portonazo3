@@ -123,23 +123,13 @@ export default function JourneysScreen(props) {
           ref={mapRef}
           style={styles.map}
           initialRegion={{
-            latitude:
-              journeys.length > 0 ? journeys[0].coords[0].latitude : 40.4716,
-            longitude:
-              journeys.length > 0 ? journeys[0].coords[0].longitude : -3.3762,
+            latitude: 40.4716,
+            longitude: -3.3762,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
           {journeys.map(polyline => {
-            const numberOfCoords = polyline.coords.length - 1;
-            console.log(
-              'journey:',
-              polyline.id,
-              'color:',
-              polyline.color,
-              'coords:',
-              numberOfCoords,
-            );
+            const lastCoord = polyline.coords.length - 1;
             return (
               <>
                 <Marker
@@ -167,7 +157,7 @@ export default function JourneysScreen(props) {
                 />
                 <Marker
                   key={`endJourney${polyline.id}`}
-                  coordinate={polyline.coords[numberOfCoords]}
+                  coordinate={polyline.coords[lastCoord]}
                   image={endJourneyMarker}
                   centerOffset={{x: -2, y: -9}}>
                   <Callout tooltip>
