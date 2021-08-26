@@ -53,10 +53,10 @@ module.exports = () => {
     RealTimeDetails: _.times(100, function (n) {
       return {
         id: n + 1,
-        PositionDate: faker.date.between('2021-01-01', '2020-07-08'),
+        PositionDate: faker.date.between('2021-01-01', Date.now()),
         TotalKm: Math.floor(Math.random() * 1000000 + 1),
         DailyKm: Math.floor(Math.random() * 1000 + 1),
-        StopDate: faker.date.between('2021-01-01', '2020-07-08'),
+        StopDate: faker.date.between('2021-01-01', Date.now()),
         InactivePeriod: `${Math.floor(
           Math.random() * 24 + 1,
         )} horas ${Math.floor(Math.random() * 60 + 1)} mins`,
@@ -69,7 +69,7 @@ module.exports = () => {
           min: 1,
           max: 100,
         }),
-        StartDate: faker.date.between('2019-01-01', '2020-06-01'),
+        StartDate: faker.date.between('2019-01-01', Date.now()),
         EndDate: null,
       };
     }),
@@ -135,7 +135,7 @@ module.exports = () => {
       return {
         id: n + 1,
         Name: faker.lorem.word(),
-        StartDate: faker.date.between('2019-01-01', '2020-06-01'),
+        StartDate: faker.date.between('2019-01-01', Date.now()),
         EndDate: null,
         FleetId: faker.datatype.number({
           min: 1,
@@ -191,7 +191,7 @@ module.exports = () => {
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 7000,
         JourneyPathStr:
-          '-3.37851 40.4735,-3.37669 40.4727,-3.37687 40.4703,-3.39249 40.4738,-3.3967 40.4802,-3.39616 40.4869,-3.3828 40.4959,-3.36824 40.5027,-3.36898 40.5015,-3.36924 40.5014',
+          '-3.37669 40.4727,-3.37687 40.4703,-3.39249 40.4738,-3.3967 40.4802,-3.39616 40.4869,-3.3828 40.4959,-3.36824 40.5027,-3.36898 40.5015,-3.36924 40.5014',
         Alerts: null,
         JourneyFuelUsed: 0.0,
       },
@@ -204,7 +204,7 @@ module.exports = () => {
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 6000,
         JourneyPathStr:
-          '-3.36924 40.5014,-3.37207 40.5003,-3.37582 40.497,-3.37779 40.4936,-3.37589 40.4901,-3.38135 40.4904,-3.37981 40.4863,-3.37396 40.4823,-3.37407 40.48,-3.37442 40.477,-3.37786 40.4744,-3.37604 40.4723,-3.3762 40.4716',
+          '-3.37207 40.5003,-3.37582 40.497,-3.37779 40.4936,-3.37589 40.4901,-3.38135 40.4904,-3.37981 40.4863,-3.37396 40.4823,-3.37407 40.48,-3.37442 40.477,-3.37786 40.4744,-3.37604 40.4723,-3.3762 40.4716',
         Alerts: null,
         JourneyFuelUsed: 0.0,
       },

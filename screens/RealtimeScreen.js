@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, StyleSheet, Button, View} from 'react-native';
+import {ScrollView, StyleSheet, Button, View, Dimensions} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -70,7 +70,7 @@ export default function RealtimeScreen(props) {
     <ScrollView>
       <Loading isVisible={loading} text="Localizando..." />
       <HeaderLogo />
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <Map
           markers={vehicles}
           realTimes={realTimes}
@@ -86,11 +86,9 @@ export default function RealtimeScreen(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
   map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
     ...StyleSheet.absoluteFillObject,
   },
 });

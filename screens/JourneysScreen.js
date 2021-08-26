@@ -3,8 +3,10 @@ import {ScrollView, View, Text, StyleSheet, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import MapView, {Marker, Polyline} from 'react-native-maps';
+import MapView, {Marker, Polyline, Callout} from 'react-native-maps';
 import randomColor from 'randomcolor';
+import dayjs from 'dayjs';
+import {ConsoleLogger} from '@microsoft/signalr/dist/esm/Utils';
 
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
@@ -21,7 +23,6 @@ import globalStyles from '../styles/global';
 import Map from '../components/Map';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
-import {ConsoleLogger} from '@microsoft/signalr/dist/esm/Utils';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
@@ -30,6 +31,7 @@ export default function JourneysScreen(props) {
   const toastRef = useRef();
   const mapRef = useRef();
   const {colors} = useTheme();
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
 
@@ -64,6 +66,7 @@ export default function JourneysScreen(props) {
     let retrievedJourneys = [];
 
     mockedJourneys.map(item => {
+      setLoading(true);
       let journeyCoords = [];
       journeyPath = item.JourneyPathStr.split(',');
       //console.log(journeyPath);
@@ -86,11 +89,14 @@ export default function JourneysScreen(props) {
           id: retrievedJourneys.length + 1,
           coords: journeyCoords,
           color: journeyColors[retrievedJourneys.length],
+          start: item.JourneyStart,
+          end: item.JourneyEnd,
         },
       ];
     });
     //console.log(retrievedJourneys);
     console.log('recuperadas', retrievedJourneys.length, 'rutas');
+    setLoading(false);
     return retrievedJourneys;
   };
 
@@ -110,8 +116,9 @@ export default function JourneysScreen(props) {
 
   return (
     <ScrollView>
+      <Loading isVisible={loading} text="Recuperando rutas..." />
+      <HeaderLogo />
       <View style={globalStyles.container}>
-        <HeaderLogo />
         <MapView
           ref={mapRef}
           style={styles.map}
@@ -139,8 +146,19 @@ export default function JourneysScreen(props) {
                   key={`startJourney${polyline.id}`}
                   coordinate={polyline.coords[0]}
                   image={startJourneyMarker}
-                  anchor={{x: 0.69, y: 1}}
-                />
+                  centerOffset={{x: -2, y: -9}}>
+                  <Callout tooltip>
+                    <View>
+                      <View style={styles.bubble}>
+                        <Text>
+                          {dayjs(polyline.start).format('DD/MM/YY HH:MM')}
+                        </Text>
+                      </View>
+                      <View style={styles.arrowBorder} />
+                      <View style={styles.arrow} />
+                    </View>
+                  </Callout>
+                </Marker>
                 <Polyline
                   key={polyline.id}
                   coordinates={polyline.coords}
@@ -151,8 +169,19 @@ export default function JourneysScreen(props) {
                   key={`endJourney${polyline.id}`}
                   coordinate={polyline.coords[numberOfCoords]}
                   image={endJourneyMarker}
-                  centerOffset={{x: -2, y: -9}}
-                />
+                  centerOffset={{x: -2, y: -9}}>
+                  <Callout tooltip>
+                    <View>
+                      <View style={styles.bubble}>
+                        <Text style={styles.bubbleText}>
+                          {dayjs(polyline.end).format('DD/MM/YY HH:MM')}
+                        </Text>
+                      </View>
+                      <View style={styles.arrowBorder} />
+                      <View style={styles.arrow} />
+                    </View>
+                  </Callout>
+                </Marker>
               </>
             );
           })}
@@ -167,5 +196,30 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+    ...StyleSheet.absoluteFillObject,
+  },
+  bubble: {
+    backgroundColor: '#fff',
+    padding: 5,
+    width: '100%',
+  },
+  // Arrow below the bubble
+  arrow: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#fff',
+    borderWidth: 8,
+    alignSelf: 'center',
+    marginTop: 0,
+  },
+  arrowBorder: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderTopColor: '#007a87',
+    alignSelf: 'center',
+    marginTop: -0.5,
+  },
+  bubbleText: {
+    fontSize: 16,
   },
 });
