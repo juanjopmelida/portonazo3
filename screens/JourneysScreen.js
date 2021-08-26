@@ -3,7 +3,8 @@ import {ScrollView, View, Text, StyleSheet, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import {useTheme} from '@react-navigation/native';
-import MapView, {Polyline} from 'react-native-maps';
+import MapView, {Marker, Polyline} from 'react-native-maps';
+import randomColor from 'randomcolor';
 
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
@@ -11,6 +12,10 @@ import HeaderIconsContainer from '../components/HeaderIconsContainer';
 import HeaderLogo from '../components/HeaderLogo';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
+
+// MARKERS
+import startJourneyMarker from '../assets/markers/track_start.png';
+import endJourneyMarker from '../assets/markers/track_end.png';
 
 import globalStyles from '../styles/global';
 import Map from '../components/Map';
@@ -27,8 +32,6 @@ export default function JourneysScreen(props) {
   const {colors} = useTheme();
   const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
-
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
   const setNavigationOptions = () => {
     navigation.setOptions({
@@ -53,11 +56,15 @@ export default function JourneysScreen(props) {
 
   const getJourneys = async () => {
     const mockedJourneys = await getMockedJourneys();
+    const journeyColors = randomColor({
+      count: mockedJourneys.length,
+      luminosity: 'dark',
+    });
     let journeyPath = [];
-    let journeyCoords = [];
     let retrievedJourneys = [];
 
     mockedJourneys.map(item => {
+      let journeyCoords = [];
       journeyPath = item.JourneyPathStr.split(',');
       //console.log(journeyPath);
       journeyPath.map(point => {
@@ -78,6 +85,7 @@ export default function JourneysScreen(props) {
         {
           id: retrievedJourneys.length + 1,
           coords: journeyCoords,
+          color: journeyColors[retrievedJourneys.length],
         },
       ];
     });
@@ -115,14 +123,39 @@ export default function JourneysScreen(props) {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {journeys.map(polyline => (
-            <Polyline
-              key={polyline.id}
-              coordinates={polyline.coords}
-              strokeColor={`#${randomColor}`}
-              strokeWidth={6}
-            />
-          ))}
+          {journeys.map(polyline => {
+            const numberOfCoords = polyline.coords.length - 1;
+            console.log(
+              'journey:',
+              polyline.id,
+              'color:',
+              polyline.color,
+              'coords:',
+              numberOfCoords,
+            );
+            return (
+              <>
+                <Marker
+                  key={`startJourney${polyline.id}`}
+                  coordinate={polyline.coords[0]}
+                  image={startJourneyMarker}
+                  anchor={{x: 0.69, y: 1}}
+                />
+                <Polyline
+                  key={polyline.id}
+                  coordinates={polyline.coords}
+                  strokeColor={polyline.color}
+                  strokeWidth={3}
+                />
+                <Marker
+                  key={`endJourney${polyline.id}`}
+                  coordinate={polyline.coords[numberOfCoords]}
+                  image={endJourneyMarker}
+                  centerOffset={{x: -2, y: -9}}
+                />
+              </>
+            );
+          })}
         </MapView>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
