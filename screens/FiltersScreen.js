@@ -192,6 +192,7 @@ export default function FiltersScreen(props) {
           <FlatList
             keyExtractor={item => item.id}
             data={vehicles}
+            horizontal
             renderItem={({item, index}) => (
               <ListItem>
                 <Text>{item.Plate}</Text>
