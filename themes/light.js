@@ -7,7 +7,7 @@ export const lightTheme = {
     background: 'white',
     backgroundGrey: '#f2f2f2',
     primary: '#42A1D7',
-    text: '#999999',
+    text: '#0f0f0f',
     menuButtonContent: 'white',
     modalButtonContent: '#c2c2c2',
     modalButtonText: '#222',

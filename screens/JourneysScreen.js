@@ -1,12 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, View, Text, StyleSheet, Dimensions} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
-import {useTheme} from '@react-navigation/native';
 import MapView, {Marker, Polyline, Callout} from 'react-native-maps';
 import randomColor from 'randomcolor';
 import dayjs from 'dayjs';
-import {ConsoleLogger} from '@microsoft/signalr/dist/esm/Utils';
 
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
@@ -20,41 +17,17 @@ import startJourneyMarker from '../assets/markers/track_start.png';
 import endJourneyMarker from '../assets/markers/track_end.png';
 
 import globalStyles from '../styles/global';
-import Map from '../components/Map';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
 
 export default function JourneysScreen(props) {
-  const {navigation, route} = props;
+  const {navigation} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);
   const toastRef = useRef();
   const mapRef = useRef();
-  const {colors} = useTheme();
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState(route.params.username);
   const [journeys, setJourneys] = useState([]);
-
-  const setNavigationOptions = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderIconsContainer>
-          <HeaderIconButton
-            name={'palette'}
-            onPress={() => {
-              switchTheme();
-            }}
-          />
-          <HeaderIconButton
-            name={'logout'}
-            onPress={() => {
-              logout();
-            }}
-          />
-        </HeaderIconsContainer>
-      ),
-    });
-  };
 
   const getJourneys = async () => {
     const mockedJourneys = await getMockedJourneys();
@@ -101,7 +74,32 @@ export default function JourneysScreen(props) {
   };
 
   useEffect(() => {
+    const setNavigationOptions = () => {
+      navigation.setOptions({
+        headerRight: () => (
+          <HeaderIconsContainer>
+            <HeaderIconButton
+              name={'palette'}
+              onPress={() => {
+                switchTheme();
+              }}
+            />
+            <HeaderIconButton
+              name={'logout'}
+              onPress={() => {
+                logout();
+              }}
+            />
+          </HeaderIconsContainer>
+        ),
+      });
+    };
+
     setNavigationOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [switchTheme]);
+
+  useEffect(() => {
     getJourneys()
       .then(data => {
         //console.log(data);

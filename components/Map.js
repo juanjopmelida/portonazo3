@@ -11,8 +11,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  TextInput,
-  FlatList,
 } from 'react-native';
 import MapView, {
   Marker,
@@ -37,8 +35,8 @@ import GoToImage from '../assets/buttons/GoTo.png';
 
 import RealtimeInfoTable from './RealtimeInfoTable';
 import FloatingButton from './FloatingButton';
-import Loading from '../components/Loading';
-import ModalMapStyles from '../components/ModalMapStyles';
+import Loading from './Loading';
+import ModalMapStyles from './ModalMapStyles';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -49,7 +47,6 @@ export default function Map(props) {
   const [selectedMarker, setSelectedMarker] = useState({});
   const [selectedRealTimeDetails, setSelectedRealTimeDetails] = useState({});
   const [selectedAddress, setSelectedAddress] = useState({});
-  const [searchRealTimes, setSearchRealTimes] = useState('');
   const [filteredRealTimes, setFilteredRealTimes] = useState(realTimes);
   const [locked, setLocked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -116,16 +113,16 @@ export default function Map(props) {
     });
   };
 
-  const retrieveDataByMarker = (data, id) => {
-    const retrievedData = data.filter(item => item.id === id).shift();
+  const retrieveDataByMarkerId = (data, markerId) => {
+    const retrievedData = data.filter(item => item.id === markerId).shift();
     return retrievedData;
   };
 
   const showModalMarkerData = id => {
-    const marker = retrieveDataByMarker(markers, id);
-    const realTime = retrieveDataByMarker(realTimes, id);
-    const realTimeDetail = retrieveDataByMarker(realTimeDetails, id);
-    const address = retrieveDataByMarker(addresses, id);
+    const marker = retrieveDataByMarkerId(markers, id);
+    const realTime = retrieveDataByMarkerId(realTimes, id);
+    const realTimeDetail = retrieveDataByMarkerId(realTimeDetails, id);
+    const address = retrieveDataByMarkerId(addresses, id);
     setSelectedMarker(marker);
     setLocked(realTime.Locked);
     setSelectedRealTimeDetails(realTimeDetail);
@@ -239,9 +236,9 @@ export default function Map(props) {
         {props.markers.map((marker, index) => (
           <TouchableOpacity
             key={index}
-            style={styles.chipsItem}
+            style={[styles.chipsItem, {backgroundColor: colors.backgroundGrey}]}
             onPress={() => showModalMarkerData(marker.id)}>
-            <Text>{marker.Plate}</Text>
+            <Text style={{color: colors.text}}>{marker.Plate}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
