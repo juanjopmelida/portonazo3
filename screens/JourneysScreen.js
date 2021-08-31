@@ -134,12 +134,12 @@ export default function JourneysScreen(props) {
                   key={`startJourney${polyline.id}`}
                   coordinate={polyline.coords[0]}
                   image={startJourneyMarker}
-                  centerOffset={{x: -2, y: -9}}>
-                  <Callout tooltip>
+                  centerOffset={{x: 0, y: 0}}>
+                  <Callout key={`startJourney${polyline.id}`} tooltip>
                     <View>
                       <View style={styles.bubble}>
-                        <Text>
-                          {dayjs(polyline.start).format('DD/MM/YY HH:MM')}
+                        <Text style={styles.bubbleText}>
+                          {dayjs(polyline.start).format('DD/MM/YY HH:mm')}
                         </Text>
                       </View>
                       <View style={styles.arrowBorder} />
@@ -157,8 +157,8 @@ export default function JourneysScreen(props) {
                   key={`endJourney${polyline.id}`}
                   coordinate={polyline.coords[lastCoord]}
                   image={endJourneyMarker}
-                  centerOffset={{x: -2, y: -9}}>
-                  <Callout tooltip>
+                  centerOffset={{x: 0, y: 0}}>
+                  <Callout key={`endJourney${polyline.id}`} tooltip>
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.bubbleText}>
