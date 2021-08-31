@@ -19,6 +19,7 @@ import endJourneyMarker from '../assets/markers/track_end.png';
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
+import DateSelector from '../components/DateSelector';
 
 export default function JourneysScreen(props) {
   const {navigation} = props;
@@ -28,9 +29,27 @@ export default function JourneysScreen(props) {
   const mapRef = useRef();
   const [loading, setLoading] = useState(false);
   const [journeys, setJourneys] = useState([]);
+  const [dateFilter, setDateFilter] = useState({});
 
-  const getJourneys = async () => {
-    const mockedJourneys = await getMockedJourneys();
+  const getStartDate = () => {
+    const today = new Date();
+    const startDate = `${today.getFullYear()}-${(
+      '0' +
+      (today.getMonth() + 1)
+    ).slice(-2)}-${today.getDate()}T00:00:00`;
+    return startDate;
+  };
+  const getEndDate = () => {
+    const today = new Date();
+    const startDate = `${today.getFullYear()}-${(
+      '0' +
+      (today.getMonth() + 1)
+    ).slice(-2)}-${today.getDate()}T23:59:59`;
+    return startDate;
+  };
+
+  const getJourneys = async dateRange => {
+    const mockedJourneys = await getMockedJourneys(dateRange);
     const journeyColors = randomColor({
       count: mockedJourneys.length,
       luminosity: 'dark',
@@ -74,6 +93,18 @@ export default function JourneysScreen(props) {
   };
 
   useEffect(() => {
+    (dateFilter.startDate || dateFilter.endDate) &&
+      getJourneys(dateFilter)
+        .then(data => {
+          //console.log(data);
+          setJourneys(data);
+        })
+        .catch(error => {
+          console.log('Error al recuperar rutas:', error);
+        });
+  }, [dateFilter]);
+
+  useEffect(() => {
     const setNavigationOptions = () => {
       navigation.setOptions({
         headerRight: () => (
@@ -100,15 +131,7 @@ export default function JourneysScreen(props) {
   }, [switchTheme]);
 
   useEffect(() => {
-    getJourneys()
-      .then(data => {
-        //console.log(data);
-        setJourneys(data);
-      })
-      .catch(error => {
-        console.log('Error al recuperar rutas:', error);
-      });
-
+    setDateFilter({startDate: getStartDate(), endDate: getEndDate()});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout, switchTheme]);
 
@@ -116,6 +139,7 @@ export default function JourneysScreen(props) {
     <ScrollView>
       <Loading isVisible={loading} text="Recuperando rutas..." />
       <HeaderLogo />
+      <DateSelector />
       <View style={globalStyles.container}>
         <MapView
           ref={mapRef}
