@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, View, Text, StyleSheet, Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import MapView, {Marker, Polyline, Callout} from 'react-native-maps';
 import randomColor from 'randomcolor';
 import dayjs from 'dayjs';
+import Modal from 'react-native-modal';
 
 // HEADER OPTIONS
 import HeaderIconButton from '../components/HeaderIconButton';
@@ -19,7 +21,8 @@ import endJourneyMarker from '../assets/markers/track_end.png';
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
-import DateSelector from '../components/DateSelector';
+import FilterSelector from '../components/FilterSelector';
+import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 
 export default function JourneysScreen(props) {
   const {navigation} = props;
@@ -29,7 +32,11 @@ export default function JourneysScreen(props) {
   const mapRef = useRef();
   const [loading, setLoading] = useState(false);
   const [journeys, setJourneys] = useState([]);
-  const [dateFilter, setDateFilter] = useState({});
+  const [filters, setFilters] = useState({});
+  const [filteredVehicles, setFilteredVehicles] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [isModalVehiclesFilterVisible, setIsModalVehiclesFilterVisible] =
+    useState(false);
 
   const getStartDate = () => {
     const today = new Date();
@@ -48,8 +55,12 @@ export default function JourneysScreen(props) {
     return startDate;
   };
 
-  const getJourneys = async dateRange => {
-    const mockedJourneys = await getMockedJourneys(dateRange);
+  const toggleModalVehiclesFilter = () => {
+    setIsModalVehiclesFilterVisible(!isModalVehiclesFilterVisible);
+  };
+
+  const getJourneys = async filter => {
+    const mockedJourneys = await getMockedJourneys(filter);
     const journeyColors = randomColor({
       count: mockedJourneys.length,
       luminosity: 'dark',
@@ -93,16 +104,22 @@ export default function JourneysScreen(props) {
   };
 
   useEffect(() => {
-    (dateFilter.startDate || dateFilter.endDate) &&
-      getJourneys(dateFilter)
-        .then(data => {
-          //console.log(data);
-          setJourneys(data);
-        })
-        .catch(error => {
-          console.log('Error al recuperar rutas:', error);
-        });
-  }, [dateFilter]);
+    ((filteredVehicles && filteredVehicles.length > 1) ||
+      (vehicles && vehicles.length > 1)) &&
+      console.log('VEHICLES:', vehicles, 'FVEHICLES:', filteredVehicles);
+    setIsModalVehiclesFilterVisible(true);
+  }, [filteredVehicles, vehicles]);
+
+  useEffect(() => {
+    getJourneys(filters)
+      .then(data => {
+        //console.log(data);
+        setJourneys(data);
+      })
+      .catch(error => {
+        console.log('Error al recuperar rutas:', error);
+      });
+  }, [filters]);
 
   useEffect(() => {
     const setNavigationOptions = () => {
@@ -131,16 +148,27 @@ export default function JourneysScreen(props) {
   }, [switchTheme]);
 
   useEffect(() => {
-    setDateFilter({startDate: getStartDate(), endDate: getEndDate()});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    AsyncStorage.getItem('FILTERED_VEHICLES').then(data => {
+      setFilteredVehicles(JSON.parse(data));
+    });
+    AsyncStorage.getItem('VEHICLES').then(data => {
+      setVehicles(JSON.parse(data));
+    });
+    setFilters({startDate: getStartDate(), endDate: getEndDate()});
   }, [navigation, logout, switchTheme]);
 
   return (
     <ScrollView>
       <Loading isVisible={loading} text="Recuperando rutas..." />
       <HeaderLogo />
-      <DateSelector />
+      <FilterSelector filters={filters} setFilters={setFilters} />
       <View style={globalStyles.container}>
+        <Modal
+          isVisible={isModalVehiclesFilterVisible}
+          onBackdropPress={toggleModalVehiclesFilter}
+          backdropOpacity={0.2}>
+          <ModalVehiclesFilter />
+        </Modal>
         <MapView
           ref={mapRef}
           style={styles.map}

@@ -1,12 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import MapView, {
-  Marker,
-  MAP_TYPES,
-  PROVIDER_DEFAULT,
-  UrlTile,
-} from 'react-native-maps';
+import {MAP_TYPES} from 'react-native-maps';
 
 const ModalMapStyles = ({mapType, setMapType}) => {
   const {colors} = useTheme();
@@ -16,7 +11,6 @@ const ModalMapStyles = ({mapType, setMapType}) => {
       style={[
         {backgroundColor: colors.mapStylesModalTitleBackgroundColor},
         styles.modalMapTypesView,
-        ,
       ]}>
       <View style={styles.modalMapTypesTitleView}>
         <Text

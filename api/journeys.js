@@ -1,6 +1,5 @@
 import {Platform} from 'react-native';
 import {REACT_APP_MOCK_SERVER_ANDROID, REACT_APP_MOCK_SERVER_IOS} from '@env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const localhostServer =
@@ -8,8 +7,9 @@ const localhostServer =
     ? REACT_APP_MOCK_SERVER_IOS
     : REACT_APP_MOCK_SERVER_ANDROID;
 
-export const getMockedJourneys = async dateFilter => {
-  const uri = `${localhostServer}/Journeys?JourneyStart_gte=${dateFilter.startDate}&JourneyEnd_lte=${dateFilter.endDate}`;
+export const getMockedJourneys = async filters => {
+  //const uri = `${localhostServer}/Journeys?JourneyStart_gte=${filters.startDate}&JourneyEnd_lte=${filters.endDate}`;
+  const uri = `${localhostServer}/Journeys`;
   console.log(uri);
   const res = await axios.get(uri);
   //console.log('Journeys: ', res.data);

@@ -146,6 +146,10 @@ module.exports = () => {
     Journeys: [
       {
         id: 1,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-21T13:24:01.000',
         MotorState: 1,
         Isign: 1,
@@ -159,6 +163,10 @@ module.exports = () => {
       },
       {
         id: 2,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-21T13:54:12.010',
         MotorState: 1,
         Isign: 1,
@@ -172,6 +180,10 @@ module.exports = () => {
       },
       {
         id: 3,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-24T10:37:28.010',
         MotorState: 1,
         Isign: 1,
@@ -184,6 +196,10 @@ module.exports = () => {
       },
       {
         id: 4,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-24T11:10:35.000',
         MotorState: 1,
         Isign: 1,
@@ -197,6 +213,10 @@ module.exports = () => {
       },
       {
         id: 5,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-24T13:07:01.000',
         MotorState: 1,
         Isign: 1,
@@ -210,6 +230,10 @@ module.exports = () => {
       },
       {
         id: 6,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-24T15:01:39.000',
         MotorState: 1,
         Isign: 1,
@@ -223,6 +247,10 @@ module.exports = () => {
       },
       {
         id: 7,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-24T18:16:45.000',
         MotorState: 1,
         Isign: 1,
@@ -236,6 +264,10 @@ module.exports = () => {
       },
       {
         id: 8,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-08-31T23:25:19.000',
         MotorState: 1,
         Isign: 1,
@@ -249,6 +281,10 @@ module.exports = () => {
       },
       {
         id: 9,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-25T04:35:31.000',
         MotorState: 1,
         Isign: 1,
@@ -262,6 +298,10 @@ module.exports = () => {
       },
       {
         id: 10,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-07-25T04:44:44.000',
         MotorState: 1,
         Isign: 1,
@@ -275,6 +315,10 @@ module.exports = () => {
       },
       {
         id: 11,
+        VehicleId: faker.datatype.number({
+          min: 1,
+          max: 100,
+        }),
         JourneyStart: '2021-08-31T07:23:56.000',
         MotorState: 1,
         Isign: 1,
