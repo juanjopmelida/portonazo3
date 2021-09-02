@@ -43,7 +43,7 @@ export default function JourneysScreen(props) {
     const startDate = `${today.getFullYear()}-${(
       '0' +
       (today.getMonth() + 1)
-    ).slice(-2)}-${today.getDate()}T00:00:00`;
+    ).slice(-2)}-${('0' + today.getDate()).slice(-2)}T00:00:00`;
     return startDate;
   };
   const getEndDate = () => {
@@ -51,12 +51,8 @@ export default function JourneysScreen(props) {
     const startDate = `${today.getFullYear()}-${(
       '0' +
       (today.getMonth() + 1)
-    ).slice(-2)}-${today.getDate()}T23:59:59`;
+    ).slice(-2)}-${('0' + today.getDate()).slice(-2)}T23:59:59`;
     return startDate;
-  };
-
-  const toggleModalVehiclesFilter = () => {
-    setIsModalVehiclesFilterVisible(!isModalVehiclesFilterVisible);
   };
 
   const getJourneys = async filter => {
@@ -111,14 +107,16 @@ export default function JourneysScreen(props) {
   }, [filteredVehicles, vehicles]);
 
   useEffect(() => {
-    getJourneys(filters)
-      .then(data => {
-        //console.log(data);
-        setJourneys(data);
-      })
-      .catch(error => {
-        console.log('Error al recuperar rutas:', error);
-      });
+    console.log(filters);
+    filters.vehicleId &&
+      getJourneys(filters)
+        .then(data => {
+          //console.log(data);
+          setJourneys(data);
+        })
+        .catch(error => {
+          console.log('Error al recuperar rutas:', error);
+        });
   }, [filters]);
 
   useEffect(() => {
@@ -163,11 +161,12 @@ export default function JourneysScreen(props) {
       <HeaderLogo />
       <FilterSelector filters={filters} setFilters={setFilters} />
       <View style={globalStyles.container}>
-        <Modal
-          isVisible={isModalVehiclesFilterVisible}
-          onBackdropPress={toggleModalVehiclesFilter}
-          backdropOpacity={0.2}>
-          <ModalVehiclesFilter />
+        <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
+          <ModalVehiclesFilter
+            filters={filters}
+            setFilters={setFilters}
+            setIsModalVehiclesFilterVisible={setIsModalVehiclesFilterVisible}
+          />
         </Modal>
         <MapView
           ref={mapRef}

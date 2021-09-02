@@ -13,7 +13,7 @@ import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {openComposer} from 'react-native-email-link';
 import DeviceInfo from 'react-native-device-info';
-import {version} from '../package.json';
+import {version} from '../../package.json';
 
 import {
   REACT_APP_VIASAT_CONTACT_PHONE,

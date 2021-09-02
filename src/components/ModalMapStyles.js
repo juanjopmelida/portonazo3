@@ -70,6 +70,9 @@ const ModalMapStyles = ({mapType, setMapType}) => {
             {
               backgroundColor:
                 mapType === MAP_TYPES.SATELLITE ? '#DCDCDC' : '#FFF',
+              borderBottomWidth: 0,
+              borderBottomEndRadius: 5,
+              borderBottomStartRadius: 5,
             },
             styles.modalMapTypesPressableView,
           ]}>
@@ -90,8 +93,8 @@ export default ModalMapStyles;
 
 const styles = StyleSheet.create({
   modalMapTypesView: {
-    width: 250,
-    height: 200,
+    width: 180,
+    height: 120,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -110,12 +113,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderTopWidth: 0.8,
+    borderTopColor: '#9b9b9b',
   },
   modalMapTypesPressableView: {
     height: '26.6%',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomColor: '#cacaca',
     borderBottomWidth: 0.8,
   },
   modalMapTypesPressableText: {

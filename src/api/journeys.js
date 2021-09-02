@@ -8,8 +8,8 @@ const localhostServer =
     : REACT_APP_MOCK_SERVER_ANDROID;
 
 export const getMockedJourneys = async filters => {
-  //const uri = `${localhostServer}/Journeys?JourneyStart_gte=${filters.startDate}&JourneyEnd_lte=${filters.endDate}`;
-  const uri = `${localhostServer}/Journeys`;
+  const uri = `${localhostServer}/Journeys?VehicleId=${filters.vehicleId}&JourneyStart_gte=${filters.startDate}&JourneyEnd_lte=${filters.endDate}`;
+  //const uri = `${localhostServer}/Journeys`;
   console.log(uri);
   const res = await axios.get(uri);
   //console.log('Journeys: ', res.data);

@@ -5,15 +5,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
-import {SplashScreen} from './screens/SplashScreen';
-import {AuthStackNavigator} from './navigators/AuthStackNavigator';
-import {MainStackNavigator} from './navigators/MainStackNavigator';
-import {UserContext} from './contexts/UserContext';
-import {ThemeContext} from './contexts/ThemeContext';
-import {AuthContext} from './contexts/AuthContext';
-import {darkTheme} from './themes/dark';
-import {lightTheme} from './themes/light';
-import {useAuth} from './hooks/useAuth';
+import {SplashScreen} from './src/screens/SplashScreen';
+import {AuthStackNavigator} from './src/navigators/AuthStackNavigator';
+import {MainStackNavigator} from './src/navigators/MainStackNavigator';
+import {UserContext} from './src/contexts/UserContext';
+import {ThemeContext} from './src/contexts/ThemeContext';
+import {AuthContext} from './src/contexts/AuthContext';
+import {darkTheme} from './src/themes/dark';
+import {lightTheme} from './src/themes/light';
+import {useAuth} from './src/hooks/useAuth';
 
 const RootStack = createStackNavigator();
 const queryClient = new QueryClient();
