@@ -23,7 +23,7 @@ import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
 import FilterSelector from '../components/FilterSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
-import {getStartDate, getEndDate} from '../utils';
+import {getTodayStartDate, getTodayEndDate} from '../utils';
 
 export default function JourneysScreen(props) {
   const {navigation} = props;
@@ -167,8 +167,8 @@ export default function JourneysScreen(props) {
     setFilters(prevFilters => {
       return {
         ...prevFilters,
-        startDate: getStartDate(),
-        endDate: getEndDate(),
+        startDate: getTodayStartDate(),
+        endDate: getTodayEndDate(),
       };
     });
   }, [navigation, logout, switchTheme]);
@@ -177,7 +177,11 @@ export default function JourneysScreen(props) {
     <ScrollView>
       <Loading isVisible={loading} text="Recuperando rutas..." />
       <HeaderLogo />
-      <FilterSelector filters={filters} setFilters={setFilters} />
+      <FilterSelector
+        filters={filters}
+        setFilters={setFilters}
+        setIsModalVehiclesFilterVisible={setIsModalVehiclesFilterVisible}
+      />
       <View style={globalStyles.container}>
         <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
           <ModalVehiclesFilter
