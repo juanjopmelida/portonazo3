@@ -1,6 +1,7 @@
 module.exports = () => {
   const faker = require('faker/locale/es');
   const _ = require('lodash');
+
   return {
     User: _.times(100, function (n) {
       return {
@@ -21,7 +22,7 @@ module.exports = () => {
           }),
       };
     }),
-    Vehicle: _.times(100, function (n) {
+    Vehicle: _.times(10, function (n) {
       return {
         id: n + 1,
         Brand: faker.vehicle.manufacturer(),
@@ -30,11 +31,11 @@ module.exports = () => {
         Plate: faker.vehicle.vin(),
         FleetId: faker.datatype.number({
           min: 1,
-          max: 20,
+          max: 10,
         }),
       };
     }),
-    RealTime: _.times(100, function (n) {
+    RealTime: _.times(10, function (n) {
       return {
         id: n + 1,
         Latitude: parseFloat(
@@ -50,30 +51,30 @@ module.exports = () => {
         Locked: faker.datatype.boolean(),
       };
     }),
-    RealTimeDetails: _.times(100, function (n) {
+    RealTimeDetails: _.times(10, function (n) {
       return {
         id: n + 1,
-        PositionDate: faker.date.between('2021-01-01', Date.now()),
+        PositionDate: faker.date.soon(),
         TotalKm: Math.floor(Math.random() * 1000000 + 1),
         DailyKm: Math.floor(Math.random() * 1000 + 1),
-        StopDate: faker.date.between('2021-01-01', Date.now()),
+        StopDate: faker.date.soon(),
         InactivePeriod: `${Math.floor(
           Math.random() * 24 + 1,
         )} horas ${Math.floor(Math.random() * 60 + 1)} mins`,
       };
     }),
-    CustomTag: _.times(100, function (n) {
+    CustomTag: _.times(10, function (n) {
       return {
         id: n + 1,
         UserId: faker.datatype.number({
           min: 1,
           max: 100,
         }),
-        StartDate: faker.date.between('2019-01-01', Date.now()),
+        StartDate: faker.date.soon(),
         EndDate: null,
       };
     }),
-    CustomTagVehicle: _.times(100, function (n) {
+    CustomTagVehicle: _.times(10, function (n) {
       return {
         id: n + 1,
         CustomTagId: faker.datatype.number({
@@ -86,13 +87,13 @@ module.exports = () => {
         }),
       };
     }),
-    Company: _.times(100, function (n) {
+    Company: _.times(10, function (n) {
       return {
         id: n + 1,
         Name: faker.company.companyName(),
       };
     }),
-    Permission: _.times(100, function (n) {
+    Permission: _.times(10, function (n) {
       return {
         id: n + 1,
         UserId: faker.datatype.number({
@@ -135,7 +136,7 @@ module.exports = () => {
       return {
         id: n + 1,
         Name: faker.lorem.word(),
-        StartDate: faker.date.between('2019-01-01', Date.now()),
+        StartDate: faker.date.soon(),
         EndDate: null,
         FleetId: faker.datatype.number({
           min: 1,
@@ -148,12 +149,12 @@ module.exports = () => {
         id: 1,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-21T13:24:01.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-21T13:38:20.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 8000,
         JourneyPathStr:
@@ -165,12 +166,12 @@ module.exports = () => {
         id: 2,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-21T13:54:12.010',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-21T14:07:52.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 9000,
         JourneyPathStr:
@@ -182,12 +183,12 @@ module.exports = () => {
         id: 3,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T10:37:28.010',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T10:42:52.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 0,
         JourneyPathStr: '-3.37611 40.4715,-3.37859 40.4736,-3.37851 40.4735',
@@ -198,12 +199,12 @@ module.exports = () => {
         id: 4,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T11:10:35.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T11:20:57.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 7000,
         JourneyPathStr:
@@ -215,12 +216,12 @@ module.exports = () => {
         id: 5,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T13:07:01.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T13:20:21.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 6000,
         JourneyPathStr:
@@ -232,12 +233,12 @@ module.exports = () => {
         id: 6,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T15:01:39.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T15:09:19.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 1000,
         JourneyPathStr:
@@ -249,12 +250,12 @@ module.exports = () => {
         id: 7,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T18:16:45.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T18:21:37.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 1000,
         JourneyPathStr:
@@ -266,12 +267,12 @@ module.exports = () => {
         id: 8,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-08-31T23:25:19.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-08-31T23:42:42.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 7000,
         JourneyPathStr:
@@ -283,12 +284,12 @@ module.exports = () => {
         id: 9,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-25T04:35:31.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-25T04:42:42.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 2000,
         JourneyPathStr:
@@ -300,12 +301,12 @@ module.exports = () => {
         id: 10,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-25T04:44:44.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-25T04:55:47.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 3000,
         JourneyPathStr:
@@ -317,12 +318,12 @@ module.exports = () => {
         id: 11,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-08-31T07:23:56.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-08-31T07:49:36.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 22000,
         JourneyPathStr:
@@ -334,12 +335,12 @@ module.exports = () => {
         id: 12,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-09-02T13:24:01.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-09-02T13:38:20.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 8000,
         JourneyPathStr:
@@ -351,12 +352,12 @@ module.exports = () => {
         id: 13,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-21T13:54:12.010',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-21T14:07:52.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 9000,
         JourneyPathStr:
@@ -368,12 +369,12 @@ module.exports = () => {
         id: 14,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T10:37:28.010',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T10:42:52.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 0,
         JourneyPathStr: '-3.37611 40.4715,-3.37859 40.4736,-3.37851 40.4735',
@@ -384,12 +385,12 @@ module.exports = () => {
         id: 15,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T11:10:35.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T11:20:57.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 7000,
         JourneyPathStr:
@@ -401,12 +402,12 @@ module.exports = () => {
         id: 16,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T13:07:01.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T13:20:21.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 6000,
         JourneyPathStr:
@@ -418,12 +419,12 @@ module.exports = () => {
         id: 17,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T15:01:39.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T15:09:19.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 1000,
         JourneyPathStr:
@@ -435,12 +436,12 @@ module.exports = () => {
         id: 18,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-24T18:16:45.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-24T18:21:37.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 1000,
         JourneyPathStr:
@@ -452,12 +453,12 @@ module.exports = () => {
         id: 19,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-08-31T23:25:19.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-08-31T23:42:42.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 7000,
         JourneyPathStr:
@@ -469,12 +470,12 @@ module.exports = () => {
         id: 20,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-25T04:35:31.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-25T04:42:42.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 2000,
         JourneyPathStr:
@@ -486,12 +487,12 @@ module.exports = () => {
         id: 21,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: '2021-07-25T04:44:44.000',
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-07-25T04:55:47.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 3000,
         JourneyPathStr:
@@ -503,12 +504,12 @@ module.exports = () => {
         id: 22,
         VehicleId: faker.datatype.number({
           min: 1,
-          max: 100,
+          max: 10,
         }),
-        JourneyStart: Date.now(),
+        JourneyStart: Date.parse(faker.date.recent()),
         MotorState: 1,
         Isign: 1,
-        JourneyEnd: '2021-08-31T07:49:36.000',
+        JourneyEnd: Date.parse(faker.date.recent()),
         JourneyEndIsIgn: 1,
         JourneyEndMetersSinceIgnON: 22000,
         JourneyPathStr:

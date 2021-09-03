@@ -39,7 +39,7 @@ export default function ModalVehiclesFilter(props) {
       {vehicles.map((item, index) => {
         return (
           <Pressable
-            key={index}
+            key={item.id}
             onPress={event => {
               handleSelectVehicle(item.id);
             }}
@@ -64,7 +64,6 @@ export default function ModalVehiclesFilter(props) {
 const styles = StyleSheet.create({
   modalVehiclesFilterView: {
     width: 180,
-    height: 120,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
   },
   modalVehiclesFilterTitleView: {
     width: '100%',
-    height: '20%',
+    height: 30,
     paddingLeft: 15,
     justifyContent: 'center',
   },
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#9b9b9b',
   },
   modalVehiclesFilterPressableView: {
-    height: '26.6%',
+    height: 35,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

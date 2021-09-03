@@ -23,6 +23,7 @@ import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
 import FilterSelector from '../components/FilterSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
+import {getStartDate, getEndDate} from '../utils';
 
 export default function JourneysScreen(props) {
   const {navigation} = props;
@@ -37,23 +38,7 @@ export default function JourneysScreen(props) {
   const [vehicles, setVehicles] = useState([]);
   const [isModalVehiclesFilterVisible, setIsModalVehiclesFilterVisible] =
     useState(false);
-
-  const getStartDate = () => {
-    const today = new Date();
-    const startDate = `${today.getFullYear()}-${(
-      '0' +
-      (today.getMonth() + 1)
-    ).slice(-2)}-${('0' + today.getDate()).slice(-2)}T00:00:00`;
-    return startDate;
-  };
-  const getEndDate = () => {
-    const today = new Date();
-    const startDate = `${today.getFullYear()}-${(
-      '0' +
-      (today.getMonth() + 1)
-    ).slice(-2)}-${('0' + today.getDate()).slice(-2)}T23:59:59`;
-    return startDate;
-  };
+  const [noOfRenders, setNoOfRenders] = useState(0);
 
   const getJourneys = async filter => {
     const mockedJourneys = await getMockedJourneys(filter);
@@ -100,18 +85,45 @@ export default function JourneysScreen(props) {
   };
 
   useEffect(() => {
-    ((filteredVehicles && filteredVehicles.length > 1) ||
-      (vehicles && vehicles.length > 1)) &&
-      console.log('VEHICLES:', vehicles, 'FVEHICLES:', filteredVehicles);
-    setIsModalVehiclesFilterVisible(true);
+    if (noOfRenders === 0) {
+      setNoOfRenders(prevNumber => prevNumber + 1);
+      return;
+    }
+    if (vehicles && vehicles.length === 1) {
+      console.log('TIENE VEHICLES');
+      setFilters(prevFilters => {
+        return {
+          ...prevFilters,
+          vehicleId: vehicles[0].id,
+        };
+      });
+      return;
+    }
+    if (filteredVehicles && filteredVehicles.length === 1) {
+      console.log('TIENE FILETERED VEHICLES');
+      setFilters(prevFilters => {
+        return {
+          ...prevFilters,
+          vehicleId: filteredVehicles[0].id,
+        };
+      });
+      return;
+    }
+    if (
+      (vehicles && vehicles.length > 1) ||
+      (filteredVehicles && filteredVehicles.length > 1)
+    ) {
+      console.log('ABRE EL MODAL');
+      setIsModalVehiclesFilterVisible(true);
+    }
   }, [filteredVehicles, vehicles]);
 
   useEffect(() => {
-    console.log(filters);
+    console.log('USEEFFECT FILTERS', filters);
     filters.vehicleId &&
       getJourneys(filters)
         .then(data => {
-          //console.log(data);
+          console.log(data);
           setJourneys(data);
         })
         .catch(error => {
@@ -152,7 +164,13 @@ export default function JourneysScreen(props) {
     AsyncStorage.getItem('VEHICLES').then(data => {
       setVehicles(JSON.parse(data));
     });
-    setFilters({startDate: getStartDate(), endDate: getEndDate()});
+    setFilters(prevFilters => {
+      return {
+        ...prevFilters,
+        startDate: getStartDate(),
+        endDate: getEndDate(),
+      };
+    });
   }, [navigation, logout, switchTheme]);
 
   return (

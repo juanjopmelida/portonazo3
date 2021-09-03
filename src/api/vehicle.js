@@ -34,7 +34,7 @@ const getVehicleById = async id => {
 
 export const getMockedVehicles = async () => {
   const vehiclesIds = Array.from({length: randomNumber(10)}, () =>
-    randomNumber(100),
+    randomNumber(10),
   );
   const NonDuplicatedVehiclesIds = Array.from(new Set(vehiclesIds));
   const vehicles = await getAllVehicles(NonDuplicatedVehiclesIds);
@@ -44,7 +44,7 @@ export const getMockedVehicles = async () => {
 };
 
 export const getMockedVehiclesByFleet = async () => {
-  const fleetId = randomNumber(20);
+  const fleetId = randomNumber(10);
   const uri = `${localhostServer}/vehicle?FleetId=${fleetId}`;
   const vehicles = await axios.get(uri);
   AsyncStorage.setItem('VEHICLES', JSON.stringify(vehicles.data));
