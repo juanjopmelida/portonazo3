@@ -39,6 +39,7 @@ export default function JourneysScreen(props) {
   const [isModalVehiclesFilterVisible, setIsModalVehiclesFilterVisible] =
     useState(false);
   const [noOfRenders, setNoOfRenders] = useState(0);
+  const [isMoreThanOneVehicle, setIsMoreThanOneVehicle] = useState(false);
 
   const getJourneys = async filter => {
     const mockedJourneys = await getMockedJourneys(filter);
@@ -85,6 +86,12 @@ export default function JourneysScreen(props) {
   };
 
   useEffect(() => {
+    const _isMoreThanOneVehicle =
+      (vehicles && vehicles.length > 1) ||
+      (filteredVehicles && filteredVehicles.length > 1);
+
+    setIsMoreThanOneVehicle(_isMoreThanOneVehicle)
+
     if (noOfRenders === 0) {
       setNoOfRenders(prevNumber => prevNumber + 1);
       return;
@@ -109,14 +116,11 @@ export default function JourneysScreen(props) {
       });
       return;
     }
-    if (
-      (vehicles && vehicles.length > 1) ||
-      (filteredVehicles && filteredVehicles.length > 1)
-    ) {
+    if (_isMoreThanOneVehicle) {
       console.log('ABRE EL MODAL');
       setIsModalVehiclesFilterVisible(true);
     }
-  }, [filteredVehicles, vehicles]);
+  }, [filteredVehicles, vehicles, noOfRenders]);
 
   useEffect(() => {
     console.log('USEEFFECT FILTERS', filters);
@@ -181,6 +185,7 @@ export default function JourneysScreen(props) {
         filters={filters}
         setFilters={setFilters}
         setIsModalVehiclesFilterVisible={setIsModalVehiclesFilterVisible}
+        changeVehicleEnabled={isMoreThanOneVehicle}
       />
       <View style={globalStyles.container}>
         <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
