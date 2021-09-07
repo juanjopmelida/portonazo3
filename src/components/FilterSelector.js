@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
+import Modal from 'react-native-modal';
 import {StyleSheet, Text, Pressable, View, Image} from 'react-native';
 
 import EnabledEyeImage from '../assets/buttons/EnabledEye.png';
+import DisabledEyeImage from '../assets/buttons/DisabledEye.png';
+import EnabledCalendar from '../assets/buttons/EnabledCalendar.png';
 
 import {
   getTodayStartDate,
@@ -9,6 +12,7 @@ import {
   getYesterdayStartDate,
   getYesterdayEndDate,
 } from '../utils';
+import ModalDateRangePicker from './ModalDateRangePicker';
 
 export default function FilterSelector(props) {
   const {
@@ -19,6 +23,28 @@ export default function FilterSelector(props) {
   } = props;
 
   const [activeIndex, setActiveIndex] = useState(1);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [selectedRange, setSelectedRange] = useState({});
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const openDatePicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const onCancel = () => {
+    // You should close the modal in here
+    setShowDatePicker(false);
+  };
+
+  const onConfirm = date => {
+    // You should close the modal in here
+    setShowDatePicker(false);
+
+    // The parameter 'date' is a Date object so that you can use any Date prototype method.
+    console.log(date.getDate());
+  };
 
   const handleChangeVehicleFilter = () => {
     setActiveIndex(0);
@@ -47,10 +73,6 @@ export default function FilterSelector(props) {
     });
   };
 
-  const handlePressCalendar = () => {
-    setActiveIndex(3);
-  };
-
   return (
     <View style={styles.filterSelectorView}>
       <Pressable
@@ -63,7 +85,10 @@ export default function FilterSelector(props) {
         }
         onPress={handleChangeVehicleFilter}
         disabled={!changeVehicleEnabled}>
-        <Image source="EnabledEyeImage" style={styles.imageButton} />
+        <Image
+          source={changeVehicleEnabled ? EnabledEyeImage : DisabledEyeImage}
+          style={styles.imageButton}
+        />
       </Pressable>
       <Pressable
         style={
@@ -88,13 +113,22 @@ export default function FilterSelector(props) {
           activeIndex === 3
             ? styles.filterSelectorPressableActive
             : styles.filterSelectorPressable
-        }>
-        <Text
-          style={styles.filterSelectorPressableText}
-          onPress={handlePressCalendar}>
-          CALENDARIO
-        </Text>
+        }
+        onPress={openDatePicker}>
+        {/* <DatePicker
+          isVisible={showDatePicker}
+          mode={'single'}
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+        /> */}
+        <Image source={EnabledCalendar} style={styles.imageButton} />
       </Pressable>
+      <Modal
+        isVisible={showDatePicker}
+        onBackdropPress={() => setShowDatePicker(false)}
+        backdropOpacity={0.2}>
+        <ModalDateRangePicker />
+      </Modal>
     </View>
   );
 }

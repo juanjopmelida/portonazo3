@@ -90,7 +90,7 @@ export default function JourneysScreen(props) {
       (vehicles && vehicles.length > 1) ||
       (filteredVehicles && filteredVehicles.length > 1);
 
-    setIsMoreThanOneVehicle(_isMoreThanOneVehicle)
+    setIsMoreThanOneVehicle(_isMoreThanOneVehicle);
 
     if (noOfRenders === 0) {
       setNoOfRenders(prevNumber => prevNumber + 1);
@@ -209,11 +209,11 @@ export default function JourneysScreen(props) {
             return (
               <>
                 <Marker
-                  key={`startJourney${polyline.id}`}
+                  key={polyline.start}
                   coordinate={polyline.coords[0]}
                   image={startJourneyMarker}
                   centerOffset={{x: 0, y: 0}}>
-                  <Callout key={`startJourney${polyline.id}`} tooltip>
+                  <Callout key={polyline.start} tooltip>
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.bubbleText}>
@@ -232,11 +232,11 @@ export default function JourneysScreen(props) {
                   strokeWidth={3}
                 />
                 <Marker
-                  key={`endJourney${polyline.id}`}
+                  key={polyline.end}
                   coordinate={polyline.coords[lastCoord]}
                   image={endJourneyMarker}
                   centerOffset={{x: 0, y: 0}}>
-                  <Callout key={`endJourney${polyline.id}`} tooltip>
+                  <Callout key={polyline.end} tooltip>
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.bubbleText}>

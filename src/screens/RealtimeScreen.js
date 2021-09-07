@@ -63,7 +63,6 @@ export default function RealtimeScreen(props) {
     AsyncStorage.getItem('ADDRESSES').then(data => {
       setAddresses(JSON.parse(data));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, logout]);
 
   return (
