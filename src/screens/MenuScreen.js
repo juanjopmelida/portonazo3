@@ -114,6 +114,10 @@ export default function MenuScreen(props) {
           getAllRealTimeByIds(_vehicles);
           getAllRealTimeDetailsByIds(_vehicles);
           getAllAddressByIds(_vehicles);
+        } else {
+          toastRef.current.show(
+            'No se han recuperado vehículos para esta flota',
+          );
         }
       })
       .catch(error => {

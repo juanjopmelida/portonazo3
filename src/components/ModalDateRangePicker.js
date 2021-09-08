@@ -1,21 +1,31 @@
 import moment from 'moment';
-import React, {useState} from 'react';
+import React from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import DateRangePicker from 'rn-select-date-range';
 import {useTheme} from '@react-navigation/native';
 
-const ModalDateRangePicker = () => {
+const ModalDateRangePicker = props => {
+  const {filters, setFilters, setShowDatePicker} = props;
   const {colors} = useTheme();
-  const [selectedRange, setRange] = useState({});
 
   return (
     <View style={styles.container}>
       <DateRangePicker
         onSelectDateRange={range => {
-          setRange(range);
+          const _startDate = new Date(range.firstDate).setHours(0, 0, 0, 0);
+
+          const _endDate = new Date(range.secondDate).setHours(23, 59, 59, 59);
+
+          setFilters({
+            ...filters,
+            startDate: _startDate,
+            endDate: _endDate,
+          });
+          console.log(filters);
+          setShowDatePicker(false);
         }}
         blockSingleDateSelection={false}
-        responseFormat="DD-MM-YYYY"
+        responseFormat="LLLL"
         maxDate={moment()}
         minDate={moment().subtract(100, 'days')}
         selectedDateContainerStyle={[
@@ -24,10 +34,6 @@ const ModalDateRangePicker = () => {
         ]}
         selectedDateStyle={styles.selectedDateStyle}
       />
-      <View>
-        <Text>first date: {selectedRange.firstDate}</Text>
-        <Text>second date: {selectedRange.secondDate}</Text>
-      </View>
     </View>
   );
 };

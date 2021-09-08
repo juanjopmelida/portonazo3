@@ -135,9 +135,9 @@ export default function Map(props) {
     fitToAllMarkersCoords();
   };
 
-  const navigate = screen => {
+  const navigate = (screen, marker) => {
     hideModalMarkerData();
-    navigation.navigate(screen, user);
+    navigation.navigate(screen, marker);
   };
 
   const setLockedRetarded = async () => {
@@ -182,24 +182,25 @@ export default function Map(props) {
         style={styles.map}
         onMapReady={fitToAllMarkersCoords}>
         <UrlTile urlTemplate="http://tile.stamen.com/toner/{z}/{x}/{y}.png" />
-        {filteredRealTimes.map((rt, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: rt.Latitude,
-              longitude: rt.Longitude,
-            }}
-            image={markerImg[rt.Status]}
-            style={{
-              transform: [
-                {
-                  rotate: `${rt.Heading}deg`,
-                },
-              ],
-            }}
-            onPress={() => showModalMarkerData(rt.id)}
-          />
-        ))}
+        {filteredRealTimes.length > 0 &&
+          filteredRealTimes.map((rt, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: rt.Latitude,
+                longitude: rt.Longitude,
+              }}
+              image={markerImg[rt.Status]}
+              style={{
+                transform: [
+                  {
+                    rotate: `${rt.Heading}deg`,
+                  },
+                ],
+              }}
+              onPress={() => showModalMarkerData(rt.id)}
+            />
+          ))}
       </MapView>
       <FloatingButton
         name={'layers-outline'}
@@ -233,14 +234,18 @@ export default function Map(props) {
         contentContainerStyle={{
           paddingRight: Platform.OS === 'android' ? 20 : 0,
         }}>
-        {props.markers.map((marker, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.chipsItem, {backgroundColor: colors.backgroundGrey}]}
-            onPress={() => showModalMarkerData(marker.id)}>
-            <Text style={{color: colors.text}}>{marker.Plate}</Text>
-          </TouchableOpacity>
-        ))}
+        {markers &&
+          markers.map((marker, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.chipsItem,
+                {backgroundColor: colors.backgroundGrey},
+              ]}
+              onPress={() => showModalMarkerData(marker.id)}>
+              <Text style={{color: colors.text}}>{marker.Plate}</Text>
+            </TouchableOpacity>
+          ))}
       </ScrollView>
       <Modalize
         ref={modalizeRef}
@@ -297,7 +302,7 @@ export default function Map(props) {
                 backgroundColor: colors.modalButtonContent,
               },
             ]}
-            onPress={() => navigate('journeys', user)}>
+            onPress={() => navigate('journeys', selectedMarker)}>
             <Image style={styles.imageButton} source={JourneysImage} />
             <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Rutas
@@ -311,7 +316,7 @@ export default function Map(props) {
                 backgroundColor: colors.modalButtonContent,
               },
             ]}
-            onPress={() => navigate('journeys', user)}>
+            onPress={() => navigate('journeys', selectedMarker)}>
             <Image style={styles.imageButton} source={GoToImage} />
             <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
               Ir a...

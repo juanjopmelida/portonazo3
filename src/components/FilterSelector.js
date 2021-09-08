@@ -23,27 +23,10 @@ export default function FilterSelector(props) {
   } = props;
 
   const [activeIndex, setActiveIndex] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [selectedRange, setSelectedRange] = useState({});
-
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const openDatePicker = () => {
     setShowDatePicker(true);
-  };
-
-  const onCancel = () => {
-    // You should close the modal in here
-    setShowDatePicker(false);
-  };
-
-  const onConfirm = date => {
-    // You should close the modal in here
-    setShowDatePicker(false);
-
-    // The parameter 'date' is a Date object so that you can use any Date prototype method.
-    console.log(date.getDate());
   };
 
   const handleChangeVehicleFilter = () => {
@@ -127,7 +110,11 @@ export default function FilterSelector(props) {
         isVisible={showDatePicker}
         onBackdropPress={() => setShowDatePicker(false)}
         backdropOpacity={0.2}>
-        <ModalDateRangePicker />
+        <ModalDateRangePicker
+          filters={filters}
+          setFilters={setFilters}
+          setShowDatePicker={setShowDatePicker}
+        />
       </Modal>
     </View>
   );

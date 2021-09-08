@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-easy-toast';
 import MapView, {Marker, Polyline, Callout} from 'react-native-maps';
 import randomColor from 'randomcolor';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import Modal from 'react-native-modal';
 
 // HEADER OPTIONS
@@ -22,11 +22,12 @@ import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {getMockedJourneys} from '../api';
 import FilterSelector from '../components/FilterSelector';
+import FiltersView from '../components/FiltersView';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 import {getTodayStartDate, getTodayEndDate} from '../utils';
 
 export default function JourneysScreen(props) {
-  const {navigation} = props;
+  const {navigation, route} = props;
   const {logout} = React.useContext(AuthContext);
   const switchTheme = React.useContext(ThemeContext);
   const toastRef = useRef();
@@ -96,12 +97,22 @@ export default function JourneysScreen(props) {
       setNoOfRenders(prevNumber => prevNumber + 1);
       return;
     }
+    if (route.params?.id) {
+      console.log('TIENE PARAMS');
+      setFilters({
+        ...filters,
+        vehicleId: route.params.id,
+        vehiclePlate: route.params.Plate,
+      });
+      return;
+    }
     if (vehicles && vehicles.length === 1) {
       console.log('TIENE VEHICLES');
       setFilters(prevFilters => {
         return {
           ...prevFilters,
           vehicleId: vehicles[0].id,
+          vehiclePlate: vehicles[0].Plate,
         };
       });
       return;
@@ -112,6 +123,7 @@ export default function JourneysScreen(props) {
         return {
           ...prevFilters,
           vehicleId: filteredVehicles[0].id,
+          vehiclePlate: vehicles[0].Plate,
         };
       });
       return;
@@ -187,6 +199,7 @@ export default function JourneysScreen(props) {
         setIsModalVehiclesFilterVisible={setIsModalVehiclesFilterVisible}
         changeVehicleEnabled={isMoreThanOneVehicle}
       />
+      <FiltersView filters={filters} />
       <View style={globalStyles.container}>
         <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
           <ModalVehiclesFilter
@@ -213,11 +226,11 @@ export default function JourneysScreen(props) {
                   coordinate={polyline.coords[0]}
                   image={startJourneyMarker}
                   centerOffset={{x: 0, y: 0}}>
-                  <Callout key={polyline.start} tooltip>
+                  <Callout tooltip>
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.bubbleText}>
-                          {dayjs(polyline.start).format('DD/MM/YY HH:mm')}
+                          {moment(polyline.start).format('DD/MM/YY HH:mm')}
                         </Text>
                       </View>
                       <View style={styles.arrowBorder} />
@@ -240,7 +253,7 @@ export default function JourneysScreen(props) {
                     <View>
                       <View style={styles.bubble}>
                         <Text style={styles.bubbleText}>
-                          {dayjs(polyline.end).format('DD/MM/YY HH:MM')}
+                          {moment(polyline.end).format('DD/MM/YY HH:MM')}
                         </Text>
                       </View>
                       <View style={styles.arrowBorder} />

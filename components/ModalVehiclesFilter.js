@@ -15,9 +15,13 @@ export default function ModalVehiclesFilter(props) {
     });
   }, []);
 
-  const handleSelectVehicle = vehicleId => {
-    //setFilters({...filters, vehicleId: vehicleId});
-    console.log(vehicleId);
+  const handleSelectVehicle = vehicle => {
+    setFilters({
+      ...filters,
+      vehicleId: vehicle.id,
+      vehiclePlate: vehicle.Plate,
+    });
+    //console.log(vehicle.id);
   };
 
   return (
@@ -39,8 +43,8 @@ export default function ModalVehiclesFilter(props) {
         return (
           <Pressable
             key={item.id}
-            onPress={event => {
-              handleSelectVehicle(item.id);
+            onPress={() => {
+              handleSelectVehicle(item);
             }}>
             <Text>{item.Plate}</Text>
           </Pressable>

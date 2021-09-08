@@ -44,9 +44,31 @@ export const getMockedVehicles = async () => {
 };
 
 export const getMockedVehiclesByFleet = async () => {
-  const fleetId = randomNumber(10);
+  const fleetId = randomNumber(11);
+  console.log('FLEET:', fleetId);
   const uri = `${localhostServer}/vehicle?FleetId=${fleetId}`;
-  const vehicles = await axios.get(uri);
+  const vehicles = await axios.get(uri).catch(error => {
+    if (error.response) {
+      /*
+       * The request was made and the server responded with a
+       * status code that falls out of the range of 2xx
+       */
+      console.log('DATA:', error.response.data);
+      console.log('STATUS:', error.response.status);
+      console.log('HEADERS:', error.response.headers);
+    } else if (error.request) {
+      /*
+       * The request was made but no response was received, `error.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      console.log('REQUEST:', error.request);
+    } else {
+      // Something happened in setting up the request and triggered an Error
+      console.log('ERROR PETICIÓN VEHICLES:', error.message);
+    }
+    console.log(error);
+  });
   AsyncStorage.setItem('VEHICLES', JSON.stringify(vehicles.data));
   return vehicles.data;
 };
