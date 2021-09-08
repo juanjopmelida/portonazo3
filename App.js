@@ -14,6 +14,7 @@ import {AuthContext} from './src/contexts/AuthContext';
 import {darkTheme} from './src/themes/dark';
 import {lightTheme} from './src/themes/light';
 import {useAuth} from './src/hooks/useAuth';
+import {ErrorBoundary} from './src/components/ErrorBoundary';
 
 const RootStack = createStackNavigator();
 const queryClient = new QueryClient();
@@ -45,20 +46,22 @@ const App = () => {
   }
 
   return (
-    <ThemeContext.Provider value={switchTheme}>
-      <StatusBar style={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AuthContext.Provider value={auth}>
-        <NavigationContainer theme={isDarkMode ? darkTheme : lightTheme}>
-          <RootStack.Navigator
-            screenOptions={{
-              headerShown: false,
-              animationEnabled: false,
-            }}>
-            {renderScreens()}
-          </RootStack.Navigator>
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </ThemeContext.Provider>
+    <ErrorBoundary>
+      <ThemeContext.Provider value={switchTheme}>
+        <StatusBar style={isDarkMode ? 'light-content' : 'dark-content'} />
+        <AuthContext.Provider value={auth}>
+          <NavigationContainer theme={isDarkMode ? darkTheme : lightTheme}>
+            <RootStack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animationEnabled: false,
+              }}>
+              {renderScreens()}
+            </RootStack.Navigator>
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </ThemeContext.Provider>
+    </ErrorBoundary>
   );
 };
 

@@ -106,7 +106,8 @@ export default function MenuScreen(props) {
     getMockedVehiclesByFleet()
       .then(res => {
         console.log('getMockedVehiclesByFleet: ', res);
-        if (res) {
+        if (res && res.length > 0) {
+          console.log('ENTRÓ');
           const _vehicles = res.map(veh => {
             return veh.id;
           });
