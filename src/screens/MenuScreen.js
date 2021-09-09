@@ -150,15 +150,23 @@ export default function MenuScreen(props) {
               iconType="material-community"
               iconName="crosshairs-gps"
               title="Tiempo Real"
-              style={styles.button}
+              style={[
+                styles.button,
+                noVehiclesAtFleet && {backgroundColor: '#9f9f9f'},
+              ]}
               onPress={() => navigation.navigate('realTime', user)}
+              disabled={noVehiclesAtFleet}
             />
             <MenuButton
               iconType="material-community"
               iconName="map-marker-path"
               title="Rutas"
-              style={styles.button}
+              style={[
+                styles.button,
+                noVehiclesAtFleet && {backgroundColor: '#9f9f9f'},
+              ]}
               onPress={() => navigation.navigate('journeys', user)}
+              disabled={noVehiclesAtFleet}
             />
             <MenuButton
               iconType="material-community"

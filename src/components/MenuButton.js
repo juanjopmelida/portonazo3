@@ -9,11 +9,12 @@ export default function MenuButton({
   style,
   onPress,
   title,
+  disabled,
 }) {
   const {colors} = useTheme();
 
   return (
-    <Pressable style={style} onPress={onPress}>
+    <Pressable disabled={disabled} style={style} onPress={onPress}>
       <Icon
         type={iconType}
         name={iconName}
