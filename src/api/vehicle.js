@@ -43,7 +43,7 @@ export const getMockedVehicles = async () => {
   return vehicles;
 };
 
-export const getMockedVehiclesByFleet = async () => {
+export const getVehiclesByFleet = async () => {
   const fleetId = randomNumber(11);
   console.log('FLEET:', fleetId);
   const uri = `${localhostServer}/vehicle?FleetId=${fleetId}`;

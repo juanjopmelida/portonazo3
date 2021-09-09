@@ -17,7 +17,7 @@ import MenuButtonsContainer from '../components/MenuButtonsContainer';
 import MenuButton from '../components/MenuButton';
 
 import {
-  getMockedVehiclesByFleet,
+  getVehiclesByFleet,
   getAllRealTimeByIds,
   getAllRealTimeDetailsByIds,
   getAllAddressByIds,
@@ -38,6 +38,7 @@ export default function MenuScreen(props) {
   const [user, setUser] = useState({});
   const [fingerprintSupported, setFingerprintSupported] = useState(false);
   const [enableFingerprint, setEnableFingerprint] = useState(false);
+  const [noVehiclesAtFleet, setNoVehiclesAtFleet] = useState(false);
   const toastRef = useRef();
   const {colors} = useTheme();
 
@@ -51,27 +52,6 @@ export default function MenuScreen(props) {
         password: parseUser.password,
       });
     }
-  };
-
-  const setNavigationOptions = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderIconsContainer>
-          <HeaderIconButton
-            name={'palette'}
-            onPress={() => {
-              switchTheme();
-            }}
-          />
-          <HeaderIconButton
-            name={'logout'}
-            onPress={() => {
-              logout();
-            }}
-          />
-        </HeaderIconsContainer>
-      ),
-    });
   };
 
   const manageFingerprint = () => {
@@ -102,36 +82,57 @@ export default function MenuScreen(props) {
     });
   };
 
-  const getAllDataByUser = () => {
-    getMockedVehiclesByFleet()
-      .then(res => {
-        console.log('getMockedVehiclesByFleet: ', res);
-        if (res && res.length > 0) {
-          console.log('ENTRÓ');
-          const _vehicles = res.map(veh => {
-            return veh.id;
-          });
-          getFleetById(res[0].FleetId);
-          getAllRealTimeByIds(_vehicles);
-          getAllRealTimeDetailsByIds(_vehicles);
-          getAllAddressByIds(_vehicles);
-        } else {
-          toastRef.current.show(
-            'No se han recuperado vehículos para esta flota',
-          );
-        }
-      })
-      .catch(error => {
-        console.log('ERROR RECUPERANDO VEHÍCULOS:', error);
-      });
-  };
-
   useEffect(() => {
-    setNavigationOptions();
+    const getAllDataByUser = () => {
+      getVehiclesByFleet()
+        .then(res => {
+          console.log('getVehiclesByFleet: ', res);
+          if (res && res.length > 0) {
+            console.log('HAY VEHÍCULOS');
+            const _vehicles = res.map(veh => {
+              return veh.id;
+            });
+            getFleetById(res[0].FleetId);
+            getAllRealTimeByIds(_vehicles);
+            getAllRealTimeDetailsByIds(_vehicles);
+            getAllAddressByIds(_vehicles);
+          } else {
+            setNoVehiclesAtFleet(true);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR RECUPERANDO VEHÍCULOS:', error);
+        });
+    };
+
     retrieveUserFromStorage();
     manageFingerprint();
     getAllDataByUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const setNavigationOptions = () => {
+      navigation.setOptions({
+        headerRight: () => (
+          <HeaderIconsContainer>
+            <HeaderIconButton
+              name={'palette'}
+              onPress={() => {
+                switchTheme();
+              }}
+            />
+            <HeaderIconButton
+              name={'logout'}
+              onPress={() => {
+                logout();
+              }}
+            />
+          </HeaderIconsContainer>
+        ),
+      });
+    };
+
+    setNavigationOptions();
   }, [navigation, logout, switchTheme]);
 
   return (
@@ -167,6 +168,11 @@ export default function MenuScreen(props) {
               onPress={() => navigation.navigate('contact', user)}
             />
           </MenuButtonsContainer>
+          {noVehiclesAtFleet && (
+            <View style={{width: '100%', height: '100%', marginTop: 200}}>
+              <Text>No se ha recuperado ningún vehículo para esta flota.</Text>
+            </View>
+          )}
           {fingerprintSupported &&
             (enableFingerprint ? (
               <Button
