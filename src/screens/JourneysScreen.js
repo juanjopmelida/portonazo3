@@ -23,6 +23,7 @@ import Loading from '../components/Loading';
 import {getJourneys} from '../api';
 import FilterSelector from '../components/FilterSelector';
 import FiltersView from '../components/FiltersView';
+import JourneysSelector from '../components/JourneysSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 import {getTodayStartDate, getTodayEndDate} from '../utils';
 
@@ -128,6 +129,7 @@ export default function JourneysScreen(props) {
             color: journeyColors[retrievedJourneys.length],
             start: item.JourneyStart,
             end: item.JourneyEnd,
+            journeyEndMetersSinceIgnON: item.JourneyEndMetersSinceIgnON,
           },
         ];
       });
@@ -202,6 +204,7 @@ export default function JourneysScreen(props) {
         changeVehicleEnabled={isMoreThanOneVehicle}
       />
       <FiltersView filters={filters} />
+      <JourneysSelector journeys={journeys} />
       <View style={globalStyles.container}>
         <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
           <ModalVehiclesFilter
