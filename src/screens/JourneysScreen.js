@@ -20,7 +20,7 @@ import endJourneyMarker from '../assets/markers/track_end.png';
 
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
-import {getMockedJourneys} from '../api';
+import {getJourneys} from '../api';
 import FilterSelector from '../components/FilterSelector';
 import FiltersView from '../components/FiltersView';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
@@ -42,50 +42,6 @@ export default function JourneysScreen(props) {
   const [noOfRenders, setNoOfRenders] = useState(0);
   const [isMoreThanOneVehicle, setIsMoreThanOneVehicle] = useState(false);
 
-  const getJourneys = async filter => {
-    const mockedJourneys = await getMockedJourneys(filter);
-    const journeyColors = randomColor({
-      count: mockedJourneys.length,
-      luminosity: 'dark',
-    });
-    let journeyPath = [];
-    let retrievedJourneys = [];
-
-    mockedJourneys.map(item => {
-      setLoading(true);
-      let journeyCoords = [];
-      journeyPath = item.JourneyPathStr.split(',');
-      //console.log(journeyPath);
-      journeyPath.map(point => {
-        const coords = point.split(' ');
-        const lat = coords[1];
-        const lon = coords[0];
-        journeyCoords = [
-          ...journeyCoords,
-          {
-            latitude: parseFloat(lat),
-            longitude: parseFloat(lon),
-          },
-        ];
-      });
-      //console.log('journey: ', journeyCoords);
-      retrievedJourneys = [
-        ...retrievedJourneys,
-        {
-          id: retrievedJourneys.length + 1,
-          coords: journeyCoords,
-          color: journeyColors[retrievedJourneys.length],
-          start: item.JourneyStart,
-          end: item.JourneyEnd,
-        },
-      ];
-    });
-    //console.log(retrievedJourneys);
-    console.log('recuperadas', retrievedJourneys.length, 'rutas');
-    setLoading(false);
-    return retrievedJourneys;
-  };
-
   useEffect(() => {
     const _isMoreThanOneVehicle =
       (vehicles && vehicles.length > 1) ||
@@ -97,7 +53,8 @@ export default function JourneysScreen(props) {
       setNoOfRenders(prevNumber => prevNumber + 1);
       return;
     }
-    if (route.params?.id) {
+
+    if (route.params?.id && route.params?.Plate) {
       console.log('TIENE PARAMS');
       setFilters({
         ...filters,
@@ -129,15 +86,60 @@ export default function JourneysScreen(props) {
       return;
     }
     if (_isMoreThanOneVehicle) {
-      console.log('ABRE EL MODAL');
+      //console.log('ABRE EL MODAL');
       setIsModalVehiclesFilterVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredVehicles, vehicles, noOfRenders]);
 
   useEffect(() => {
+    const retrieveJourneys = async filter => {
+      const mockedJourneys = await getJourneys(filter);
+      const journeyColors = randomColor({
+        count: mockedJourneys.length,
+        luminosity: 'dark',
+      });
+      let journeyPath = [];
+      let retrievedJourneys = [];
+
+      mockedJourneys.map(item => {
+        setLoading(true);
+        let journeyCoords = [];
+        journeyPath = item.JourneyPathStr.split(',');
+        //console.log(journeyPath);
+        journeyPath.map(point => {
+          const coords = point.split(' ');
+          const lat = coords[1];
+          const lon = coords[0];
+          journeyCoords = [
+            ...journeyCoords,
+            {
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lon),
+            },
+          ];
+        });
+        //console.log('journey: ', journeyCoords);
+        retrievedJourneys = [
+          ...retrievedJourneys,
+          {
+            id: retrievedJourneys.length + 1,
+            coords: journeyCoords,
+            color: journeyColors[retrievedJourneys.length],
+            start: item.JourneyStart,
+            end: item.JourneyEnd,
+          },
+        ];
+      });
+      //console.log(retrievedJourneys);
+      console.log('recuperadas', retrievedJourneys.length, 'rutas');
+      setLoading(false);
+      return retrievedJourneys;
+    };
+
     console.log('USEEFFECT FILTERS', filters);
     filters.vehicleId &&
-      getJourneys(filters)
+      retrieveJourneys(filters)
         .then(data => {
           console.log(data);
           setJourneys(data);
@@ -171,7 +173,7 @@ export default function JourneysScreen(props) {
 
     setNavigationOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [switchTheme]);
+  }, [navigation, logout, switchTheme]);
 
   useEffect(() => {
     AsyncStorage.getItem('FILTERED_VEHICLES').then(data => {
@@ -187,7 +189,7 @@ export default function JourneysScreen(props) {
         endDate: getTodayEndDate(),
       };
     });
-  }, [navigation, logout, switchTheme]);
+  }, []);
 
   return (
     <ScrollView>

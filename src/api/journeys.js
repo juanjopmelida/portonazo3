@@ -7,7 +7,7 @@ const localhostServer =
     ? REACT_APP_MOCK_SERVER_IOS
     : REACT_APP_MOCK_SERVER_ANDROID;
 
-export const getMockedJourneys = async filters => {
+export const getJourneys = async filters => {
   const uri = `${localhostServer}/Journeys?VehicleId=${filters.vehicleId}&JourneyStart_gte=${filters.startDate}&JourneyEnd_lte=${filters.endDate}`;
   //const uri = `${localhostServer}/Journeys`;
   console.log(uri);
