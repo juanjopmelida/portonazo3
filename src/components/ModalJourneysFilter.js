@@ -1,30 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import moment from 'moment';
 import {CheckBox} from 'react-native-elements';
 import {StyleSheet, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 export default function ModalJourneysFilter(props) {
-  const {
-    journeys,
-    selectedJourneys,
-    setselectedJourneys,
-    setModalJourneysFilterVisible,
-  } = props;
+  const {journeys, selectedJourneys, setSelectedJourneys} = props;
   const {colors} = useTheme();
 
+  const addItem = item => {
+    const newList = selectedJourneys.concat(item);
+    setSelectedJourneys(newList);
+  };
+
+  const removeItem = id => {
+    const newList = selectedJourneys.filter(item => item.id !== id);
+    newList.length === 0
+      ? setSelectedJourneys(journeys)
+      : setSelectedJourneys(newList);
+  };
+
   const handleCheckAllJourneys = () => {
-    setselectedJourneys(journeys);
-    setModalJourneysFilterVisible(false);
+    if (journeys === selectedJourneys) {
+      setSelectedJourneys([]);
+    } else {
+      setSelectedJourneys(journeys);
+    }
   };
 
-  const handleCheckJourney = journeyId => {
-    !selectedJourneys.find(journey => journey.id === journeyId) &&
-      setselectedJourneys([...selectedJourneys, journey]);
+  const handleCheckJourney = journey => {
+    if (selectedJourneys.includes(journey)) {
+      removeItem(journey.id);
+    } else {
+      addItem(journey);
+    }
   };
 
-  const isSelected = journeyId =>
-    selectedJourneys.find(journey => journey.id === journeyId);
+  const isSelected = id =>
+    selectedJourneys.filter(item => item.id === id).length > 0;
+
+  useEffect(() => {
+    console.log('JOURNEYS', journeys);
+    console.log('SELECTED JOURNEYS', selectedJourneys);
+  }, [journeys, selectedJourneys]);
 
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -36,7 +54,7 @@ export default function ModalJourneysFilter(props) {
         ]}
         textStyle={[styles.checkBoxText, {color: colors.text}]}
         onPress={handleCheckAllJourneys}
-        checked={selectedJourneys.length === journeys.length}
+        checked={selectedJourneys === journeys}
       />
       {journeys.map(journey => {
         return (
@@ -50,7 +68,7 @@ export default function ModalJourneysFilter(props) {
               {backgroundColor: colors.background},
             ]}
             textStyle={[styles.checkBoxText, {color: colors.text}]}
-            onPress={() => handleCheckJourney(journey.id)}
+            onPress={() => handleCheckJourney(journey)}
             checked={isSelected(journey.id)}
           />
         );

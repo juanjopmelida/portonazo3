@@ -12,7 +12,7 @@ export default function JourneysSelector(props) {
 
   const [modalJourneysFilterVisible, setModalJourneysFilterVisible] =
     useState(false);
-  const [selectedJourneys, setselectedJourneys] = useState(journeys);
+  const [selectedJourneys, setSelectedJourneys] = useState(journeys);
   const [totalDistance, setTotalDistance] = useState('');
 
   useEffect(() => {
@@ -30,30 +30,50 @@ export default function JourneysSelector(props) {
     calculateDistance();
   }, [journeys]);
 
+  const handleOnPress = () => {
+    journeys.length > 0 && setModalJourneysFilterVisible(true);
+  };
+
+  const renderInfo = () => {
+    if (journeys.length === 0) {
+      return (
+        <Text style={[styles.filtersViewText, {color: colors.primary}]}>
+          No hay rutas en esta fecha
+        </Text>
+      );
+    }
+    if (selectedJourneys.length === journeys.length) {
+      return (
+        <Text style={[styles.filtersViewText, {color: colors.primary}]}>
+          {`Todas las rutas: ${totalDistance}`}
+        </Text>
+      );
+    }
+    if (journeys.length === 1) {
+      return <Text>{`${journeys.length} ruta`}</Text>;
+    }
+    if (journeys.length > 1) {
+      return <Text>{`${journeys.length} rutas`}</Text>;
+    }
+  };
+
   return (
     <View
       style={[
         styles.filtersViewContainer,
         {backgroundColor: colors.background, borderBottomColor: colors.border},
       ]}>
-      <Pressable
-        style={styles.filtersViewPressable}
-        onPress={() => setModalJourneysFilterVisible(true)}>
-        <Text style={[styles.filtersViewText, {color: colors.primary}]}>
-          {selectedJourneys.length === 0 ||
-          selectedJourneys.length === journeys.length
-            ? `Todas las rutas: ${totalDistance}`
-            : `${selectedJourneys.length} ruta seleccionada`}
-        </Text>
+      <Pressable style={styles.filtersViewPressable} onPress={handleOnPress}>
+        {renderInfo()}
       </Pressable>
       <Modal
         isVisible={modalJourneysFilterVisible}
         onBackdropPress={() => setModalJourneysFilterVisible(false)}>
         <ModalJourneysFilter
-          selectedJourneys={selectedJourneys}
-          setselectedJourneys={setselectedJourneys}
-          setModalJourneysFilterVisible={setModalJourneysFilterVisible}
           journeys={journeys}
+          selectedJourneys={selectedJourneys}
+          setSelectedJourneys={setSelectedJourneys}
+          setModalJourneysFilterVisible={setModalJourneysFilterVisible}
         />
       </Modal>
     </View>

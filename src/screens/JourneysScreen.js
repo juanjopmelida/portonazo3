@@ -14,10 +14,6 @@ import HeaderLogo from '../components/HeaderLogo';
 import {AuthContext} from '../contexts/AuthContext';
 import {ThemeContext} from '../contexts/ThemeContext';
 
-// MARKERS
-import startJourneyMarker from '../assets/markers/track_start.png';
-import endJourneyMarker from '../assets/markers/track_end.png';
-
 import globalStyles from '../styles/global';
 import Loading from '../components/Loading';
 import {getJourneys} from '../api';
@@ -26,7 +22,6 @@ import FiltersView from '../components/FiltersView';
 import JourneysSelector from '../components/JourneysSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 import {getTodayStartDate, getTodayEndDate} from '../utils';
-import JourneyPolyline from '../components/JourneyPolyline';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
