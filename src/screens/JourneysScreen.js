@@ -26,6 +26,7 @@ import FiltersView from '../components/FiltersView';
 import JourneysSelector from '../components/JourneysSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 import {getTodayStartDate, getTodayEndDate} from '../utils';
+import JourneyPolyline from '../components/JourneyPolyline';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
@@ -223,51 +224,7 @@ export default function JourneysScreen(props) {
             longitudeDelta: 0.0421,
           }}>
           {journeys.map(polyline => {
-            const lastCoord = polyline.coords.length - 1;
-            return (
-              <>
-                <Marker
-                  key={polyline.start}
-                  coordinate={polyline.coords[0]}
-                  image={startJourneyMarker}
-                  centerOffset={{x: 0, y: 0}}>
-                  <Callout tooltip>
-                    <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.bubbleText}>
-                          {moment(polyline.start).format('DD/MM/YY HH:mm')}
-                        </Text>
-                      </View>
-                      <View style={styles.arrowBorder} />
-                      <View style={styles.arrow} />
-                    </View>
-                  </Callout>
-                </Marker>
-                <Polyline
-                  key={polyline.id}
-                  coordinates={polyline.coords}
-                  strokeColor={polyline.color}
-                  strokeWidth={3}
-                />
-                <Marker
-                  key={polyline.end}
-                  coordinate={polyline.coords[lastCoord]}
-                  image={endJourneyMarker}
-                  centerOffset={{x: 0, y: 0}}>
-                  <Callout key={polyline.end} tooltip>
-                    <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.bubbleText}>
-                          {moment(polyline.end).format('DD/MM/YY HH:MM')}
-                        </Text>
-                      </View>
-                      <View style={styles.arrowBorder} />
-                      <View style={styles.arrow} />
-                    </View>
-                  </Callout>
-                </Marker>
-              </>
-            );
+            return <Polyline key={polyline.id} />;
           })}
         </MapView>
       </View>
@@ -281,29 +238,5 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     ...StyleSheet.absoluteFillObject,
-  },
-  bubble: {
-    backgroundColor: '#fff',
-    padding: 5,
-    width: '100%',
-  },
-  // Arrow below the bubble
-  arrow: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#fff',
-    borderWidth: 8,
-    alignSelf: 'center',
-    marginTop: 0,
-  },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    alignSelf: 'center',
-    marginTop: -0.5,
-  },
-  bubbleText: {
-    fontSize: 16,
   },
 });
