@@ -26,11 +26,11 @@ export default function FilterSelector(props) {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const openDatePicker = () => {
+    setActiveIndex(3);
     setShowDatePicker(true);
   };
 
   const handleChangeVehicleFilter = () => {
-    setActiveIndex(0);
     setIsModalVehiclesFilterVisible(true);
   };
 
@@ -61,10 +61,8 @@ export default function FilterSelector(props) {
       <Pressable
         style={
           changeVehicleEnabled
-            ? activeIndex === 0
-              ? styles.filterSelectorPressableActive
-              : styles.filterSelectorPressable
-            : styles.filterSelectorPressableDisabled
+            ? styles.filterSelectorIcon
+            : styles.filterSelectorIconDisabled
         }
         onPress={handleChangeVehicleFilter}
         disabled={!changeVehicleEnabled}>
@@ -94,8 +92,8 @@ export default function FilterSelector(props) {
       <Pressable
         style={
           activeIndex === 3
-            ? styles.filterSelectorPressableActive
-            : styles.filterSelectorPressable
+            ? styles.filterSelectorIconActive
+            : styles.filterSelectorIcon
         }
         onPress={openDatePicker}>
         {/* <DatePicker
@@ -126,11 +124,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     backgroundColor: '#f2f2f2',
-    height: 40,
+    height: 30,
+  },
+  filterSelectorIcon: {
+    height: '100%',
+    width: '10%',
+    borderWidth: 0.5,
+    borderColor: '#cacaca',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+  },
+  filterSelectorIconDisabled: {
+    height: '100%',
+    width: '10%',
+    borderWidth: 0.5,
+    borderColor: '#cacaca',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+    borderBottomWidth: 1,
+  },
+  filterSelectorIconActive: {
+    height: '100%',
+    width: '10%',
+    borderWidth: 0.5,
+    borderColor: '#cacaca',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#d2d2d2',
+    borderBottomWidth: 1,
   },
   filterSelectorPressable: {
     height: '100%',
-    width: '25%',
+    width: '40%',
     borderWidth: 0.5,
     borderColor: '#cacaca',
     alignItems: 'center',
@@ -139,7 +166,7 @@ const styles = StyleSheet.create({
   },
   filterSelectorPressableActive: {
     height: '100%',
-    width: '25%',
+    width: '40%',
     borderWidth: 0.5,
     borderColor: '#cacaca',
     alignItems: 'center',
