@@ -228,7 +228,7 @@ export default function JourneysScreen(props) {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {journeys.map(journey => {
+          {checkedJourneys.map(journey => {
             return <JourneyPolyline key={journey.id} journey={journey} />;
           })}
         </MapView>

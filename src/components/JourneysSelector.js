@@ -47,6 +47,7 @@ export default function JourneysSelector(props) {
         </Text>
       );
     }
+
     if (isAllCheckedJourneys) {
       return (
         <Text style={[styles.filtersViewText, {color: colors.primary}]}>
@@ -54,6 +55,7 @@ export default function JourneysSelector(props) {
         </Text>
       );
     }
+
     if (checkedJourneys.length === 0 && journeys.length > 0) {
       return (
         <Text
@@ -65,6 +67,7 @@ export default function JourneysSelector(props) {
         </Text>
       );
     }
+
     if (checkedJourneys.length === 1) {
       return (
         <Text
@@ -74,6 +77,7 @@ export default function JourneysSelector(props) {
           ]}>{`${checkedJourneys.length} ruta: ${totalDistance}`}</Text>
       );
     }
+
     if (checkedJourneys.length > 1) {
       return (
         <Text

@@ -25,17 +25,19 @@ export default function ModalJourneysFilter(props) {
   };
 
   const handleCheckJourney = journey => {
-    checkedJourneys.includes(journey)
-      ? setCheckedJourneys(
-          checkedJourneys.filter(item => item.id !== journey.id),
-        )
-      : setCheckedJourneys([...checkedJourneys, journey]);
+    if (checkedJourneys.includes(journey)) {
+      setCheckedJourneys(
+        checkedJourneys.filter(item => item.id !== journey.id),
+      );
+      setIsAllCheckedJourneys(false);
+      return;
+    }
+    setCheckedJourneys([...checkedJourneys, journey]);
   };
 
   useEffect(() => {
-    console.log('JOURNEYS', journeys);
-    console.log('SELECTED JOURNEYS', checkedJourneys);
-  }, [journeys, checkedJourneys]);
+    journeys.length === checkedJourneys.length && setIsAllCheckedJourneys(true);
+  }, [journeys, checkedJourneys, setIsAllCheckedJourneys]);
 
   return (
     <View style={[styles.container, {backgroundColor: colors.background}]}>
@@ -48,7 +50,7 @@ export default function ModalJourneysFilter(props) {
         textStyle={[styles.checkBoxText, {color: colors.text}]}
         onPress={handleCheckAllJourneys}
         checked={isAllCheckedJourneys}
-        checkedColor="red"
+        checkedColor="#446070"
       />
       {journeys.map(journey => {
         return (
@@ -64,6 +66,7 @@ export default function ModalJourneysFilter(props) {
             textStyle={[styles.checkBoxText, {color: colors.text}]}
             onPress={() => handleCheckJourney(journey)}
             checked={checkedJourneys.includes(journey)}
+            checkedColor="#42A1D7"
           />
         );
       })}
