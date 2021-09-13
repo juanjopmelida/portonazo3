@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import {StyleSheet, Text, Pressable, View, Image} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
 import EnabledEyeImage from '../assets/buttons/EnabledEye.png';
 import DisabledEyeImage from '../assets/buttons/DisabledEye.png';
@@ -21,6 +22,8 @@ export default function FilterSelector(props) {
     setIsModalVehiclesFilterVisible,
     changeVehicleEnabled,
   } = props;
+
+  const {colors} = useTheme();
 
   const [activeIndex, setActiveIndex] = useState(1);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -59,11 +62,15 @@ export default function FilterSelector(props) {
   return (
     <View style={styles.filterSelectorView}>
       <Pressable
-        style={
+        style={[
+          {
+            backgroundColor: colors.background,
+            borderColor: colors.borderInactive,
+          },
           changeVehicleEnabled
-            ? styles.filterSelectorIcon
-            : styles.filterSelectorIconDisabled
-        }
+            ? [styles.filterSelectorIcon]
+            : [styles.filterSelectorIconDisabled],
+        ]}
         onPress={handleChangeVehicleFilter}
         disabled={!changeVehicleEnabled}>
         <Image
@@ -72,36 +79,53 @@ export default function FilterSelector(props) {
         />
       </Pressable>
       <Pressable
-        style={
+        style={[
+          {backgroundColor: colors.background},
           activeIndex === 1
-            ? styles.filterSelectorPressableActive
-            : styles.filterSelectorPressable
-        }
+            ? [
+                styles.filterSelectorPressableActive,
+                {borderColor: colors.borderActive},
+              ]
+            : [
+                styles.filterSelectorPressable,
+                {borderColor: colors.borderInactive},
+              ],
+        ]}
         onPress={handlePressToday}>
         <Text style={styles.filterSelectorPressableText}>HOY</Text>
       </Pressable>
       <Pressable
-        style={
+        style={[
+          {backgroundColor: colors.background},
           activeIndex === 2
-            ? styles.filterSelectorPressableActive
-            : styles.filterSelectorPressable
-        }
+            ? [
+                styles.filterSelectorPressableActive,
+                {borderColor: colors.borderActive},
+              ]
+            : [
+                styles.filterSelectorPressable,
+                {borderColor: colors.borderInactive},
+              ],
+        ]}
         onPress={handlePressYesterday}>
         <Text style={styles.filterSelectorPressableText}>AYER</Text>
       </Pressable>
       <Pressable
         style={
-          activeIndex === 3
-            ? styles.filterSelectorIconActive
-            : styles.filterSelectorIcon
+          ({backgroundColor: colors.background},
+          [
+            activeIndex === 3
+              ? [
+                  styles.filterSelectorIconActive,
+                  {borderColor: colors.borderActive},
+                ]
+              : [
+                  styles.filterSelectorIcon,
+                  {borderColor: colors.borderInactive},
+                ],
+          ])
         }
         onPress={openDatePicker}>
-        {/* <DatePicker
-          isVisible={showDatePicker}
-          mode={'single'}
-          onCancel={onCancel}
-          onConfirm={onConfirm}
-        /> */}
         <Image source={EnabledCalendar} style={styles.imageButton} />
       </Pressable>
       <Modal
@@ -123,56 +147,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    backgroundColor: '#f2f2f2',
     height: 30,
   },
   filterSelectorIcon: {
     height: '100%',
     width: '10%',
-    borderWidth: 0.5,
-    borderColor: '#cacaca',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
   },
   filterSelectorIconDisabled: {
     height: '100%',
     width: '10%',
-    borderWidth: 0.5,
-    borderColor: '#cacaca',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
-    borderBottomWidth: 1,
   },
   filterSelectorIconActive: {
     height: '100%',
     width: '10%',
-    borderWidth: 0.5,
-    borderColor: '#cacaca',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#d2d2d2',
-    borderBottomWidth: 1,
   },
   filterSelectorPressable: {
     height: '100%',
     width: '40%',
     borderWidth: 0.5,
-    borderColor: '#cacaca',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
   },
   filterSelectorPressableActive: {
     height: '100%',
     width: '40%',
     borderWidth: 0.5,
-    borderColor: '#cacaca',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#d2d2d2',
-    borderBottomWidth: 1,
   },
   filterSelectorPressableDisabled: {
     height: '100%',
@@ -182,7 +195,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ccc',
-    borderBottomWidth: 1,
   },
   filterSelectorPressableText: {
     fontSize: 12,

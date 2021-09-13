@@ -154,11 +154,11 @@ export default function LoginScreen() {
           <CheckBox
             title="Recordar credenciales"
             containerStyle={{
-              backgroundColor: colors.background,
-              borderColor: colors.background,
+              borderColor: colors.borderInactive,
             }}
             checked={rememberMe}
             onPress={() => setRememberMe(!rememberMe)}
+            checkedColor={colors.primary}
           />
           {fingerprintButtonVisible && (
             <Button

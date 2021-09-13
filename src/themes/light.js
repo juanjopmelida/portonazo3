@@ -6,6 +6,8 @@ export const lightTheme = {
     ...DefaultTheme.colors,
     background: 'white',
     backgroundGrey: '#f2f2f2',
+    borderActive: '#acacac',
+    borderInactive: '#dfdfdf',
     primary: '#42A1D7',
     text: '#0f0f0f',
     menuButtonContent: 'white',

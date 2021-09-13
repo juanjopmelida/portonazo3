@@ -66,7 +66,7 @@ export default function ModalJourneysFilter(props) {
             textStyle={[styles.checkBoxText, {color: colors.text}]}
             onPress={() => handleCheckJourney(journey)}
             checked={checkedJourneys.includes(journey)}
-            checkedColor="#42A1D7"
+            checkedColor={colors.primary}
           />
         );
       })}
