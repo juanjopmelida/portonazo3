@@ -93,7 +93,10 @@ export default function JourneysSelector(props) {
     <View
       style={[
         styles.filtersViewContainer,
-        {backgroundColor: colors.background, borderBottomColor: colors.border},
+        {
+          backgroundColor: colors.background,
+          borderBottomColor: colors.borderInactive,
+        },
       ]}>
       <Pressable style={styles.filtersViewPressable} onPress={handleOnPress}>
         {renderInfo()}

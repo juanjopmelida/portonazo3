@@ -103,7 +103,7 @@ export default function FiltersScreen(props) {
             styles.headerView,
             {
               backgroundColor: colors.backgroundGrey,
-              borderColor: colors.border,
+              borderColor: colors.borderInactive,
             },
           ]}>
           <Text style={[styles.headerText, {color: colors.text}]}>Filtros</Text>

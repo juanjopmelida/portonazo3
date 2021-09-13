@@ -92,7 +92,10 @@ export default function FilterSelector(props) {
               ],
         ]}
         onPress={handlePressToday}>
-        <Text style={styles.filterSelectorPressableText}>HOY</Text>
+        <Text
+          style={[styles.filterSelectorPressableText, {color: colors.primary}]}>
+          HOY
+        </Text>
       </Pressable>
       <Pressable
         style={[
@@ -108,7 +111,10 @@ export default function FilterSelector(props) {
               ],
         ]}
         onPress={handlePressYesterday}>
-        <Text style={styles.filterSelectorPressableText}>AYER</Text>
+        <Text
+          style={[styles.filterSelectorPressableText, {color: colors.primary}]}>
+          AYER
+        </Text>
       </Pressable>
       <Pressable
         style={

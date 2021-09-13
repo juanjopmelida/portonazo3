@@ -11,7 +11,10 @@ export default function FiltersView(props) {
     <View
       style={[
         styles.filtersViewContainer,
-        {backgroundColor: colors.background, borderColor: colors.border},
+        {
+          backgroundColor: colors.background,
+          borderColor: colors.borderInactive,
+        },
       ]}>
       <Text style={[styles.filtersViewText, {color: colors.primary}]}>
         {`${filters.vehiclePlate} | ${moment(filters.startDate).format(
@@ -30,7 +33,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
     borderBottomWidth: 0.5,
-    borderBottomColor: '#cacaca',
   },
   filtersViewText: {
     fontSize: 11,
