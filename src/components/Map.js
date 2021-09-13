@@ -46,6 +46,7 @@ export default function Map(props) {
   const [user, setUser] = useState({});
   const [allMarkersCoords, setAllMarkersCoords] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
+  const [selectedRealtime, setSelectedRealtime] = useState({});
   const [selectedRealTimeDetails, setSelectedRealTimeDetails] = useState({});
   const [selectedAddress, setSelectedAddress] = useState({});
   const [filteredRealTimes, setFilteredRealTimes] = useState(realTimes);
@@ -125,6 +126,7 @@ export default function Map(props) {
     const realTimeDetail = retrieveDataByMarkerId(realTimeDetails, id);
     const address = retrieveDataByMarkerId(addresses, id);
     setSelectedMarker(marker);
+    setSelectedRealtime(realTime);
     setLocked(realTime.Locked);
     setSelectedRealTimeDetails(realTimeDetail);
     setSelectedAddress(address);
@@ -276,6 +278,10 @@ export default function Map(props) {
           selectedMarker={selectedMarker}
           setLockStatus={setLockStatus}
           navigate={navigate}
+          coords={{
+            lat: selectedRealtime.Latitude,
+            lon: selectedRealtime.Longitude,
+          }}
         />
       </Modalize>
     </>

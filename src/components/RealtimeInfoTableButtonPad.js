@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
+  Alert,
   Dimensions,
   StyleSheet,
   Text,
@@ -15,11 +16,22 @@ import JourneysImage from '../assets/buttons/Journeys.png';
 import GoToImage from '../assets/buttons/GoTo.png';
 
 export default function RealtimeInfoTableButtonPad(props) {
-  const {selectedMarker, setLockStatus, navigate} = props;
+  const {selectedMarker, setLockStatus, navigate, coords} = props;
 
   const {colors} = useTheme();
   const NUMBER_OF_BUTTONS = 3;
   const SCREEN_WIDTH = Dimensions.get('window').width;
+  const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`;
+
+  const hanldeGoToButton = useCallback(async () => {
+    const supported = await Linking.canOpenURL(googleMapsURL);
+
+    if (supported) {
+      await Linking.openURL(googleMapsURL);
+    } else {
+      Alert.alert('No se puede abrir la URL');
+    }
+  }, []);
 
   return (
     <View style={styles.RealtimeInfoTableButtonPadContainerView}>
@@ -59,7 +71,7 @@ export default function RealtimeInfoTableButtonPad(props) {
             backgroundColor: colors.modalButtonContent,
           },
         ]}
-        onPress={() => navigate('journeys', selectedMarker)}>
+        onPress={hanldeGoToButton}>
         <Image style={styles.imageButton} source={GoToImage} />
         <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
           Ir a...
