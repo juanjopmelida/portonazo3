@@ -37,6 +37,7 @@ import RealtimeInfoTable from './RealtimeInfoTable';
 import FloatingButton from './FloatingButton';
 import Loading from './Loading';
 import ModalMapStyles from './ModalMapStyles';
+import RealtimeInfoTableButtonPad from '../components/RealtimeInfoTableButtonPad';
 
 export default function Map(props) {
   const mapRef = useRef();
@@ -271,58 +272,11 @@ export default function Map(props) {
           selectedAddress={selectedAddress}
           selectedRealTimeDetails={selectedRealTimeDetails}
         />
-        <View
-          style={{
-            width: '100%',
-            height: 45,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-          }}>
-          <Pressable
-            style={[
-              styles.button,
-              {
-                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
-                backgroundColor: colors.modalButtonContent,
-              },
-            ]}
-            onPress={setLockStatus}>
-            <Image style={styles.imageButton} source={LockedEngineImage} />
-            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
-              Bloqueo Motor
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[
-              styles.button,
-              {
-                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
-                backgroundColor: colors.modalButtonContent,
-              },
-            ]}
-            onPress={() => navigate('journeys', selectedMarker)}>
-            <Image style={styles.imageButton} source={JourneysImage} />
-            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
-              Rutas
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[
-              styles.button,
-              {
-                width: SCREEN_WIDTH / NUMBER_OF_BUTTONS,
-                backgroundColor: colors.modalButtonContent,
-              },
-            ]}
-            onPress={() => navigate('journeys', selectedMarker)}>
-            <Image style={styles.imageButton} source={GoToImage} />
-            <Text style={[styles.textButton, {color: colors.modalButtonText}]}>
-              Ir a...
-            </Text>
-          </Pressable>
-        </View>
+        <RealtimeInfoTableButtonPad
+          selectedMarker={selectedMarker}
+          setLockStatus={setLockStatus}
+          navigate={navigate}
+        />
       </Modalize>
     </>
   );
@@ -386,15 +340,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 10,
   },
-  button: {
-    bottom: 0,
-    height: '110%',
-    backgroundColor: '#f1f1f1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textButton: {fontSize: 10},
-  imageButton: {width: 20, height: 20, resizeMode: 'stretch'},
   fabMapStyles: {
     top: Dimensions.get('window').height - 760,
     left: Dimensions.get('window').width - 60,
