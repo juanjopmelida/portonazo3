@@ -7,18 +7,23 @@ import Modal from 'react-native-modal';
 import ModalJourneysFilter from './ModalJourneysFilter';
 
 export default function JourneysSelector(props) {
-  const {journeys} = props;
+  const {
+    journeys,
+    checkedJourneys,
+    setCheckedJourneys,
+    isAllCheckedJourneys,
+    setIsAllCheckedJourneys,
+  } = props;
   const {colors} = useTheme();
 
   const [modalJourneysFilterVisible, setModalJourneysFilterVisible] =
     useState(false);
-  const [selectedJourneys, setSelectedJourneys] = useState(journeys);
   const [totalDistance, setTotalDistance] = useState('');
 
   useEffect(() => {
     const calculateDistance = () => {
       let acc = 0;
-      journeys.map(journey => {
+      checkedJourneys.map(journey => {
         acc += journey.journeyEndMetersSinceIgnON;
         console.log(journey.journeyEndMetersSinceIgnON);
       });
@@ -28,7 +33,7 @@ export default function JourneysSelector(props) {
     };
 
     calculateDistance();
-  }, [journeys]);
+  }, [checkedJourneys]);
 
   const handleOnPress = () => {
     journeys.length > 0 && setModalJourneysFilterVisible(true);
@@ -42,18 +47,41 @@ export default function JourneysSelector(props) {
         </Text>
       );
     }
-    if (selectedJourneys.length === journeys.length) {
+    if (isAllCheckedJourneys) {
       return (
         <Text style={[styles.filtersViewText, {color: colors.primary}]}>
           {`Todas las rutas: ${totalDistance}`}
         </Text>
       );
     }
-    if (journeys.length === 1) {
-      return <Text>{`${journeys.length} ruta`}</Text>;
+    if (checkedJourneys.length === 0 && journeys.length > 0) {
+      return (
+        <Text
+          style={[
+            styles.filtersViewText,
+            {color: colors.primary, fontWeight: 'bold'},
+          ]}>
+          Ninguna ruta seleccionada
+        </Text>
+      );
     }
-    if (journeys.length > 1) {
-      return <Text>{`${journeys.length} rutas`}</Text>;
+    if (checkedJourneys.length === 1) {
+      return (
+        <Text
+          style={[
+            styles.filtersViewText,
+            {color: colors.primary},
+          ]}>{`${checkedJourneys.length} ruta: ${totalDistance}`}</Text>
+      );
+    }
+    if (checkedJourneys.length > 1) {
+      return (
+        <Text
+          style={[
+            styles.filtersViewText,
+            {color: colors.primary},
+          ]}>{`${checkedJourneys.length} rutas: ${totalDistance}`}</Text>
+      );
     }
   };
 
@@ -71,8 +99,10 @@ export default function JourneysSelector(props) {
         onBackdropPress={() => setModalJourneysFilterVisible(false)}>
         <ModalJourneysFilter
           journeys={journeys}
-          selectedJourneys={selectedJourneys}
-          setSelectedJourneys={setSelectedJourneys}
+          checkedJourneys={checkedJourneys}
+          setCheckedJourneys={setCheckedJourneys}
+          isAllCheckedJourneys={isAllCheckedJourneys}
+          setIsAllCheckedJourneys={setIsAllCheckedJourneys}
           setModalJourneysFilterVisible={setModalJourneysFilterVisible}
         />
       </Modal>

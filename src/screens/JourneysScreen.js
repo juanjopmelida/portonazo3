@@ -22,6 +22,7 @@ import FiltersView from '../components/FiltersView';
 import JourneysSelector from '../components/JourneysSelector';
 import ModalVehiclesFilter from '../components/ModalVehiclesFilter';
 import {getTodayStartDate, getTodayEndDate} from '../utils';
+import JourneyPolyline from '../components/JourneyPolyline';
 
 export default function JourneysScreen(props) {
   const {navigation, route} = props;
@@ -31,6 +32,8 @@ export default function JourneysScreen(props) {
   const mapRef = useRef();
   const [loading, setLoading] = useState(false);
   const [journeys, setJourneys] = useState([]);
+  const [checkedJourneys, setCheckedJourneys] = useState([]);
+  const [isAllCheckedJourneys, setIsAllCheckedJourneys] = useState(true);
   const [filters, setFilters] = useState({});
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [vehicles, setVehicles] = useState([]);
@@ -141,6 +144,7 @@ export default function JourneysScreen(props) {
         .then(data => {
           console.log(data);
           setJourneys(data);
+          setCheckedJourneys(data);
         })
         .catch(error => {
           console.log('Error al recuperar rutas:', error);
@@ -200,7 +204,13 @@ export default function JourneysScreen(props) {
         changeVehicleEnabled={isMoreThanOneVehicle}
       />
       <FiltersView filters={filters} />
-      <JourneysSelector journeys={journeys} />
+      <JourneysSelector
+        journeys={journeys}
+        checkedJourneys={checkedJourneys}
+        setCheckedJourneys={setCheckedJourneys}
+        isAllCheckedJourneys={isAllCheckedJourneys}
+        setIsAllCheckedJourneys={setIsAllCheckedJourneys}
+      />
       <View style={globalStyles.container}>
         <Modal isVisible={isModalVehiclesFilterVisible} backdropOpacity={0.2}>
           <ModalVehiclesFilter
@@ -218,8 +228,8 @@ export default function JourneysScreen(props) {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {journeys.map(polyline => {
-            return <Polyline key={polyline.id} />;
+          {journeys.map(journey => {
+            return <JourneyPolyline key={journey.id} journey={journey} />;
           })}
         </MapView>
       </View>
