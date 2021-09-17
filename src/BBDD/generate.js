@@ -3,14 +3,14 @@ module.exports = () => {
   const _ = require('lodash');
 
   return {
-    User: _.times(100, function (n) {
+    User: _.times(10, function (n) {
       return {
         id: n + 1,
         Name: faker.name.firstName(),
         Surname: faker.name.lastName(),
       };
     }),
-    Address: _.times(100, function (n) {
+    Address: _.times(10, function (n) {
       return {
         id: n + 1,
         Address:
