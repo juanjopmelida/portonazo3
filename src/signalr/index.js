@@ -1,21 +1,29 @@
-import {HubConnectionBuilder} from '@microsoft/signalr';
+import * as signalR from '@microsoft/signalr';
 
-export const openSignalRConnection = () => {
-  const connect = new HubConnectionBuilder()
-    .withUrl('https://spredocker.viasatelematics.com/realtime-api/realtime')
-    .withAutomaticReconnect()
+export const setUpSignalRConnection = async serialNumber => {
+  console.log('%cCONECTANDO DISPOSITIVO A RT:', 'color:olive', serialNumber);
+  const hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl('https://viasatst-api.viasatelematics.com/realtime/realtime')
+    .configureLogging(signalR.LogLevel.Warning)
     .build();
 
-  connect
-    .start()
-    .then(() => {
-      console.log('CONECTADO');
-    })
-    .catch(error => {
-      return console.error(error);
-    });
+  hubConnection.on('ReceiveVehicleRealTime', message => {
+    const parsedMessage = JSON.parse(message);
+    console.log('%cReceiveVehicleRealTime:', 'color:magenta', parsedMessage);
+    return parsedMessage;
+  });
 
-  connect.on('SendNotification', function (notification) {
-    console.log(notification);
+  hubConnection.on('ReceiveNotification', message => {
+    console.log('%cReceiveNotification:', 'color: white', message);
+  });
+
+  // Starts the SignalR connection
+  hubConnection.start().then(a => {
+    // Once started, invokes the sendConnectionId in our ChatHub inside our ASP.NET Core application.
+    if (hubConnection.connectionId) {
+      hubConnection
+        .invoke('SubscribeToVehicle', serialNumber.toString())
+        .catch(error => console.log('ERROR', error));
+    }
   });
 };

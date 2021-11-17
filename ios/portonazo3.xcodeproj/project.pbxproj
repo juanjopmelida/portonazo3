@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* portonazo3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* portonazo3Tests.m */; };
+		025C218B27450257004CE58B /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 025C218A27450257004CE58B /* libswiftWebKit.tbd */; };
+		025C218C274521F3004CE58B /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3556B4104F9E4714AD517BB9 /* Montserrat-Bold.ttf */; };
+		025C218D274521F5004CE58B /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2785F9FA68FC4FB5BE931295 /* Montserrat-Italic.ttf */; };
+		025C218E274521F8004CE58B /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A87727D27DB4015B707E477 /* Montserrat-Thin.ttf */; };
+		025C218F274521FB004CE58B /* Montserrat.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82AAFB07E1ED4EBFA3809E9D /* Montserrat.ttf */; };
+		025C2190274521FF004CE58B /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66207B289C7D425FA28D3BB3 /* OpenSans-Bold.ttf */; };
+		025C219127452202004CE58B /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 385CA444722C4D36812566D3 /* OpenSans-Italic.ttf */; };
+		025C219227452205004CE58B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B845184C06DC4D41B77ED028 /* OpenSans-Light.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -40,6 +48,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* portonazo3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = portonazo3Tests.m; sourceTree = "<group>"; };
 		0247C0C4CBCE476BB24B9222 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		025C218A27450257004CE58B /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		0A87727D27DB4015B707E477 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "Montserrat-Thin.ttf"; path = "../src/assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		0D3CAEF3CECB4D3EA77A3D58 /* OpenSans.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = OpenSans.ttf; path = ../src/assets/fonts/OpenSans.ttf; sourceTree = "<group>"; };
 		0D3CBA4B063145E1ADC29C78 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -93,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				025C218B27450257004CE58B /* libswiftWebKit.tbd in Frameworks */,
 				B19CA1E2607CA0BEA68439E8 /* libPods-portonazo3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +143,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				025C218A27450257004CE58B /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				E8B19973AE89118CE17F00EC /* libPods-portonazo3.a */,
 				F3A74ED44AB805ADFFFC0E04 /* libPods-portonazo3-portonazo3Tests.a */,
@@ -267,7 +278,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -302,7 +313,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				025C218D274521F5004CE58B /* Montserrat-Italic.ttf in Resources */,
+				025C218F274521FB004CE58B /* Montserrat.ttf in Resources */,
+				025C219227452205004CE58B /* OpenSans-Light.ttf in Resources */,
+				025C2190274521FF004CE58B /* OpenSans-Bold.ttf in Resources */,
+				025C218C274521F3004CE58B /* Montserrat-Bold.ttf in Resources */,
+				025C218E274521F8004CE58B /* Montserrat-Thin.ttf in Resources */,
 				7DFB0D5E265CE3D700FAE793 /* OpenSans.ttf in Resources */,
+				025C219127452202004CE58B /* OpenSans-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,13 +524,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 17C374EAEBCC4439DA66F10C /* Pods-portonazo3-portonazo3Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = portonazo3Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -533,10 +552,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65669D4B867BDF8B1014AC4C /* Pods-portonazo3-portonazo3Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = portonazo3Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -566,6 +586,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -590,6 +614,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -652,7 +680,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -710,7 +738,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
