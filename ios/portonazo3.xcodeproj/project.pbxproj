@@ -19,6 +19,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		7DDDC250276B6B5F00417140 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDDC24F276B6B5F00417140 /* File.swift */; };
 		7DDE85C42653EC52000D19DC /* Montserrat.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82AAFB07E1ED4EBFA3809E9D /* Montserrat.ttf */; };
 		7DDE85C52653ECE8000D19DC /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D3CAEF3CECB4D3EA77A3D58 /* OpenSans.ttf */; };
 		7DDE85C62654036C000D19DC /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3556B4104F9E4714AD517BB9 /* Montserrat-Bold.ttf */; };
@@ -70,6 +71,8 @@
 		65669D4B867BDF8B1014AC4C /* Pods-portonazo3-portonazo3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-portonazo3-portonazo3Tests.release.xcconfig"; path = "Target Support Files/Pods-portonazo3-portonazo3Tests/Pods-portonazo3-portonazo3Tests.release.xcconfig"; sourceTree = "<group>"; };
 		66207B289C7D425FA28D3BB3 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		71D3168776C94C1A86B45175 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		7DDDC24E276B6B5F00417140 /* portonazo3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "portonazo3-Bridging-Header.h"; sourceTree = "<group>"; };
+		7DDDC24F276B6B5F00417140 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		7DDE85C22653AC22000D19DC /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = portonazo3/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82AAFB07E1ED4EBFA3809E9D /* Montserrat.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = Montserrat.ttf; path = ../src/assets/fonts/Montserrat.ttf; sourceTree = "<group>"; };
@@ -172,6 +175,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7DDDC24F276B6B5F00417140 /* File.swift */,
 				7DDE85C22653AC22000D19DC /* fonts */,
 				13B07FAE1A68108700A75B9A /* portonazo3 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -180,6 +184,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				5F5B6808A859D41FB76DBB9B /* Pods */,
 				DE050E201DAB42B9B6CCFCBB /* Resources */,
+				7DDDC24E276B6B5F00417140 /* portonazo3-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -285,7 +290,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -505,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				7DDDC250276B6B5F00417140 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,6 +603,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MF-Reale";
 				PRODUCT_NAME = portonazo3;
+				SWIFT_OBJC_BRIDGING_HEADER = "portonazo3-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -626,6 +633,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MF-Reale";
 				PRODUCT_NAME = portonazo3;
+				SWIFT_OBJC_BRIDGING_HEADER = "portonazo3-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
